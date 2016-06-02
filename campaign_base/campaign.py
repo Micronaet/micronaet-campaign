@@ -44,7 +44,15 @@ class CampaignCampaign(orm.Model):
     
     _name = 'campaign.campaign'
     _description = 'Campaign'
-    
+
+    # Fields functions:    
+    def _function_call(self, cr, uid, ids, fields, args, context=None):
+        ''' Fields function for calculate 
+        '''
+        res = {}
+        # TODO manage status for start info depend on state value
+        return res
+
     _columns = {
         'name': fields.char('Name', size=64, required=True),
         'from_date': fields.date('From date', required=True),
@@ -53,11 +61,13 @@ class CampaignCampaign(orm.Model):
             help='Partner (as customer) reference for this campaign', 
             domain=[('customer', '=', True),('is_company', '=', True)]), 
             
-        # Album for product photo
+        # Album for product photo        
         
-        # Product linked
-        
-        # Pricelist?
+        # Price creation: TODO decide how to use
+        'pricelist_id': fields.many2one('product.pricelist', 'Pricelist',
+            help='''Pricelist used for this campaign (calculate end price 
+                'before discount'''), 
+        'discount_scale': fields.char('Discount scale', size=64), 
         
         # Order reference
         'sale_id': fields.many2one(
@@ -65,13 +75,17 @@ class CampaignCampaign(orm.Model):
             help='Sale order generated from campaign'), 
         
         'state': fields.selection([
-            ('draft', 'Draft'),
-            ('confirmed', 'Confirmed'),            
-            ('started', 'Started'), # TODO necessary
-            ('ended', 'Ended'), # TODO necessary
-            ('cancel', 'Cancel'),
-            ('closed', 'Closed'),
+            ('draft', 'Draft'), # not working no stock operation
+            ('confirmed', 'Confirmed'), # stock operation confirmed
+            ('closed', 'Closed'), # Unload stock depend on order
+            ('cancel', 'Cancel'), # Remove stock info as no exist
             ], 'State', readonly=True, )
+            
+        'status_info': fields.function(
+            _function_get_stasut_info, method=True, 
+            type='char', size=40, string='Status info', store=False, 
+            help='Text status info for start or end campaign'), 
+            
         }
     _defaults = {
         # Default value for state:
@@ -80,17 +94,17 @@ class CampaignCampaign(orm.Model):
 
 class CampaignProduct(orm.Model):
     """ Model name: Campaign product
-    """
-    
+    """    
     _name = 'campaign.product'
     _description = 'Campaign product'
     _rec_name = 'product_id'
-    #_order = 'description'    
+    _order = 'sequence,product_id'    
     
     _columns = {
+        'active': fields.boolean('Active'),
+        'sequence': fields.integer('Sequence'), # XXX used for order?
         'product_id': fields.many2one('product.product', 'Product', 
-            required=True, 
-            #domain=[('type', 'in', ('service'))])
+            required=True, #domain=[('type', 'in', ('service'))])
             help='Product in campaign',             
             ),
         'campaign_id': fields.many2one('campaign.campaign', 'Campaign', 
@@ -126,6 +140,10 @@ class CampaignProduct(orm.Model):
         # Volume
         # Dimension H x L x P
         }
+        
+    _defaults = {
+        'sequence': lambda *x: 10,
+        }    
 
 class CampaignCampaign(orm.Model):
     """ Model name: Rel fields for Campaign Campaign
