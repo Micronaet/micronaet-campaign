@@ -45,7 +45,13 @@ class CampaignCampaign(orm.Model):
     _name = 'campaign.campaign'
     _description = 'Campaign'
 
-    # Fields functions:    
+    # -------------------------------------------------------------------------
+    #                        Workflow button events
+    # -------------------------------------------------------------------------
+    
+    # -------------------------------------------------------------------------
+    #                            Fields functions 
+    # -------------------------------------------------------------------------    
     def _function_call(self, cr, uid, ids, fields, args, context=None):
         ''' Fields function for calculate 
         '''
@@ -62,6 +68,11 @@ class CampaignCampaign(orm.Model):
             domain=[('customer', '=', True),('is_company', '=', True)]), 
             
         # Album for product photo        
+        'with_photo': fields.boolean('With photo'), # TODO so album!!
+        'with_detail': fields.boolean('With detail', # XXX needed?
+            help='One product may have more than one other detail photo'), 
+        'album_id': fields.many2one('product.image.album', 'Album'), 
+        # TODO more than one album ?        
         
         # Price creation: TODO decide how to use
         'pricelist_id': fields.many2one('product.pricelist', 'Pricelist',
@@ -125,20 +136,19 @@ class CampaignProduct(orm.Model):
         'qty': fields.float(
             'Cost', digits=(16, config(int['price_accuracy'])), ),     
         'uom_id': fields.many2one( # TODO used?
-            'product.uom', 'UOM'),
+            'product.uom', 'UOM'),        
         
-        'with_photo': fields.boolean('With photo'),
-        
-        # Product related fields:
-        # TODO needed?
-        # package (link)
-        
-        # Related fields:
+        # -----------------------
+        # Product related fields: 
+        # -----------------------
+        # TODO choose which are needed!:
+        # package (link)        
         # default_code
         # EAN
         # Supplier EAN
         # Volume
         # Dimension H x L x P
+        # Photo status (present or not)
         }
         
     _defaults = {

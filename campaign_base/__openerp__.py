@@ -33,6 +33,7 @@
         'product',
         'sale', # for sale generation
         'stock', # for stock movement (inventory operations)
+        'product_image_base', # Image management
         ],
     'init_xml': [],
     'demo': [],
