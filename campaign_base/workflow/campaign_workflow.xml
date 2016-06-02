@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <!-- Workflow campaign: -->
+        <record model="workflow" id="wkf_campaign_campaign">
+            <field name="name">campaign.campaign.wkf</field>
+            <field name="osv">campaign.campaign</field>
+            <field name="on_create">True</field>
+        </record>
+
+        <!-- Activity: -->
+        <record model="workflow.activity" id="act_campaign_draft">
+            <field name="wkf_id" ref="wkf_campaign_campaign" />
+            <field name="flow_start">True</field>
+            <field name="name">draft</field>
+            <field name="kind">function</field>
+            <field name="action">campaign_draft()</field>
+        </record>
+
+
+        <record model="workflow.activity" id="act_campaign_cancel">
+            <field name="wkf_id" ref="wkf_campaign_campaign" />
+            <field name="name">cancel</field>
+            <field name="kind">function</field>
+            <field name="action">campaign_cancel()</field>
+        </record>
+
+
+
+
+        <!-- Trigger: -->
+        <record model="workflow.transition" id="cl01a">
+            <field name="act_from" ref="act_campaign_draft" />
+            <field name="act_to" ref="act_campaign_opened" />
+            <field name="signal">trigger_campaign_draft_opened</field>
+        </record>
+        <record model="workflow.transition" id="cl01b">
+            <field name="act_from" ref="act_campaign_draft" />
+            <field name="act_to" ref="act_campaign_cancel" />
+            <field name="signal">trigger_campaign_draft_cancel</field>
+        </record>
+        <record model="workflow.transition" id="cl01c">
+            <field name="act_from" ref="act_campaign_draft" />
+            <field name="act_to" ref="act_campaign_comunication" />
+            <field name="signal">trigger_campaign_draft_comunication</field>
+        </record>
+
+        <record model="workflow.transition" id="cl08a">
+            <field name="act_from" ref="act_campaign_comunication" />
+            <field name="act_to" ref="act_campaign_opened" />
+            <field name="signal">trigger_campaign_comunication_opened</field>
+        </record>
+        <record model="workflow.transition" id="cl08b">
+            <field name="act_from" ref="act_campaign_comunication" />
+            <field name="act_to" ref="act_campaign_cancel" />
+            <field name="signal">trigger_campaign_comunication_cancel</field>
+        </record>
+
+        <record model="workflow.transition" id="cl02a">
+            <field name="act_from" ref="act_campaign_opened" />
+            <field name="act_to" ref="act_campaign_closed" />
+            <field name="signal">trigger_campaign_opened_closed</field>
+        </record>
+        <record model="workflow.transition" id="cl02b">
+            <field name="act_from" ref="act_campaign_opened" />
+            <field name="act_to" ref="act_campaign_cancel" />
+            <field name="signal">trigger_campaign_opened_cancel</field>
+        </record>
+        <record model="workflow.transition" id="cl02c">
+            <field name="act_from" ref="act_campaign_opened" />
+            <field name="act_to" ref="act_campaign_nc" />
+            <field name="signal">trigger_campaign_opened_nc</field>
+        </record>
+
+        <record model="workflow.transition" id="cl03a">
+            <field name="act_from" ref="act_campaign_nc" />
+            <field name="act_to" ref="act_campaign_done" />
+            <field name="signal">trigger_campaign_nc_done</field>
+        </record>
+        <record model="workflow.transition" id="cl03b">
+            <field name="act_from" ref="act_campaign_nc" />
+            <field name="act_to" ref="act_campaign_cancel" />
+            <field name="signal">trigger_campaign_nc_cancel</field>
+        </record>
+
+        <record model="workflow.transition" id="cl04a">
+            <field name="act_from" ref="act_campaign_done" />
+            <field name="act_to" ref="act_campaign_closed" />
+            <field name="signal">trigger_campaign_done_closed</field>
+        </record>
+        <record model="workflow.transition" id="cl04b">
+            <field name="act_from" ref="act_campaign_done" />
+            <field name="act_to" ref="act_campaign_cancel" />
+            <field name="signal">trigger_campaign_done_cancel</field>
+        </record>
+
+        <record model="workflow.transition" id="cl05a">
+            <field name="act_from" ref="act_campaign_closed" />
+            <field name="act_to" ref="act_campaign_saw" />
+            <field name="signal">trigger_campaign_closed_saw</field>
+        </record>
+        <record model="workflow.transition" id="cl05b">
+            <field name="act_from" ref="act_campaign_closed" />
+            <field name="act_to" ref="act_campaign_cancel" />
+            <field name="signal">trigger_campaign_closed_cancel</field>
+        </record>
+
+        <record model="workflow.transition" id="cl06">
+            <field name="act_from" ref="act_campaign_saw" />
+            <field name="act_to" ref="act_campaign_cancel" />
+            <field name="signal">trigger_campaign_saw_cancel</field>
+        </record>
+
+        <record model="workflow.transition" id="cl07">
+            <field name="act_from" ref="act_campaign_cancel" />
+            <field name="act_to" ref="act_campaign_draft" />
+            <field name="signal">trigger_campaign_cancel_draft</field>
+        </record>
+    </data>
+</openerp>
