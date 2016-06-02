@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<openerp>
+  <data>
+    <record id="campaign_group_category" model="ir.module.category">
+        <field name="name">Campaign category</field>
+        <field name="sequence">10</field>
+        <field name="description">Campaign management.</field>
+        <field name="visible" eval="1" />
+    </record>    
+
+    <record id="campaign_group_category_manager" model="res.groups">
+        <field name="name">Campaign Manager</field>
+        <field name="category_id" ref="campaign_group_category" />
+        <field name="comment">Manager of campaign</field>
+    </record>
+    <record id="campaign_group_category_user" model="res.groups">
+        <field name="name">Campaign user</field>
+        <field name="category_id" ref="campaign_group_category" />
+        <field name="comment">User of campaign</field>
+    </record>
+ </data>
+</openerp>
