@@ -60,8 +60,23 @@ class CampaignCampaign(orm.Model):
         # Pricelist?
         
         # Order reference
-                
+        'sale_id': fields.many2one(
+            'sale.order', 'Sale order', 
+            help='Sale order generated from campaign'), 
+        
+        'state': fields.selection([
+            ('draft', 'Draft'),
+            ('confirmed', 'Confirmed'),            
+            ('started', 'Started'), # TODO necessary
+            ('ended', 'Ended'), # TODO necessary
+            ('cancel', 'Cancel'),
+            ('closed', 'Closed'),
+            ], 'State', readonly=True, )
         }
+    _defaults = {
+        # Default value for state:
+        'state': lambda *x: 'draft',
+        }    
 
 class CampaignProduct(orm.Model):
     """ Model name: Campaign product
@@ -69,16 +84,20 @@ class CampaignProduct(orm.Model):
     
     _name = 'campaign.product'
     _description = 'Campaign product'
-    _rec_name = 'product_id'    
+    _rec_name = 'product_id'
+    #_order = 'description'    
     
     _columns = {
         'product_id': fields.many2one('product.product', 'Product', 
             required=True, 
             #domain=[('type', 'in', ('service'))])
             help='Product in campaign',             
-            ), 
+            ),
+        'campaign_id': fields.many2one('campaign.campaign', 'Campaign', 
+            help='Campaign referente'), 
         'description': fields.char(
-            'Description', size=64, required=True),     
+            'Description', size=64, required=True),
+            
         # TODO add extra description related or extra for information needed 
         # for sale purpose (ex. mount description)    
         'cost': fields.float(
@@ -96,16 +115,49 @@ class CampaignProduct(orm.Model):
         
         'with_photo': fields.boolean('With photo'),
         
+        # Product related fields:
+        # TODO needed?
+        # package (link)
+        
         # Related fields:
         # default_code
         # EAN
         # Supplier EAN
         # Volume
         # Dimension H x L x P
-        
-       
         }
 
+class CampaignCampaign(orm.Model):
+    """ Model name: Rel fields for Campaign Campaign
+    """    
+    _inherit = 'campaign.campaign'
+    
+    _columns = {
+        'product_ids': fields.one2many(
+            'campaign.product', 'campaign_id', 
+            'Products'), 
+        }
+
+class SaleOrder(orm.Model):
+    """ Sale order from campaign
+    """    
+    _inherit = 'sale.order'
+    
+    _columns = {
+        'campaign_id': fields.one2many(
+            'campaign.campaign', 'Campaign'),
+        }
+
+class StockMove(orm.Model):
+    """ Stock move for campaign
+    """    
+    _inherit = 'stock.move'
+    
+    _columns = {
+        'campaign_product_id': fields.one2many(
+            'campaign.product', 'Move from campaign', 
+            help='Line generated from campaign product line'),
+        }
 
 # TODO manage product in campaign as stock.move??
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

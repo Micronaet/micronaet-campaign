@@ -30,6 +30,9 @@
     'license': 'AGPL-3',
     'depends': [
         'base',
+        'product',
+        'sale', # for sale generation
+        'stock', # for stock movement (inventory operations)
         ],
     'init_xml': [],
     'demo': [],
