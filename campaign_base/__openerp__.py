@@ -41,6 +41,8 @@
         'security/campaign_group.xml',
         'security/ir.model.access.csv',    
         'campaign_view.xml',
+        #'wizard/', # TODO link product wizard
+        #'report/', # TODO link report elements
         ],
     'active': False,
     'installable': True,
