@@ -41,7 +41,8 @@
         'security/campaign_group.xml',
         'security/ir.model.access.csv',    
         'campaign_view.xml',
-        'counter.xml',
+        #'counter.xml',
+        #'workflow/',
         #'wizard/', # TODO link product wizard
         #'report/', # TODO link report elements
         ],

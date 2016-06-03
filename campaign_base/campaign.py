@@ -51,7 +51,7 @@ class CampaignCampaign(orm.Model):
     # -------------------------------------------------------------------------
     #                            Fields functions 
     # -------------------------------------------------------------------------    
-    def _function_call(self, cr, uid, ids, fields, args, context=None):
+    def _function_get_stasus_info(self, cr, uid, ids, fields, args, context=None):
         ''' Fields function for calculate 
         '''
         res = {}
@@ -89,10 +89,10 @@ class CampaignCampaign(orm.Model):
             ('confirmed', 'Confirmed'), # stock operation confirmed
             ('closed', 'Closed'), # Unload stock depend on order
             ('cancel', 'Cancel'), # Remove stock info as no exist
-            ], 'State', readonly=True, )
+            ], 'State', readonly=True),
             
         'status_info': fields.function(
-            _function_get_stasut_info, method=True, 
+            _function_get_stasus_info, method=True, 
             type='char', size=40, string='Status info', store=False, 
             help='Text status info for start or end campaign'),             
         }
@@ -124,15 +124,16 @@ class CampaignProduct(orm.Model):
         # TODO add extra description related or extra for information needed 
         # for sale purpose (ex. mount description)    
         'cost': fields.float(
-            'Cost', digits=(16, config(int['price_accuracy'])), 
+            'Cost', digits_compute=dp.get_precision('Product Price'), 
             required=True),     
-        'pricelist': fields.float(
-            'Pricelist', digits=(16, config(int['price_accuracy'])), 
+        'price': fields.float(
+            'Price', digits_compute=dp.get_precision('Product Price'),
             required=True),     
         # Add extra parameter for calculate price?
             
         'qty': fields.float(
-            'Cost', digits=(16, config(int['price_accuracy'])), ),     
+            'Cost', digits_compute=dp.get_precision('Product Unit of Measure')
+            ),     
         'uom_id': fields.many2one( # TODO used?
             'product.uom', 'UOM'),        
         
@@ -170,7 +171,7 @@ class SaleOrder(orm.Model):
     _inherit = 'sale.order'
     
     _columns = {
-        'campaign_id': fields.one2many(
+        'campaign_id': fields.many2one(
             'campaign.campaign', 'Campaign'),
         }
 
@@ -180,7 +181,7 @@ class StockMove(orm.Model):
     _inherit = 'stock.move'
     
     _columns = {
-        'campaign_product_id': fields.one2many(
+        'campaign_product_id': fields.many2one(
             'campaign.product', 'Move from campaign', 
             help='Line generated from campaign product line'),
         }
