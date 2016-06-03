@@ -47,6 +47,20 @@ class CampaignCampaign(orm.Model):
     # -------------------------------------------------------------------------
     #                        Workflow button events
     # -------------------------------------------------------------------------
+    def campaign_confirmed(self, cr, uid, ids, context=None):        
+        return self.write(cr, uid, ids, {
+            'state': 'confirmed',
+            }, context=context)
+            
+    def campaign_closed(self, cr, uid, ids, context=None):
+        return self.write(cr, uid, ids, {
+            'state': 'closed',
+            }, context=context)
+
+    def campaign_cancel(self, cr, uid, ids, context=None):
+        return self.write(cr, uid, ids, {
+            'state': 'cancel',
+            }, context=context)
     
     # -------------------------------------------------------------------------
     #                            Fields functions 
@@ -60,6 +74,7 @@ class CampaignCampaign(orm.Model):
 
     _columns = {
         'name': fields.char('Name', size=64, required=True),
+        'code': fields.char('Code', size=15),
         'from_date': fields.date('From date >=', required=True),
         'to_date': fields.date('To date <=', required=True),
         'partner_id': fields.many2one('res.partner', 'Partner', required=True,
@@ -83,16 +98,9 @@ class CampaignCampaign(orm.Model):
         
         # Order reference
         'sale_id': fields.many2one(
-            'sale.order', 'Sale order', 
+            'sale.order', 'Sale order', readonly=True,
             help='Sale order generated from campaign'), 
         
-        'state': fields.selection([
-            ('draft', 'Draft'), # not working no stock operation
-            ('confirmed', 'Confirmed'), # stock operation confirmed
-            ('closed', 'Closed'), # Unload stock depend on order
-            ('cancel', 'Cancel'), # Remove stock info as no exist
-            ], 'State', readonly=True),
-            
         'status_info': fields.function(
             _function_get_stasus_info, method=True, 
             type='char', size=40, string='Status info', store=False, 
@@ -102,9 +110,16 @@ class CampaignCampaign(orm.Model):
         # Function fields:
         # TODO total cost and revenue (for all products) campaign and order
        
+        'state': fields.selection([
+            ('draft', 'Draft'), # not working no stock operation
+            ('confirmed', 'Confirmed'), # stock operation confirmed
+            ('closed', 'Closed'), # Unload stock depend on order
+            ('cancel', 'Cancel'), # Remove stock info as no exist
+            ], 'State', readonly=True),
         }
+
     _defaults = {
-        # Default value for state:
+        #'code': # TODO
         'state': lambda *x: 'draft',
         }    
 

@@ -42,7 +42,7 @@
         'security/ir.model.access.csv',    
         'campaign_view.xml',
         #'counter.xml',
-        #'workflow/',
+        'workflow/campaign_workflow.xml',
         #'wizard/', # TODO link product wizard
         #'report/', # TODO link report elements
         ],
