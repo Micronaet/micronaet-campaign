@@ -49,7 +49,6 @@ class ProductProduct(orm.Model):
     def get_inventory_net_lord_status(self, cr, uid, product, context=None):
         ''' Return status net and lord
         '''
-        _logger.info('Use MX inventory status')
         return (product.mx_net_qty, product.mx_lord_qty)
 
 
