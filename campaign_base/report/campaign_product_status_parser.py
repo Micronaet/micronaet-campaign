@@ -66,6 +66,16 @@ class Parser(report_sxw.rml_parse):
     def load_data(self, data):
         ''' Load data
         '''
+        # Utility function:
+        def clean(code):
+            ''' Clean campaign code keep only number
+            '''
+            try:
+                res = code.split('/')
+                return '%s/%s' % (int(res[1]), res[2][-2:])
+            except:
+                return 'ERR'    
+        
         # Setup:
         data = data or {}
         cr = self.cr
@@ -75,6 +85,7 @@ class Parser(report_sxw.rml_parse):
         self.cols = []
         self.campaign_status = [] 
         self.cells = {}
+        self.campaing = []
         
         # Pools:
         campaign_pool = self.pool.get('campaign.campaign')
@@ -103,14 +114,18 @@ class Parser(report_sxw.rml_parse):
             # Data header format DD:MM
             self.cols.append((today + timedelta(days=day)).strftime(
                 '%d-%m')) # DEFAULT_SERVER_DATE_FORMAT
-            # Campaign status:     
-            self.campaign_status.append('')    
+            self.campaign_status.append('')
         
         # ---------------------------------------------------------------------
         #                    Populate cells:
         # ---------------------------------------------------------------------
         # Check all campaign
         for campaign in campaign_pool.browse(cr, uid, campaign_ids):
+            # Campaign status:     
+            self.campaing.append('%s of %s [%s-%s]' % (
+                1,1,1,1
+                ))
+
             # data evaluation:
             start = datetime.strptime(
                 campaign.from_date, DEFAULT_SERVER_DATE_FORMAT)
@@ -122,9 +137,18 @@ class Parser(report_sxw.rml_parse):
             
             if start_pos < days: # campain start in range
                 # save position where start with totals
-                start_col = 0 if start_pos < 0 else start_pos
+                if start_pos < 0:
+                    start_col = 0
+                    start_continue = True # before today
+                else:
+                    start_col = start_pos                        
+                    start_continue = False # after today
+                    
                 in_range = True # start date < days period
-                self.campaign_status[start_col] += _('S: %s\n') % campaign.code
+                self.campaign_status[start_col] += '%s: %s\n' % (
+                    _('Cont.') if start_continue else _('Start'),
+                    clean(campaign.code),
+                    )
             else:
                 in_range = False
 
@@ -132,7 +156,8 @@ class Parser(report_sxw.rml_parse):
             if end_pos < days: # campain start in range
                 # save position where start with totals
                 end_col = 0 if end_pos < 0 else end_pos
-                self.campaign_status[end_col] += _('E: %s\n') % campaign.code
+                self.campaign_status[end_col] += _('End: %s\n') % clean(
+                    campaign.code)
             
             # Check all product-items:
             for item in campaign.product_ids:
