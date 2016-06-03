@@ -29,7 +29,13 @@
         <field name="view_mode">form</field>
         <field name="target">new</field>
       </record>
-      <!--TODO menuitem-->
+      <menuitem 
+            parent="menu_campaign_report" 
+            id="menu_campaign_report_status" 
+            name="Campaign product status"
+            action="action_product_product_campaign_status_report"
+            sequence="10"
+            />
       
       <act_window
           id="act_product_product_campaign_status_reportd"

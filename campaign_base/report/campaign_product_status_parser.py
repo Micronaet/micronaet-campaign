@@ -48,6 +48,7 @@ class ProductProduct(orm.Model):
     def get_inventory_net_lord_status(self, cr, uid, product, context=None):
         ''' Return status net and lord
         '''
+        _logger.info('Use ODOO inventory status')
         return (product.qty_available, product.virtual_available)
 
 class Parser(report_sxw.rml_parse):
