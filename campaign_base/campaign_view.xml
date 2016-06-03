@@ -209,6 +209,20 @@
                 action="action_campaign_product"
                 sequence="20"
                 />
+
+        <menuitem 
+            parent="menu_campaign_root" 
+            id="menu_campaign_report" 
+            name="Report"
+            sequence="90"
+            />
+        <menuitem 
+            parent="menu_campaign_root" 
+            id="menu_campaign_configuration" 
+            name="Configuration"
+            sequence="100"
+            />
+        
         
     </data>
 </openerp>

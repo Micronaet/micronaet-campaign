@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<openerp>
+  <data>
+       <!-- product.product.campaign.status.report -->
+       <record id="view_product_product_campaign_status_report_form" model="ir.ui.view">
+            <field name="name">Print campaign product status wizard</field>
+            <field name="model">product.product.campaign.status.report</field>
+            <field name="arch" type="xml">
+                <form string="Product status campaign" version="7.0">
+                    <head>
+                        <button string="Cancel" special="cancel" colspan="2" />                   
+                        <button name="print_report_product_status" type="object" string="Print report" icon="gtk-print" colspan="2" class="oe_highlight" />
+                    </head>
+                    <sheet>
+                        <group colspan="4" col="4">
+                            <field name="mode" />
+                            <field name="days" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+      </record>
+      
+      <record id="action_product_product_campaign_status_report" model="ir.actions.act_window">
+        <field name="name">Report product status</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.product.campaign.status.report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+      </record>
+      <!--TODO menuitem-->
+      
+      <act_window
+          id="act_product_product_campaign_status_reportd"
+          name="Report product status"
+          view_mode="form"
+          target="new"
+          res_model="product.product.campaign.status.report"
+          key2="client_action_multi"
+          src_model="campaign.campaign"/>
+  </data>
+</openerp>
+
