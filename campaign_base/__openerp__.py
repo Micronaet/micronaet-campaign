@@ -23,7 +23,7 @@
     'category': 'Campaign',
     'description': '''    
         Base module for manage campaing for a company that sold external 
-        furniture    
+        furniture
         ''',
     'author': 'Micronaet S.r.l. - Nicola Riolini',
     'website': 'http://www.micronaet.it',
@@ -44,7 +44,7 @@
         'campaign_view.xml',
         'counter.xml',
         'workflow/campaign_workflow.xml',
-        #'wizard/', # TODO link product wizard
+        'wizard/assign_campaign.xml',
         #'report/', # TODO link report elements
         ],
     'active': False,

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+       <!-- product.product.assign.campaign -->
+       <record id="product_product_assign_campaign_view" model="ir.ui.view">
+            <field name="name">Assign campaign</field>
+            <field name="model">product.product.assign.campaign</field>
+            <field name="arch" type="xml">
+                <form string="Assign campaign" version="7.0">
+                   <header>
+                       <button string="Cancel" special="cancel" />
+                       <button name="action_assign_campaign" string="Assign" type="object" icon="gtk-jump-to" class="oe_highlight" />
+                   </header>                   
+                   <group colspan="4" col="4">
+                        <field name="campaign_id" />
+                        <field name="qty" />
+                        <separator string="Note" colspan="4"/>
+                        <field name="note" nolabel="1" colspan="4" />                        
+                   </group>
+                </form>
+            </field>
+      </record>
+
+      <!--<record model="ir.actions.act_window" id="action_product_product_assign_campaign">
+          <field name="name">Assign campaign</field>
+          <field name="res_model">product.product.assign.campaign</field>
+          <field name="view_type">form</field>
+          <field name="view_mode">form</field>
+          <field name="target">new</field>
+          <field name="view_id" ref="product_product_assign_campaign_view"/>
+      </record> target="new"-->
+      
+      <act_window
+          id="act_product_product_assign_campaign"
+          name="Assign campaign"
+          src_model="product.product"
+          res_model="product.product.assign.campaign"
+          view_mode="form"
+          view_type="form"          
+          key2="client_action_multi"
+          />
+    </data>
+</openerp>

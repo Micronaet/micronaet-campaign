@@ -228,6 +228,8 @@ class CampaignProduct(orm.Model):
         
     _defaults = {
         'sequence': lambda *x: 10,
+        'active': lambda *x: True,
+        'qty': lambda *x: 1.0,
         }    
 
 class CampaignCampaign(orm.Model):
