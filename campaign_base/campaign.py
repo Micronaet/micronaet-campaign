@@ -257,6 +257,8 @@ class CampaignCampaign(orm.Model):
     _defaults = {
         'code': lambda s, cr, uid, ctx=None: s.pool.get('ir.sequence').get(
             cr, uid, 'campaign.campaign'),
+        'from_date': lambda *x: datetime.now().strftime(
+            DEFAULT_SERVER_DATE_FORMAT),
         'state': lambda *x: 'draft',
         }    
 
