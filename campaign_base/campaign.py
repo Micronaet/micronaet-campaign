@@ -225,7 +225,7 @@ class CampaignProduct(orm.Model):
         # Dimension H x L x P
         # Photo status (present or not)
         }
-        
+
     _defaults = {
         'sequence': lambda *x: 10,
         'active': lambda *x: True,
