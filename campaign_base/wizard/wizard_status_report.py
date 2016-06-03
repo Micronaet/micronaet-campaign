@@ -61,7 +61,7 @@ class ProductProductCampaignStatusReport(orm.TransientModel):
 
         return {
             'type': 'ir.actions.report.xml',
-            'report_name': 'production_report',
+            'report_name': 'campaign_campaign_product_status_report',
             'datas': datas,
             'context': context,
             }
