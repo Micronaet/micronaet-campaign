@@ -21,8 +21,31 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+import os
+import sys
+import logging
 from openerp.report import report_sxw
 from openerp.report.report_sxw import rml_parse
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
+from openerp.tools.translate import _
+
+
+_logger = logging.getLogger(__name__)
+
+class ProductProduct(orm.Model):
+    """ Object used for get initial status
+        >> create a object method instead of function for override
+           depend on method used for get status
+    """
+    _inherit = 'product.product'
+
+    def get_inventory_net_lord_status(self, product):
+        ''' Return status net and lord
+        '''
+        return (product.qty_available, product.virtual_available)
+    
+    
 
 class Parser(report_sxw.rml_parse):
     counters = {}
@@ -32,6 +55,62 @@ class Parser(report_sxw.rml_parse):
         self.context = context
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
-            #'get_counter': self.get_counter,
+            'load_data': self.load_data,
+            'get_filter': self.get_filter,
         })
+
+    def load_data(self, data):
+        ''' Load data
+        '''
+        data = data or {}
+        
+        # Initialize elements for report:
+        self.row = []
+        self.column = {}
+        self.cells = {}
+        
+        # Pools:
+        campaign_pool = self.pool.get('campaign.campaign')
+        product_pool = self.pool.get('product.product')
+        
+        # Read parameters:
+        mode = data.get('mode')
+        days = data.get('days')
+
+        # Create used parameter:
+        today = datetime.now()        
+        
+        # Get active campaign 
+        if mode == 'confirmed':
+            domain = [('state', '=', 'confirmed')]
+        else:    
+            domain = [('state', 'in', ('draft', 'confirmed'))]
+        campaign_ids = campaign_pool.search(cr, uid, domain)
+        if campaign_ids:
+            return '' # empty report
+        
+        # Check all campaign
+        for campaign in campaign_pool.browse(cr, uid, campaign_ids):
+            # Check all product-items:
+            for item in campaign.product_ids:
+                product = item.product_id
+                if product not in self.cells:
+                    # Initial status:
+                    (net, lord) = product_pool.get_inventory_net_lord_status(
+                        product)
+                        
+                    # Generate empty element
+                    self.cells[product] = [0 for day in range(0, days)]
+                    self.cells[product][0] = lord # choose here what value 
+        return ''
+    
+    def get_filter(self, data):
+        ''' Get description for filter applied
+        '''
+        data = data or {}
+        res = ''
+        res += _(' >> Period days: %s ') % data.get('days', '?')
+        res += _(' >> Mode: %s ') % data.get('mode', '?')
+        return res
+        
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
