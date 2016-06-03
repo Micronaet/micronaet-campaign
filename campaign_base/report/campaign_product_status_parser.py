@@ -24,11 +24,13 @@
 import os
 import sys
 import logging
+from openerp.osv import fields, osv, expression, orm
 from openerp.report import report_sxw
 from openerp.report.report_sxw import rml_parse
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from openerp.tools.translate import _
+
 
 
 _logger = logging.getLogger(__name__)
@@ -40,7 +42,7 @@ class ProductProduct(orm.Model):
     """
     _inherit = 'product.product'
 
-    def get_inventory_net_lord_status(self, product):
+    def get_inventory_net_lord_status(self, cr, uid, product, context=None):
         ''' Return status net and lord
         '''
         return (product.qty_available, product.virtual_available)
@@ -57,9 +59,10 @@ class Parser(report_sxw.rml_parse):
         self.localcontext.update({
             'load_data': self.load_data,
             'get_filter': self.get_filter,
+            'get_cells': self.get_cells,
         })
 
-    def load_data(self, data):
+    def load_data(self, data, context=None):
         ''' Load data
         '''
         data = data or {}
@@ -97,7 +100,7 @@ class Parser(report_sxw.rml_parse):
                 if product not in self.cells:
                     # Initial status:
                     (net, lord) = product_pool.get_inventory_net_lord_status(
-                        product)
+                        self.cr, self.uid, product)
                         
                     # Generate empty element
                     self.cells[product] = [0 for day in range(0, days)]
@@ -112,5 +115,10 @@ class Parser(report_sxw.rml_parse):
         res += _(' >> Period days: %s ') % data.get('days', '?')
         res += _(' >> Mode: %s ') % data.get('mode', '?')
         return res
+
+    def get_cells(self, ):
+        ''' Load data
+        '''
+        return self.cells or {}
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
