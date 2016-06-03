@@ -181,7 +181,7 @@ class CampaignProduct(orm.Model):
     _order = 'sequence,product_id'    
     
     _columns = {
-        'active': fields.boolean('Active'),
+        'is_active': fields.boolean('Is active'),
         'sequence': fields.integer('Sequence'), # XXX used for order?
         'product_id': fields.many2one('product.product', 'Product', 
             required=True, #domain=[('type', 'in', ('service'))])
@@ -229,7 +229,7 @@ class CampaignProduct(orm.Model):
 
     _defaults = {
         'sequence': lambda *x: 10,
-        'active': lambda *x: True,
+        'is_active': lambda *x: True,
         'qty': lambda *x: 1.0,
         }    
 

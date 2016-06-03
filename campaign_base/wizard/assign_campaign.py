@@ -67,20 +67,47 @@ class ProductProductAssignCampaign(orm.TransientModel):
         campaign_product_pool = self.pool.get('campaign.product')
         product_pool = self.pool.get('product.product')
         
+        # Dict for check presence
+        current_product = {}
+        for product in wiz_proxy.campaign_id.product_ids:
+            current_product[product.product_id.id] = product.id # save ID
+
         campaign_id = wiz_proxy.campaign_id.id
+        mode = wiz_proxy.mode
+        
         for product in product_pool.browse(
-                cr, uid, product_ids, context=context):                
-            # TODO check if yet present:    
-            campaign_product_pool.create(cr, uid, {
-                'campaign_id': campaign_id,
-                'qty': wiz_proxy.qty,                
-                'product_id': product.id,
-                'uom_id': product.uom_id.id,
-                'description': product.name,
-                'cost': product.standard_price,
-                'price': product.lst_price,
-                #'qty_ordered': 0
-                }, context=context)
+                cr, uid, product_ids, context=context):
+
+            update_id = False            
+            if product.id in current_product:
+                if mode == 'jump':
+                    continue # jump
+                update_id = current_product[product.id]
+            
+            if update_id:        
+                campaign_product_pool.write(cr, uid, update_id, {
+                    'is_active': True,
+                    #'campaign_id': campaign_id,
+                    'qty': wiz_proxy.qty,                
+                    #'product_id': product.id,
+                    'uom_id': product.uom_id.id,
+                    'description': product.name,
+                    'cost': product.standard_price,
+                    'price': product.lst_price,
+                    ##'qty_ordered': 0
+                    }, context=context)
+            else:
+                campaign_product_pool.create(cr, uid, {
+                    'is_active': True,
+                    'campaign_id': campaign_id,
+                    'qty': wiz_proxy.qty,                
+                    'product_id': product.id,
+                    'uom_id': product.uom_id.id,
+                    'description': product.name,
+                    'cost': product.standard_price,
+                    'price': product.lst_price,
+                    #'qty_ordered': 0
+                    }, context=context)
 
         model_pool = self.pool.get('ir.model.data')
         view_id = model_pool.get_object_reference(cr, uid, 
@@ -106,7 +133,11 @@ class ProductProductAssignCampaign(orm.TransientModel):
             'campaign.campaign', 'Campaign', required=True,
             domain=[('state', 'in', ('draft', 'confirmed'))],
             help='Campaign to associate'),
-        'qty': fields.integer('Initial qty', required=True),     
+        'qty': fields.integer('Initial qty', required=True),
+        'mode': fields.selection([
+            ('override', 'override product'),
+            ('jump', 'jump esisting product'),
+            ], 'mode', required=True),
         'note': fields.text(
             'Annotation', readonly=True,
             help='Annotation about product association'),
@@ -114,6 +145,7 @@ class ProductProductAssignCampaign(orm.TransientModel):
         
     _defaults = {
         'qty': lambda *x: 1,
+        'mode': lambda *x: 'override',
         }        
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
