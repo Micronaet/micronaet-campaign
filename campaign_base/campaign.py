@@ -48,6 +48,81 @@ class CampaignCampaign(orm.Model):
     # -------------------------------------------------------------------------
     #                             Utility
     # -------------------------------------------------------------------------
+    def create_campaing_sale_order(self, cr, uid, ids, context=None):
+        ''' Create sale order from campaign product
+            # TODO manage also update!!!
+        '''
+        assert len(ids) == 1, 'Only one campaign a time!'
+        
+        # Current record:
+        current_proxy = self.browse(cr, uid, ids, context=context)[0]
+        
+        # Check presence of order:
+        
+        # Pool used
+        order_pool = self.pool.get('sale.order')
+        sol_pool = self.pool.get('sale.order.line')
+        
+        # ---------------------------------------------------------------------
+        #                    Create order header
+        # ---------------------------------------------------------------------
+        # TODO onchange element!!!
+        partner_id = current_proxy.partner_id.id        
+        date = current_proxy.to_date
+        data = order_pool.onchange_partner_id(
+            cr, uid, False, partner_id, context=context).get('value', {})
+        data.update({
+            'partner_id': partner_id,
+            'date_order': date,
+            #'date_valid': date,
+            'campaign_id': current_proxy.id,
+            })
+        res_id = order_pool.create(cr, uid, data, context=context)
+            
+        # ---------------------------------------------------------------------
+        #                    Create order details
+        # ---------------------------------------------------------------------
+        for item in current_proxy.product_ids:
+            qty = item.qty_ordered
+            if qty <= 0:
+                continue # jump line
+            
+            # On change for calculate data:
+            line_data = sol_pool.product_id_change_with_wh(
+                cr, uid, False, 
+                data.get('pricelist_id'), 
+                item.product_id.id, 
+                qty,
+                uom=item.uom_id.id, # TODO change 
+                qty_uos=0, 
+                uos=False, 
+                name=item.description, 
+                partner_id=partner_id, 
+                lang=context.get('lang', 'it_IT'), 
+                update_tax=True, 
+                date_order=date, 
+                packaging=False, 
+                fiscal_position=data.get('fiscal_position'), 
+                flag=False, 
+                warehouse_id=data.get('warehouse_id'),
+                context=context,
+                ).get('value', {})
+            line_data.update({
+                'order_id': res_id,
+                'product_uom_qty': qty,
+                'uom_id': item.uom_id.id,
+                'price_unit': item.price,
+                # TODO measure data?!?
+                })                
+            sol_pool.create(cr, uid, line_data, context=context)    
+        
+        # ---------------------------------------------------------------------
+        #                    Update campaign
+        # ---------------------------------------------------------------------
+        return self.write(cr, uid, ids, {
+            'sale_id': res_id, # link to order 
+            }, context=context)        
+        
     def write_object_change_state(self, cr, uid, ids, context=None):
         ''' Write info in thread list (used in WF actions)
         '''
@@ -90,7 +165,7 @@ class CampaignCampaign(orm.Model):
         return self.write_object_change_state(cr, uid, ids, context=context)
             
 
-    def campaign_confirmed(self, cr, uid, ids, context=None):        
+    def campaign_confirmed(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {
             'state': 'confirmed',
             }, context=context)
@@ -98,9 +173,11 @@ class CampaignCampaign(orm.Model):
     
             
     def campaign_closed(self, cr, uid, ids, context=None):
+        self.create_campaing_sale_order(cr, uid, ids, context=context)
+        # Write here res_id returned?
         self.write(cr, uid, ids, {
             'state': 'closed',
-            }, context=context)            
+            }, context=context)
         return self.write_object_change_state(cr, uid, ids, context=context)
         # TODO return order and redirect to it
 
@@ -207,19 +284,16 @@ class CampaignProduct(orm.Model):
             help='Product in campaign',     
             ),
         'campaign_id': fields.many2one('campaign.campaign', 'Campaign', 
-            help='Campaign referente', required=True, 
-            ondelete='cascade'),
+            help='Campaign referente', ondelete='cascade'),
         'description': fields.char(
-            'Description', size=64, required=True),
+            'Description', size=64),
             
         # TODO add extra description related or extra for information needed 
         # for sale purpose (ex. mount description)    
         'cost': fields.float(
-            'Cost', digits_compute=dp.get_precision('Product Price'), 
-            required=True),
+            'Cost', digits_compute=dp.get_precision('Product Price')),
         'price': fields.float(
-            'Price', digits_compute=dp.get_precision('Product Price'),
-            required=True),     
+            'Price', digits_compute=dp.get_precision('Product Price')),     
         # Add extra parameter for calculate price?
             
         'qty': fields.float(
@@ -230,7 +304,7 @@ class CampaignProduct(orm.Model):
             digits_compute=dp.get_precision('Product Unit of Measure')
             ),     
         'uom_id': fields.many2one( # TODO used?
-            'product.uom', 'UOM', ondelete='set null', required=True),
+            'product.uom', 'UOM', ondelete='set null'),
         
         # -----------------------
         # Product related fields: 

@@ -11,9 +11,9 @@
                     <field name="is_active" />
                     <field name="campaign_id" invisible="context.get('campaign_product_embedded', False)"/>
                     <field name="qty" />
-                    <button name="assign_all" string="&gt;&gt;" type="object" />
+                    <button name="assign_all" string="&gt;&gt;" type="object" class="oe_link"/>
                     <field name="qty_ordered" />
-                    <button name="assign_zero" string="&lt;&lt;0" type="object" />
+                    <button name="assign_zero" string="&lt;&lt; 0" type="object" class="oe_link"/>
                     <field name="uom_id" />
                     <field name="product_id" />
                     <field name="description" />
@@ -101,7 +101,7 @@
                         <button name="trigger_campaign_draft_confirmed" string="Confirm" type="workflow" states="draft" class="oe_highlight"/>
                         <button name="trigger_campaign_draft_cancel" string="Cancel" type="workflow" states="draft"/>
                         
-                        <button name="trigger_campaign_confirmed_closed" string="Close" type="workflow" states="confirmed" class="oe_highlight" />
+                        <button name="trigger_campaign_confirmed_closed" string="Close" type="workflow" states="confirmed" class="oe_highlight" confirm="Confirm q. before, order will be created!"/>
                         <button name="trigger_campaign_confirmed_cancel" string="Cancel" type="workflow" states="confirmed"/>
 
                         <field name="state"  widget="statusbar" statusbar_visible="draft,confirmed,done,cancel" />
