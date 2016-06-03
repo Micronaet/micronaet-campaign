@@ -131,7 +131,8 @@ class CampaignCampaign(orm.Model):
         }
 
     _defaults = {
-        'code': self.pool.get('ir.sequence').get(cr, uid, 'campaign.campaign'),
+        'code': lambda s, cr, uid, ctx=None: s.pool.get('ir.sequence').get(
+            cr, uid, 'campaign.campaign'),
         'state': lambda *x: 'draft',
         }    
 
@@ -227,11 +228,10 @@ class StockMove(orm.Model):
             help='Line generated from campaign product line'),
         }
 
-class mail_thread(osv.osv):
+class MailThread(osv.osv):
     ''' Add extra function for changing state in mail.thread
     '''
     _inherit = 'mail.thread'
-    _name = 'mail.thread'
 
     # --------
     # Utility:
@@ -239,6 +239,7 @@ class mail_thread(osv.osv):
     def write_object_change_state(self, cr, uid, ids, context=None):
         ''' Write info in thread list (used in WF actions)
         '''
+        return # TODO remove
         current_proxy = self.browse(cr, uid, ids, context=context)[0]
 
         # Default part of message:

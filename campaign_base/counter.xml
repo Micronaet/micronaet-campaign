@@ -9,6 +9,7 @@
 		    <field name="name">Campaign number</field>
 		    <field name="code">campaign.campaign</field>
 		    <field name="prefix">CAMP/</field>
+		    <field name="suffix">/%(year)s</field>
 		    <field name="padding">6</field>
 	    </record>
     </data>
