@@ -94,8 +94,7 @@ class CampaignCampaign(orm.Model):
         'status_info': fields.function(
             _function_get_stasut_info, method=True, 
             type='char', size=40, string='Status info', store=False, 
-            help='Text status info for start or end campaign'), 
-            
+            help='Text status info for start or end campaign'),             
         }
     _defaults = {
         # Default value for state:
