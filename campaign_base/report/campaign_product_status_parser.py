@@ -49,8 +49,6 @@ class ProductProduct(orm.Model):
         ''' Return status net and lord
         '''
         return (product.qty_available, product.virtual_available)
-    
-    
 
 class Parser(report_sxw.rml_parse):
     counters = {}
@@ -62,9 +60,7 @@ class Parser(report_sxw.rml_parse):
         self.localcontext.update({
             'load_data': self.load_data,
             'get_filter': self.get_filter,
-            'get_cells': self.get_cells,
-            'get_cols': self.get_cols,
-            #'get_rows'
+            'get_counter': self.get_counter,
         })
 
     def load_data(self, data):
@@ -76,7 +72,6 @@ class Parser(report_sxw.rml_parse):
         uid = self.uid
         
         # Initialize elements for report:
-        #self.rows = []
         self.cols = []
         self.campaign_status = [] 
         self.cells = {}
@@ -137,7 +132,7 @@ class Parser(report_sxw.rml_parse):
             if end_pos < days: # campain start in range
                 # save position where start with totals
                 end_col = 0 if end_pos < 0 else end_pos
-                self.campaign_status[start_col] += _('E: %s\n') % campaign.code
+                self.campaign_status[end_col] += _('E: %s\n') % campaign.code
             
             # Check all product-items:
             for item in campaign.product_ids:
@@ -167,14 +162,14 @@ class Parser(report_sxw.rml_parse):
         res += _(' >> Mode: %s ') % data.get('mode', '?')
         return res
 
-    def get_cells(self, ):
+    def get_counter(self, item):
         ''' Load data
         '''
-        return (self.cells or {}).iteritems()
-
-    def get_cols(self, ):
-        ''' Load data
-        '''
-        return self.cols or []
+        if item == 'cells':
+            return (self.cells or {}).iteritems()
+        elif item == 'cols':
+            return self.cols or []
+        elif item == 'campaign':
+            return self.campaign_status or []
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
