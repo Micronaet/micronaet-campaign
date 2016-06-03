@@ -30,7 +30,10 @@ from openerp.report.report_sxw import rml_parse
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from openerp.tools.translate import _
-
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
+    DEFAULT_SERVER_DATETIME_FORMAT, 
+    DATETIME_FORMATS_MAP, 
+    float_compare)
 
 
 _logger = logging.getLogger(__name__)
@@ -60,6 +63,8 @@ class Parser(report_sxw.rml_parse):
             'load_data': self.load_data,
             'get_filter': self.get_filter,
             'get_cells': self.get_cells,
+            'get_cols': self.get_cols,
+            #'get_rows'
         })
 
     def load_data(self, data):
@@ -71,8 +76,9 @@ class Parser(report_sxw.rml_parse):
         uid = self.uid
         
         # Initialize elements for report:
-        self.row = []
-        self.column = {}
+        #self.rows = []
+        self.cols = []
+        self.campaign_status = [] 
         self.cells = {}
         
         # Pools:
@@ -95,8 +101,44 @@ class Parser(report_sxw.rml_parse):
         if not campaign_ids:
             return '' # empty report
         
+        # ---------------------------------------------------------------------
+        #                    Populate cols:
+        # ---------------------------------------------------------------------
+        for day in range(0, days):
+            # Data header format DD:MM
+            self.cols.append((today + timedelta(days=day)).strftime(
+                '%d-%m')) # DEFAULT_SERVER_DATE_FORMAT
+            # Campaign status:     
+            self.campaign_status.append('')    
+        
+        # ---------------------------------------------------------------------
+        #                    Populate cells:
+        # ---------------------------------------------------------------------
         # Check all campaign
         for campaign in campaign_pool.browse(cr, uid, campaign_ids):
+            # data evaluation:
+            start = datetime.strptime(
+                campaign.from_date, DEFAULT_SERVER_DATE_FORMAT)
+            start_pos = (start - today).days
+            # TODO use for restore q after end????
+            end = datetime.strptime(
+                campaign.to_date, DEFAULT_SERVER_DATE_FORMAT)
+            end_pos = (end - today).days            
+            
+            if start_pos < days: # campain start in range
+                # save position where start with totals
+                start_col = 0 if start_pos < 0 else start_pos
+                in_range = True # start date < days period
+                self.campaign_status[start_col] += _('S: %s\n') % campaign.code
+            else:
+                in_range = False
+
+            # only for campaign status:
+            if end_pos < days: # campain start in range
+                # save position where start with totals
+                end_col = 0 if end_pos < 0 else end_pos
+                self.campaign_status[start_col] += _('E: %s\n') % campaign.code
+            
             # Check all product-items:
             for item in campaign.product_ids:
                 product = item.product_id
@@ -104,11 +146,16 @@ class Parser(report_sxw.rml_parse):
                     # Initial status:
                     (net, lord) = product_pool.get_inventory_net_lord_status(
                         cr, uid, product)
+                    self.cells[product] = [lord for i in range(0, days)]    
                         
-                    # Generate empty element
-                    self.cells[product] = [0 for day in range(0, days)]
-                    self.cells[product][0] = lord # choose here what value
-                # TODO data setup    
+                # Generate empty element
+                # choose here what value
+                if not in_range:
+                    continue # date start over days
+                    
+                for col in range(start_col, days):
+                    self.cells[product][col] -= item.qty
+                        
         return ''
     
     def get_filter(self, data):
@@ -124,5 +171,10 @@ class Parser(report_sxw.rml_parse):
         ''' Load data
         '''
         return (self.cells or {}).iteritems()
+
+    def get_cols(self, ):
+        ''' Load data
+        '''
+        return self.cols or []
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
