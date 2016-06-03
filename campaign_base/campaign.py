@@ -180,6 +180,24 @@ class CampaignProduct(orm.Model):
     _rec_name = 'product_id'
     _order = 'sequence,product_id'    
     
+    # -------------
+    # Button event:
+    # -------------
+    def assign_all(self, cr, uid, ids, context=None):
+        ''' Assign all qty to order
+        '''
+        current_proxy = self.browse(cr, uid, ids, context=context)[0]
+        return self.write(cr, uid, ids, {
+            'qty_ordered': current_proxy.qty,
+            }, context=context)
+
+    def assign_zero(self, cr, uid, ids, context=None):
+        ''' Assign all qty to order
+        '''
+        return self.write(cr, uid, ids, {
+            'qty_ordered': 0,
+            }, context=context)
+
     _columns = {
         'is_active': fields.boolean('Is active'),
         'sequence': fields.integer('Sequence'), # XXX used for order?

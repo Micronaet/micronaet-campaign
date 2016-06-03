@@ -11,6 +11,9 @@
                     <field name="is_active" />
                     <field name="campaign_id" invisible="context.get('campaign_product_embedded', False)"/>
                     <field name="qty" />
+                    <button name="assign_all" string="&gt;&gt;" type="object" />
+                    <field name="qty_ordered" />
+                    <button name="assign_zero" string="&lt;&lt;0" type="object" />
                     <field name="uom_id" />
                     <field name="product_id" />
                     <field name="description" />
