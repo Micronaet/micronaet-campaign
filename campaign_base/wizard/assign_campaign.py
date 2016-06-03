@@ -56,6 +56,7 @@ class ProductProductAssignCampaign(orm.TransientModel):
         product_ids = context.get('active_ids', []) # get product selected
 
         if not product_ids:
+            _logger.warning('No product selected, no add in campaign!')
             return {'type': 'ir.actions.act_window_close'} # TODO new campaign
     
         #  -----------------------
@@ -65,11 +66,13 @@ class ProductProductAssignCampaign(orm.TransientModel):
 
         campaign_product_pool = self.pool.get('campaign.product')
         product_pool = self.pool.get('product.product')
+        
+        campaign_id = wiz_proxy.campaign_id.id
         for product in product_pool.browse(
                 cr, uid, product_ids, context=context):                
             # TODO check if yet present:    
             campaign_product_pool.create(cr, uid, {
-                'campaign_id': wiz_proxy.campaign_id.id,
+                'campaign_id': campaign_id,
                 'qty': wiz_proxy.qty,                
                 'product_id': product.id,
                 'uom_id': product.uom_id.id,
@@ -79,8 +82,24 @@ class ProductProductAssignCampaign(orm.TransientModel):
                 #'qty_ordered': 0
                 }, context=context)
 
-        # TODO new campaign       
-        return {'type': 'ir.actions.act_window_close'} 
+        model_pool = self.pool.get('ir.model.data')
+        view_id = model_pool.get_object_reference(cr, uid, 
+            'campaign_base', 'view_campaign_campaign_form')[1]
+        
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Campaign populated:'),
+            'view_type': 'form',
+            'view_mode': 'form,tree,calendar',
+            'res_id': campaign_id,
+            'res_model': 'campaign.campaign',
+            'view_id': view_id, # False
+            'views': [(False, 'form'), (False, 'tree'), (False, 'calendar')],
+            'domain': [],
+            'context': context,
+            'target': 'current', # 'new'
+            'nodestroy': False,
+            }            
 
     _columns = {
         'campaign_id': fields.many2one(
