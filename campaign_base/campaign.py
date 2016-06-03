@@ -69,12 +69,13 @@ class CampaignCampaign(orm.Model):
         # TODO onchange element!!!
         partner_id = current_proxy.partner_id.id        
         date = current_proxy.to_date
+        deadline = current_proxy.date_deadline or date # dedaline or end date!
         data = order_pool.onchange_partner_id(
             cr, uid, False, partner_id, context=context).get('value', {})
         data.update({
             'partner_id': partner_id,
             'date_order': date,
-            #'date_valid': date,
+            'date_deadline': deadline,
             'campaign_id': current_proxy.id,
             })
         res_id = order_pool.create(cr, uid, data, context=context)
@@ -82,16 +83,17 @@ class CampaignCampaign(orm.Model):
         # ---------------------------------------------------------------------
         #                    Create order details
         # ---------------------------------------------------------------------
-        for item in current_proxy.product_ids:
+        for item in current_proxy.product_ids:            
             qty = item.qty_ordered
-            if qty <= 0:
+            if qty <= 0 or not item.is_active:
                 continue # jump line
             
+            product_id = item.product_id.id
             # On change for calculate data:
             line_data = sol_pool.product_id_change_with_wh(
                 cr, uid, False, 
                 data.get('pricelist_id'), 
-                item.product_id.id, 
+                product_id, 
                 qty,
                 uom=item.uom_id.id, # TODO change 
                 qty_uos=0, 
@@ -107,13 +109,21 @@ class CampaignCampaign(orm.Model):
                 warehouse_id=data.get('warehouse_id'),
                 context=context,
                 ).get('value', {})
+                
             line_data.update({
                 'order_id': res_id,
+                'product_id': product_id,
                 'product_uom_qty': qty,
-                'uom_id': item.uom_id.id,
+                'product_uom': item.uom_id.id, # no uom_id
                 'price_unit': item.price,
+                'date_deadline': deadline,
                 # TODO measure data?!?
-                })                
+                })
+                
+            # Update *2many fields:    
+            if 'tax_id' in line_data:
+                line_data['tax_id'] = [(6, 0, line_data['tax_id'])]      
+                
             sol_pool.create(cr, uid, line_data, context=context)    
         
         # ---------------------------------------------------------------------
@@ -202,6 +212,7 @@ class CampaignCampaign(orm.Model):
         'code': fields.char('Code', size=20, readonly=True),
         'from_date': fields.date('From date >=', required=True),
         'to_date': fields.date('To date <=', required=True),
+        'date_deadline': fields.date('Deadline', help='For order deadline'),
         'partner_id': fields.many2one('res.partner', 'Partner', required=True,
             help='Partner (as customer) reference for this campaign', 
             domain=[
