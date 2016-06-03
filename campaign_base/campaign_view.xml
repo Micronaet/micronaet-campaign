@@ -93,16 +93,16 @@
             <field name="model">campaign.campaign</field>
             <field name="arch" type="xml">
                 <form string="Campaign" version="7.0">    
-                    <head> 
+                    <header> 
                         <!--TODO button-->
-                        <button name="trigger_campaign_draft_confirmed" string="Confirm" type="workflow" state="draft"/>
-                        <button name="trigger_campaign_draft_cancel" string="Cancel" type="workflow" state="draft"/>
+                        <button name="trigger_campaign_draft_confirmed" string="Confirm" type="workflow" states="draft" class="oe_highlight"/>
+                        <button name="trigger_campaign_draft_cancel" string="Cancel" type="workflow" states="draft"/>
                         
-                        <button name="trigger_campaign_confirmed_closed" string="Close" type="workflow" state="confirmed"/>
-                        <button name="trigger_campaign_confirmed_cancel" string="Cancel" type="workflow" state="confirmed"/>
-                        <newline/>
+                        <button name="trigger_campaign_confirmed_closed" string="Close" type="workflow" states="confirmed" class="oe_highlight" />
+                        <button name="trigger_campaign_confirmed_cancel" string="Cancel" type="workflow" states="confirmed"/>
+
                         <field name="state"  widget="statusbar" statusbar_visible="draft,confirmed,done,cancel" />
-                    </head>
+                    </header>
                     <sheet>    
                         <group colspan="4" col="4">
                             <field name="code" />

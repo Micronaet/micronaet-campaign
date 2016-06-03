@@ -47,6 +47,11 @@ class CampaignCampaign(orm.Model):
     # -------------------------------------------------------------------------
     #                        Workflow button events
     # -------------------------------------------------------------------------
+    def campaign_draft(self, cr, uid, ids, context=None):        
+        return self.write(cr, uid, ids, {
+            'state': 'draft',
+            }, context=context)
+
     def campaign_confirmed(self, cr, uid, ids, context=None):        
         return self.write(cr, uid, ids, {
             'state': 'confirmed',
@@ -74,7 +79,7 @@ class CampaignCampaign(orm.Model):
 
     _columns = {
         'name': fields.char('Name', size=64, required=True),
-        'code': fields.char('Code', size=15),
+        'code': fields.char('Code', size=15, readonly=True),
         'from_date': fields.date('From date >=', required=True),
         'to_date': fields.date('To date <=', required=True),
         'partner_id': fields.many2one('res.partner', 'Partner', required=True,
