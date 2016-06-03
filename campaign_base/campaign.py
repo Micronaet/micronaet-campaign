@@ -100,8 +100,9 @@ class CampaignCampaign(orm.Model):
     def campaign_closed(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {
             'state': 'closed',
-            }, context=context)
+            }, context=context)            
         return self.write_object_change_state(cr, uid, ids, context=context)
+        # TODO return order and redirect to it
 
     def campaign_cancel(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {
@@ -239,8 +240,7 @@ class CampaignCampaign(orm.Model):
     
     _columns = {
         'product_ids': fields.one2many(
-            'campaign.product', 'campaign_id', 
-            'Products'), 
+            'campaign.product', 'campaign_id', 'Products'), 
         }
 
 class SaleOrder(orm.Model):
