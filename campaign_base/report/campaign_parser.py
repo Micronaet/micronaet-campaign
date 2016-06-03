@@ -23,7 +23,6 @@
 ##############################################################################
 from openerp.report import report_sxw
 from openerp.report.report_sxw import rml_parse
-import pdb
 
 class Parser(report_sxw.rml_parse):
     counters = {}
@@ -33,71 +32,6 @@ class Parser(report_sxw.rml_parse):
         self.context = context
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
-            'get_address': self.get_address,
-            'get_extra_data': self.get_extra_data,
-            'get_partner_list': self.get_partner_list,
-            'get_counter': self.get_counter,
-            'set_counter': self.set_counter,
-            'get_context_parameter': self.get_context_parameter,
-            'get_accept_quantity': self.get_accept_quantity,
+            #'get_counter': self.get_counter,
         })
-
-    def get_accept_quantity(self, acceptation, conformed_id):
-        ''' Try to locate acceptation q. from conformed
-        '''
-        if not acceptation:
-            return '/'
-        for item in acceptation.line_ids:
-            if item.conformed_id.id == conformed_id:
-                return item.qty_arrived
-        return '/'
-        
-    def get_context_parameter(self, parameter):
-        ''' Return context value
-        '''
-        return self.context.get(parameter, False)
-
-    def get_counter(self, name):
-        ''' Get counter with name passed (else create an empty)
-        '''
-        if name not in self.counters:
-            self.counters[name] = False
-        return self.counters[name]
-
-    def set_counter(self, name, value):
-        ''' Set counter with name with value passed
-        '''
-        self.counters[name] = value
-        return "" # empty so no write in module
-
-    def get_partner_list(self, o):
-        ''' Get list of partner address, depend on extra_field value
-        '''
-        res = [o.partner_id]
-        if o.extra_address in ('contact', 'partner') and o.partner_ids:
-            res.extend(o.partner_ids)
-        return res
-
-    def get_address(self, partner_proxy):
-        ''' Get partner address with passed browse obj
-        '''
-        return "%s - %s - %s" % (
-            partner_proxy.street or '',
-            partner_proxy.zip or '',
-            partner_proxy.city or '',
-            )
-
-    def get_extra_data(self, partner_proxy):
-        ''' Get partner extra data with passed browse obj
-        '''
-        return "Phone: %s\nFax: %s\nE-mail: %s\n%s" % (
-            partner_proxy.phone or '',
-            partner_proxy.fax or '',
-            partner_proxy.email or '',
-            "%s%s" % (
-                "P.IVA: %s\n" % (
-                    partner_proxy.vat if partner_proxy.vat else ""),
-                "C.F.: %s" % (
-                    partner_proxy.fiscalcode if partner_proxy.fiscalcode else ""), )
-            )
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
