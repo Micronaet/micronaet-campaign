@@ -45,7 +45,7 @@
         'counter.xml',
         'workflow/campaign_workflow.xml',
         'wizard/assign_campaign.xml',
-        #'report/', # TODO link report elements
+        'report/campaign_report.xml',
         ],
     'active': False,
     'installable': True,
