@@ -70,12 +70,12 @@ class ProductProductCampaignStatusReport(orm.TransientModel):
         'days': fields.integer('Days', required=True),
         'mode': fields.selection([
             ('confirmed', 'Only confirmed'),
-            ('confirmed', 'Draft and confirmed'),
-            ], 'mode', required=True)
+            ('draft', 'Draft and confirmed'),
+            ], 'Mode', required=True)
         }
         
     _defaults = {
         'days': lambda *x: 30,
-        'mode': lambda *x: 'mode',
+        'mode': lambda *x: 'confirmed',
         }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

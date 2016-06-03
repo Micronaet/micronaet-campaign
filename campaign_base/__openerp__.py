@@ -46,7 +46,7 @@
         'workflow/campaign_workflow.xml',
         'report/campaign_report.xml',
         'wizard/assign_campaign.xml',
-        'wizard_status_report.xml',
+        'wizard/wizard_status_report.xml',
         ],
     'active': False,
     'installable': True,

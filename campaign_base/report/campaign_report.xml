@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+        <!--Campaign report-->
         <record id="aeroo_campaign_campaign_report" model="ir.actions.report.xml">
             <field name="name">Campaign report</field>
             <field name="type">ir.actions.report.xml</field>
@@ -20,6 +21,30 @@
             <field eval="['campaign.campaign']" name="models"/>
             <field name="name">Campaign report</field>
             <field eval="'ir.actions.report.xml,'+str(aeroo_campaign_campaign_report)" name="value"/>
+            <field eval="True" name="isobject"/>
+            <field eval="True" name="replace"/>
+        </ir_set>
+
+        <!--Campaign product status report-->
+        <record id="aeroo_campaign_product_status_report" model="ir.actions.report.xml">
+            <field name="name">Campaign report</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="model">campaign.campaign</field>
+            <field name="report_name">campaign_campaign_product_status_report</field>
+            <field name="report_type">aeroo</field>
+            <field name="in_format">oo-ods</field>
+            <!--<field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')" />-->
+            <field name="parser_loc">campaign_base/report/campaign_product_status_parser.py</field>
+            <field name="report_rml">campaign_base/report/campaign_product_status.ods</field>
+            <field name="parser_state">loc</field>
+            <field name="tml_source">file</field>
+        </record>
+        <ir_set>
+            <field eval="'action'" name="key"/>
+            <field eval="'client_print_multi'" name="key2"/>
+            <field eval="['campaign.campaign']" name="models"/>
+            <field name="name">Campaign product status report</field>
+            <field eval="'ir.actions.report.xml,'+str(aeroo_campaign_product_status_report)" name="value"/>
             <field eval="True" name="isobject"/>
             <field eval="True" name="replace"/>
         </ir_set>
