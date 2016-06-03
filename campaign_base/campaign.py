@@ -60,11 +60,13 @@ class CampaignCampaign(orm.Model):
 
     _columns = {
         'name': fields.char('Name', size=64, required=True),
-        'from_date': fields.date('From date', required=True),
-        'to_date': fields.date('From date', required=True),
+        'from_date': fields.date('From date >=', required=True),
+        'to_date': fields.date('To date <=', required=True),
         'partner_id': fields.many2one('res.partner', 'Partner', required=True,
             help='Partner (as customer) reference for this campaign', 
-            domain=[('customer', '=', True),('is_company', '=', True)]), 
+            domain=[
+                ('customer', '=', True),
+                ('is_company', '=', True)]), 
             
         # Album for product photo        
         'with_photo': fields.boolean('With photo'), # TODO so album!!
@@ -95,6 +97,7 @@ class CampaignCampaign(orm.Model):
             _function_get_stasus_info, method=True, 
             type='char', size=40, string='Status info', store=False, 
             help='Text status info for start or end campaign'),             
+        'note': fields.text('Note'),
         }
     _defaults = {
         # Default value for state:
@@ -132,7 +135,7 @@ class CampaignProduct(orm.Model):
         # Add extra parameter for calculate price?
             
         'qty': fields.float(
-            'Cost', digits_compute=dp.get_precision('Product Unit of Measure')
+            'Q.', digits_compute=dp.get_precision('Product Unit of Measure')
             ),     
         'uom_id': fields.many2one( # TODO used?
             'product.uom', 'UOM'),        
