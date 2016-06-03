@@ -62,10 +62,13 @@ class Parser(report_sxw.rml_parse):
             'get_cells': self.get_cells,
         })
 
-    def load_data(self, data, context=None):
+    def load_data(self, data):
         ''' Load data
         '''
+        # Setup:
         data = data or {}
+        cr = self.cr
+        uid = self.uid
         
         # Initialize elements for report:
         self.row = []
@@ -89,7 +92,7 @@ class Parser(report_sxw.rml_parse):
         else:    
             domain = [('state', 'in', ('draft', 'confirmed'))]
         campaign_ids = campaign_pool.search(cr, uid, domain)
-        if campaign_ids:
+        if not campaign_ids:
             return '' # empty report
         
         # Check all campaign
@@ -100,11 +103,12 @@ class Parser(report_sxw.rml_parse):
                 if product not in self.cells:
                     # Initial status:
                     (net, lord) = product_pool.get_inventory_net_lord_status(
-                        self.cr, self.uid, product)
+                        cr, uid, product)
                         
                     # Generate empty element
                     self.cells[product] = [0 for day in range(0, days)]
-                    self.cells[product][0] = lord # choose here what value 
+                    self.cells[product][0] = lord # choose here what value
+                # TODO data setup    
         return ''
     
     def get_filter(self, data):
@@ -119,6 +123,6 @@ class Parser(report_sxw.rml_parse):
     def get_cells(self, ):
         ''' Load data
         '''
-        return self.cells or {}
+        return (self.cells or {}).iteritems()
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
