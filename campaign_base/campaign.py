@@ -46,6 +46,41 @@ class CampaignCampaign(orm.Model):
     _description = 'Campaign'
 
     # -------------------------------------------------------------------------
+    #                             Utility
+    # -------------------------------------------------------------------------
+    def write_object_change_state(self, cr, uid, ids, context=None):
+        ''' Write info in thread list (used in WF actions)
+        '''
+        current_proxy = self.browse(cr, uid, ids, context=context)[0]
+
+        # Default part of message:
+        message = { 
+            'subject': _('Changing state:'),
+            'body': _('State variation in <b>%s</b>') % current_proxy.state,
+            'type': 'comment', #'notification', 'email',
+            'subtype': False,  #parent_id, #attachments,
+            'content_subtype': 'html',
+            'partner_ids': [],            
+            'email_from': 'openerp@micronaet.it', #wizard.email_from,
+            'context': context,
+            }
+        #message['partner_ids'].append(
+        #    task_proxy.assigned_user_id.partner_id.id)
+        self.message_subscribe_users(
+            cr, uid, ids, user_ids=[uid], context=context)
+                        
+        msg_id = self.message_post(cr, uid, ids, **message)
+        #if notification: 
+        #    _logger.info(">> Send mail notification! [%s]" % message[
+        #    'partner_ids'])
+        #    self.pool.get(
+        #        'mail.notification')._notify(cr, uid, msg_id, 
+        #        message['partner_ids'], 
+        #        context=context
+        #        )       
+        return    
+
+    # -------------------------------------------------------------------------
     #                        Workflow button events
     # -------------------------------------------------------------------------
     def campaign_draft(self, cr, uid, ids, context=None):        
@@ -228,46 +263,6 @@ class StockMove(orm.Model):
             help='Line generated from campaign product line'),
         }
 
-class MailThread(osv.osv):
-    ''' Add extra function for changing state in mail.thread
-    '''
-    _inherit = 'mail.thread'
-
-    # --------
-    # Utility:
-    # --------
-    def write_object_change_state(self, cr, uid, ids, context=None):
-        ''' Write info in thread list (used in WF actions)
-        '''
-        return # TODO remove
-        current_proxy = self.browse(cr, uid, ids, context=context)[0]
-
-        # Default part of message:
-        message = { 
-            'subject': _('Changing state:'),
-            'body': _('State variation in <b>%s</b>') % current_proxy.state,
-            'type': 'comment', #'notification', 'email',
-            'subtype': False,  #parent_id, #attachments,
-            'content_subtype': 'html',
-            'partner_ids': [],            
-            'email_from': 'openerp@micronaet.it', #wizard.email_from,
-            'context': context,
-            }
-        #message['partner_ids'].append(
-        #    task_proxy.assigned_user_id.partner_id.id)
-        self.message_subscribe_users(
-            cr, uid, ids, user_ids=[uid], context=context)
-                        
-        msg_id = self.message_post(cr, uid, ids, **message)
-        #if notification: 
-        #    _logger.info(">> Send mail notification! [%s]" % message[
-        #    'partner_ids'])
-        #    self.pool.get(
-        #        'mail.notification')._notify(cr, uid, msg_id, 
-        #        message['partner_ids'], 
-        #        context=context
-        #        )       
-        return    
-
 # TODO manage product in campaign as stock.move??
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
