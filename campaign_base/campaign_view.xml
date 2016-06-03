@@ -7,7 +7,7 @@
             <field name="model">campaign.product</field>
             <field name="arch" type="xml">
                 <tree string="Campaign product" editable="bottom">        
-                    <field name="sequence" />
+                    <field name="sequence" invisible="1"/>
                     <field name="active" />
                     <field name="campaign_id" invisible="context.get('campaign_product_embedded', False)"/>
                     <field name="qty" />

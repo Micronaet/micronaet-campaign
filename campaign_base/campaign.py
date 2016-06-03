@@ -98,6 +98,10 @@ class CampaignCampaign(orm.Model):
             type='char', size=40, string='Status info', store=False, 
             help='Text status info for start or end campaign'),             
         'note': fields.text('Note'),
+        
+        # Function fields:
+        # TODO total cost and revenue (for all products) campaign and order
+       
         }
     _defaults = {
         # Default value for state:
@@ -117,10 +121,12 @@ class CampaignProduct(orm.Model):
         'sequence': fields.integer('Sequence'), # XXX used for order?
         'product_id': fields.many2one('product.product', 'Product', 
             required=True, #domain=[('type', 'in', ('service'))])
-            help='Product in campaign',             
+            ondelete='set null',
+            help='Product in campaign',     
             ),
         'campaign_id': fields.many2one('campaign.campaign', 'Campaign', 
-            help='Campaign referente'), 
+            help='Campaign referente', required=True, 
+            ondelete='cascade'),
         'description': fields.char(
             'Description', size=64, required=True),
             
@@ -128,7 +134,7 @@ class CampaignProduct(orm.Model):
         # for sale purpose (ex. mount description)    
         'cost': fields.float(
             'Cost', digits_compute=dp.get_precision('Product Price'), 
-            required=True),     
+            required=True),
         'price': fields.float(
             'Price', digits_compute=dp.get_precision('Product Price'),
             required=True),     
@@ -137,8 +143,12 @@ class CampaignProduct(orm.Model):
         'qty': fields.float(
             'Q.', digits_compute=dp.get_precision('Product Unit of Measure')
             ),     
+        'qty_ordered': fields.float(
+            'Q. ordered', 
+            digits_compute=dp.get_precision('Product Unit of Measure')
+            ),     
         'uom_id': fields.many2one( # TODO used?
-            'product.uom', 'UOM'),        
+            'product.uom', 'UOM', ondelete='set null', required=True),
         
         # -----------------------
         # Product related fields: 
@@ -175,7 +185,7 @@ class SaleOrder(orm.Model):
     
     _columns = {
         'campaign_id': fields.many2one(
-            'campaign.campaign', 'Campaign'),
+            'campaign.campaign', 'Campaign', ondelete='set null'),
         }
 
 class StockMove(orm.Model):
@@ -186,6 +196,7 @@ class StockMove(orm.Model):
     _columns = {
         'campaign_product_id': fields.many2one(
             'campaign.product', 'Move from campaign', 
+            ondelete='cascade',
             help='Line generated from campaign product line'),
         }
 
