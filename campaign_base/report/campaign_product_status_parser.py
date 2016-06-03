@@ -85,7 +85,7 @@ class Parser(report_sxw.rml_parse):
         self.cols = []
         self.campaign_status = [] 
         self.cells = {}
-        self.campaing = []
+        self.campaign = []
         
         # Pools:
         campaign_pool = self.pool.get('campaign.campaign')
@@ -114,6 +114,8 @@ class Parser(report_sxw.rml_parse):
             # Data header format DD:MM
             self.cols.append((today + timedelta(days=day)).strftime(
                 '%d-%m')) # DEFAULT_SERVER_DATE_FORMAT
+
+            # Campaign status    
             self.campaign_status.append('')
         
         # ---------------------------------------------------------------------
@@ -121,11 +123,19 @@ class Parser(report_sxw.rml_parse):
         # ---------------------------------------------------------------------
         # Check all campaign
         for campaign in campaign_pool.browse(cr, uid, campaign_ids):
-            # Campaign status:     
-            self.campaing.append('%s of %s [%s-%s]' % (
-                1,1,1,1
+            # -----------------------------------------------------------------
+            #                       Campaign status list:
+            # -----------------------------------------------------------------
+            self.campaign.append('%s of %s [%s-%s]' % (
+                campaign.code,
+                campaign.partner_id.name,
+                campaign.from_date,
+                campaign.to_date,
                 ))
 
+            # -----------------------------------------------------------------
+            #                       Data operations:
+            # -----------------------------------------------------------------
             # data evaluation:
             start = datetime.strptime(
                 campaign.from_date, DEFAULT_SERVER_DATE_FORMAT)
@@ -159,7 +169,9 @@ class Parser(report_sxw.rml_parse):
                 self.campaign_status[end_col] += _('End: %s\n') % clean(
                     campaign.code)
             
-            # Check all product-items:
+            # -----------------------------------------------------------------
+            #                    Totals for product-items:
+            # -----------------------------------------------------------------
             for item in campaign.product_ids:
                 product = item.product_id
                 if product not in self.cells:
@@ -194,7 +206,9 @@ class Parser(report_sxw.rml_parse):
             return (self.cells or {}).iteritems()
         elif item == 'cols':
             return self.cols or []
-        elif item == 'campaign':
+        elif item == 'status':
             return self.campaign_status or []
+        elif item == 'campaign':
+            return self.campaign or []
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
