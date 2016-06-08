@@ -75,6 +75,11 @@ class ProductProductAssignCampaign(orm.TransientModel):
 
         campaign_id = wiz_proxy.campaign_id.id
         mode = wiz_proxy.mode
+        available = wiz_proxy.available
+        min_qty = wiz_proxy.min_qty
+        max_qty = wiz_proxy.max_qty
+        use_rate = wiz_proxy.use_rate
+        
         
         # ---------------------------------------------------------------------
         #                       Loop on all selected product:
@@ -95,15 +100,15 @@ class ProductProductAssignCampaign(orm.TransientModel):
             # ---------------
             # Qty generation:
             # ---------------
-            if wiz_proxy.available:
+            if available:
                 # Get data for calculare:
-                lord_qty = product.max_lord_qty
+                lord_qty = product.mx_lord_qty
                 # TODO manage campaign qty
                 q_x_pack = product.q_x_pack or 1  
                 
                 if lord_qty > 0:
                     qty = (
-                        lord_qty * wiz_proxy.use_rate / 100) - (  # % of lord
+                        lord_qty * use_rate / 100) - (  # % of lord
                             qty % q_x_pack) # - extra from pack
                     if min_qty and qty < min_qty:
                         qty = 0 # No in min qty treshold so not used

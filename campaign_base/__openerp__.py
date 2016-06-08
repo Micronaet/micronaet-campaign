@@ -36,6 +36,7 @@
         'stock', # for stock movement (inventory operations)
         'product_image_base', # Image management
         'inventory_status', # for lord qty in product check
+        'base_accounting_program', # for q_x_pack field
         ],
     'init_xml': [],
     'demo': [],

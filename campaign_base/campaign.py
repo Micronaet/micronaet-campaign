@@ -45,8 +45,17 @@ class CampaignCampaign(orm.Model):
     _inherit = ['mail.thread']
     _description = 'Campaign'
 
+
     # -------------------------------------------------------------------------
-    #                             Utility
+    #                             Button event:
+    # -------------------------------------------------------------------------
+    def reset_log_event(self, cr, uid, ids, context=None):
+        ''' Remove log
+        '''
+        return self.write(cr, uid, ids, {'log': False}, context=context)
+
+    # -------------------------------------------------------------------------
+    #                                Utility:
     # -------------------------------------------------------------------------
     def create_campaing_sale_order(self, cr, uid, ids, context=None):
         ''' Create sale order from campaign product
@@ -324,6 +333,9 @@ class CampaignProduct(orm.Model):
         'uom_id': fields.many2one( # TODO used?
             'product.uom', 'UOM', ondelete='set null'),
         
+        'q_x_pack': fields.related('product_id', 'q_x_pack',
+            type='float', string='Q. x pack'), 
+
         # -----------------------
         # Product related fields: 
         # -----------------------
