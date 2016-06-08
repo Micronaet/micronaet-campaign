@@ -142,8 +142,8 @@ class ProductProductAssignCampaign(orm.TransientModel):
             help='Annotation about product association'),
             
         # Q.ty generation:
-        'available': fields.boolean('Available', 
-            help='Use available lord qty'),
+        'available': fields.boolean('% on available', 
+            help='Use available lord qty quantity'),
         'qty': fields.integer('Initial qty'),
         'use_rate': fields.float('Use rate', digits=(16, 3)),
         'min_qty': fields.integer('Min. qty'),
