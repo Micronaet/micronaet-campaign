@@ -1,6 +1,17 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+        <!--res.partner-->
+        <record model="ir.ui.view" id="view_res_partner_for_campaign_form">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="active" position="after">
+                    <field name="used_campaign" />
+                </field>
+            </field>
+        </record>
         <!--campaign.product-->
         <record model="ir.ui.view" id="view_campaign_product_tree">
             <field name="name">campaign.product.tree</field>
@@ -51,8 +62,8 @@
             <field name="arch" type="xml">
                 <search string="Campaign product" version="7.0">        
                     <field name="description" />
-                    <field name="campaign_id" filter_domain="[('partner_id','=',self)]"/>
-                    <field name="product_id" filter_domain="[('partner_id','=',self)]"/>
+                    <field name="campaign_id" filter_domain="[('campaign_id','=',self)]"/>
+                    <field name="product_id" filter_domain="[('product_id','=',self)]"/>
                     <filter name="active_yes" string="Active" domain="[('is_active','=',True)]"/>
                     <filter name="active_no" string="Not active" domain="[('is_active','=',False)]"/>
                     
@@ -121,14 +132,16 @@
                             <field name="from_date" />
                             <field name="to_date" />
                             
-                            <field name="partner_id" />
-                            <field name="status_info" /><!--TODO function-->
+                            <field name="partner_id" domain="[('used_campaign', '=', True), ('is_company', '=', True), ('is_address', '=', False)]"/>
+                            <field name="partner_address_id" domain="[('parent_id', '=', partner_id)"/>
                             
                             <field name="album_id" />
                             <field name="thumb_album_id" />
                             
                             <field name="sale_id" />
                             <field name="date_deadline" />
+
+                            <field name="status_info" /><!--TODO function-->
                             
                             <notebook colspan="4">
                                 <page string="Products">

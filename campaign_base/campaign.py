@@ -214,10 +214,9 @@ class CampaignCampaign(orm.Model):
         'to_date': fields.date('To date <=', required=True),
         'date_deadline': fields.date('Deadline', help='For order deadline'),
         'partner_id': fields.many2one('res.partner', 'Partner', required=True,
-            help='Partner (as customer) reference for this campaign', 
-            domain=[
-                ('customer', '=', True),
-                ('is_company', '=', True)]), 
+            help='Partner (as customer) reference for this campaign'), 
+        'partner_address_id': fields.many2one('res.partner', 'Address',
+            help='Partner (as customer) reference for this campaign'), 
             
         # Album for product photo        
         'with_photo': fields.boolean('With photo'), # TODO so album!!
@@ -352,6 +351,16 @@ class CampaignCampaign(orm.Model):
     _columns = {
         'product_ids': fields.one2many(
             'campaign.product', 'campaign_id', 'Products'), 
+        }
+
+class ResPartner(orm.Model):
+    """ Model name: Res partner for campaign
+    """    
+    _inherit = 'res.partner'
+    
+    _columns = {
+        'used_campaign': fields.boolean('Used for campaign', 
+            help='If checked will be used for campaign customer'),
         }
 
 class SaleOrder(orm.Model):
