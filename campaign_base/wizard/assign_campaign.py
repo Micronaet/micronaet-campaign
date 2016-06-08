@@ -107,9 +107,8 @@ class ProductProductAssignCampaign(orm.TransientModel):
                 q_x_pack = product.q_x_pack or 1  
                 
                 if lord_qty > 0:
-                    qty = (
-                        lord_qty * use_rate / 100) - (  # % of lord
-                            qty % q_x_pack) # - extra from pack
+                    qty = lord_qty * use_rate / 100
+                    qty -= qty % q_x_pack # - extra from pack
                     if min_qty and qty < min_qty:
                         qty = 0 # No in min qty treshold so not used
                     if max_qty and qty > max_qty:
@@ -174,6 +173,9 @@ class ProductProductAssignCampaign(orm.TransientModel):
             }            
 
     _columns = {
+        'from_selection': fields.boolean('From selection', 
+            help='From selected product, instead take product list of campaign'
+                ' for recalculate'),
         'campaign_id': fields.many2one(
             'campaign.campaign', 'Campaign', required=True,
             domain=[('state', 'in', ('draft', 'confirmed'))],
@@ -200,6 +202,7 @@ class ProductProductAssignCampaign(orm.TransientModel):
         }
         
     _defaults = {
+        'from_selection': lambda *x: True,
         'available': lambda *x: True,
         'mode': lambda *x: 'override',
         }        
