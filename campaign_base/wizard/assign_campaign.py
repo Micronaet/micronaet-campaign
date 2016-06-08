@@ -100,7 +100,7 @@ class ProductProductAssignCampaign(orm.TransientModel):
                 campaign_product_pool.create(cr, uid, {
                     'is_active': True,
                     'campaign_id': campaign_id,
-                    'qty': wiz_proxy.qty,                
+                    'qty': wiz_proxy.qty,                    
                     'product_id': product.id,
                     'uom_id': product.uom_id.id,
                     'description': product.name,
@@ -133,18 +133,26 @@ class ProductProductAssignCampaign(orm.TransientModel):
             'campaign.campaign', 'Campaign', required=True,
             domain=[('state', 'in', ('draft', 'confirmed'))],
             help='Campaign to associate'),
-        'qty': fields.integer('Initial qty', required=True),
         'mode': fields.selection([
-            ('override', 'override product'),
-            ('jump', 'jump esisting product'),
+            ('override', 'Override product qty'),
+            ('jump', 'Jump existing product'),
             ], 'mode', required=True),
         'note': fields.text(
             'Annotation', readonly=True,
             help='Annotation about product association'),
+            
+        # Q.ty generation:
+        'available': fields.boolean('Available', 
+            help='Use available lord qty'),
+        'qty': fields.integer('Initial qty'),
+        'use_rate': fields.float('Use rate', digits=(16, 3)),
+        'min_qty': fields.integer('Min. qty'),
+        'max_qty': fields.integer('Max. qty'),
+        'check_min_package': fields.boolean('Check min pack', 
+            help='Use min package qty multiple, es. N.10 , 4 pack >> N.8 '),            
         }
         
     _defaults = {
-        'qty': lambda *x: 1,
         'mode': lambda *x: 'override',
         }        
 

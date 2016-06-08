@@ -12,9 +12,22 @@
                        <button name="action_assign_campaign" string="Assign" type="object" icon="gtk-jump-to" class="oe_highlight" />
                    </header>                   
                    <group colspan="4" col="4">
-                        <field name="campaign_id" />
+                        <separator string="Campaign:" colspan="4" />
+                        <field name="campaign_id" colspan="4" />
                         <field name="mode" />
-                        <field name="qty" />
+                        <newline/>
+                        
+                        <separator string="Quantity setup:" colspan="4" />
+                        <field name="available" />                        
+                        <newline/>
+                        <field name="qty" attrs="{'invisible':[('available', '=', True)],'required':[('available', '=', False)]}"/>
+                        <newline/>
+                        <field name="use_rate" attrs="{'invisible':[('available', '=', False)],'required':[('available', '=', True)]}"/>
+                        <newline/>
+                        <field name="min_qty" attrs="{'invisible':[('available', '=', False)],'required':[('available', '=', True)]}"/>
+                        <field name="max_qty" attrs="{'invisible':[('available', '=', False)],'required':[('available', '=', True)]}"/>
+                        <newline/>
+                        
                         <separator string="Note" colspan="4"/>
                         <field name="note" nolabel="1" colspan="4" />                        
                    </group>
