@@ -19,6 +19,7 @@
                     <field name="description" />
                     <field name="cost" />
                     <field name="price" />
+                    <field name="campaign_price" />
                 </tree>
             </field>
         </record>
@@ -38,6 +39,7 @@
                             <field name="description" />
                             <field name="cost" />
                             <field name="price" />
+                            <field name="campaign_price" />
                        </group>     
                     </sheet>
                 </form>
@@ -131,6 +133,12 @@
                                 </page>
                                 <page string="Price">
                                     <group colspan="4" col="4">
+                                    </group>    
+                                </page>
+                                <page string="Log">
+                                    <group colspan="4" col="4">
+                                        <separator string="Log" colspan="4"/>
+                                        <field name="log" colspan="4" nolabel="1"/>
                                     </group>    
                                 </page>
                                 <page string="Note">

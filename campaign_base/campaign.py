@@ -115,7 +115,7 @@ class CampaignCampaign(orm.Model):
                 'product_id': product_id,
                 'product_uom_qty': qty,
                 'product_uom': item.uom_id.id, # no uom_id
-                'price_unit': item.price,
+                'price_unit': item.campaign_price,
                 'date_deadline': deadline,
                 # TODO measure data?!?
                 })
@@ -242,6 +242,7 @@ class CampaignCampaign(orm.Model):
             type='char', size=40, string='Status info', store=False, 
             help='Text status info for start or end campaign'),             
         'note': fields.text('Note'),
+        'log': fields.text('Log', readonly=True, help='Log assign operation'),
         
         # Function fields:
         # TODO total cost and revenue (for all products) campaign and order
@@ -307,7 +308,8 @@ class CampaignProduct(orm.Model):
             'Cost', digits_compute=dp.get_precision('Product Price')),
         'price': fields.float(
             'Price', digits_compute=dp.get_precision('Product Price')),     
-        # Add extra parameter for calculate price?
+        'campaign_price': fields.float(
+            'Campaign price', digits_compute=dp.get_precision('Product Price')),     
             
         'qty': fields.float(
             'Q.', digits_compute=dp.get_precision('Product Unit of Measure')

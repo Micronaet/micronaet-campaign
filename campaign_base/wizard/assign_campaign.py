@@ -153,6 +153,7 @@ class ProductProductAssignCampaign(orm.TransientModel):
         }
         
     _defaults = {
+        'available': lambda *x: True,
         'mode': lambda *x: 'override',
         }        
 
