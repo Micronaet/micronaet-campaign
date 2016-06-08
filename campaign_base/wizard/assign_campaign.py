@@ -59,11 +59,12 @@ class ProductProductAssignCampaign(orm.TransientModel):
             _logger.warning('No product selected, no add in campaign!')
             return {'type': 'ir.actions.act_window_close'} # TODO new campaign
     
-        #  -----------------------
-        # Create campaign.product:        
-        #  -----------------------
+        #  --------------------------------------------------------------------
+        #                    Create / update campaign.product:        
+        #  --------------------------------------------------------------------
         wiz_proxy = self.browse(cr, uid, ids, context=context)[0]
 
+        campaign_pool = self.pool.get('campaign.campaign')
         campaign_product_pool = self.pool.get('campaign.product')
         product_pool = self.pool.get('product.product')
         
@@ -75,40 +76,78 @@ class ProductProductAssignCampaign(orm.TransientModel):
         campaign_id = wiz_proxy.campaign_id.id
         mode = wiz_proxy.mode
         
+        # ---------------------------------------------------------------------
+        #                       Loop on all selected product:
+        # ---------------------------------------------------------------------
+        log = ''
         for product in product_pool.browse(
                 cr, uid, product_ids, context=context):
-
+                            
             update_id = False            
-            if product.id in current_product:
-                if mode == 'jump':
-                    continue # jump
+            if product.id in current_product: # jet present
+                # jump mode:
+                if mode == 'jump': 
+                    log += 'Jump product mode: %s\n' % product.default_code
+                    continue
+                # update mode:    
                 update_id = current_product[product.id]
-            
-            if update_id:        
-                campaign_product_pool.write(cr, uid, update_id, {
-                    'is_active': True,
-                    #'campaign_id': campaign_id,
-                    'qty': wiz_proxy.qty,                
-                    #'product_id': product.id,
-                    'uom_id': product.uom_id.id,
-                    'description': product.name,
-                    'cost': product.standard_price,
-                    'price': product.lst_price,
-                    ##'qty_ordered': 0
-                    }, context=context)
-            else:
-                campaign_product_pool.create(cr, uid, {
-                    'is_active': True,
-                    'campaign_id': campaign_id,
-                    'qty': wiz_proxy.qty,                    
-                    'product_id': product.id,
-                    'uom_id': product.uom_id.id,
-                    'description': product.name,
-                    'cost': product.standard_price,
-                    'price': product.lst_price,
-                    #'qty_ordered': 0
-                    }, context=context)
 
+            # ---------------
+            # Qty generation:
+            # ---------------
+            if wiz_proxy.available:
+                # Get data for calculare:
+                lord_qty = product.max_lord_qty
+                # TODO manage campaign qty
+                q_x_pack = product.q_x_pack or 1  
+                
+                if lord_qty > 0:
+                    qty = (
+                        lord_qty * wiz_proxy.use_rate / 100) - \  # % of lord
+                        qty % q_x_pack # - extra from pack
+                    if min_qty and qty < min_qty:
+                        qty = 0 # No in min qty treshold so not used
+                    if max_qty and qty > max_qty:
+                        qty = max_qty                    
+                else:
+                    qty = 0
+                if not qty:
+                    log += 'Discard product cause of qty: %s\n' % (
+                        product.default_code)
+                    continue # jump element (write in log?    
+                              
+            else:
+                qty = wiz_proxy.qty or 1
+            
+            # TODO Price generation:
+            campaign_price = product.lst_price
+            
+            data = {
+                'is_active': True,
+                'campaign_id': campaign_id,
+                'qty': qty,
+                'product_id': product.id,
+                'uom_id': product.uom_id.id,
+                'description': product.name,
+                'cost': product.standard_price,
+                'price': product.lst_price,            
+                'campaign_price': campaign_price, # start value
+                ##'qty_ordered': 0
+                }
+            if update_id:        
+                campaign_product_pool.write(
+                    cr, uid, update_id, data, context=context)
+            else:
+                campaign_product_pool.create(
+                    cr, uid, data, context=context)
+
+        # Write data on campaign header:
+        if log:
+            campaign_pool.write(cr, uid, campaign_id, {
+                'log': log,
+                }, context=context)
+        
+        # Open view: 
         model_pool = self.pool.get('ir.model.data')
         view_id = model_pool.get_object_reference(cr, uid, 
             'campaign_base', 'view_campaign_campaign_form')[1]
@@ -146,8 +185,10 @@ class ProductProductAssignCampaign(orm.TransientModel):
             help='Use available lord qty quantity'),
         'qty': fields.integer('Initial qty'),
         'use_rate': fields.float('Use rate', digits=(16, 3)),
-        'min_qty': fields.integer('Min. qty'),
-        'max_qty': fields.integer('Max. qty'),
+        'min_qty': fields.integer('Min. qty', 
+            help='If product is not >= min qty will be discard'),
+        'max_qty': fields.integer('Max. qty', 
+            help='If product > max qty will be used max qty instead'),
         'check_min_package': fields.boolean('Check min pack', 
             help='Use min package qty multiple, es. N.10 , 4 pack >> N.8 '),            
         }
