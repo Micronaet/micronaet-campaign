@@ -158,7 +158,7 @@
                                 </page>
                                 <page string="Log">
                                     <group colspan="4" col="4">
-                                        <button name="reset_log_event" string="Reset" type="object" icon="gtk-clear"/>
+                                        <button name="reset_log_event" string="Reset log" type="object" icon="gtk-clear"/>
                                         <separator string="Log" colspan="4"/>                                        
                                         <field name="log" colspan="4" nolabel="1"/>
                                     </group>    
