@@ -83,11 +83,16 @@
                 <tree string="Campaign">        
                     <field name="code" />
                     <field name="name" />
+                    
                     <field name="from_date" />
                     <field name="to_date" />
+                    
                     <field name="partner_id" />
-                    <field name="album_id" />
                     <field name="sale_id" />
+
+                    <field name="thumb_album_id" />
+                    <field name="album_id" />
+
                     <field name="state" />
                     <field name="status_info" />                    
                 </tree>
@@ -117,12 +122,14 @@
                             <field name="to_date" />
                             
                             <field name="partner_id" />
+                            <field name="status_info" /><!--TODO function-->
+                            
                             <field name="album_id" />
+                            <field name="thumb_album_id" />
                             
                             <field name="sale_id" />
                             <field name="date_deadline" />
                             
-                            <field name="status_info" />                    
                             <notebook colspan="4">
                                 <page string="Products">
                                     <group colspan="4" col="4">

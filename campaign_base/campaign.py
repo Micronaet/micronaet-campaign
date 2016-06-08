@@ -200,7 +200,7 @@ class CampaignCampaign(orm.Model):
     # -------------------------------------------------------------------------
     #                            Fields functions 
     # -------------------------------------------------------------------------    
-    def _function_get_stasus_info(self, cr, uid, ids, fields, args, context=None):
+    def _function_get_status_info(self, cr, uid, ids, fields, args, context=None):
         ''' Fields function for calculate 
         '''
         res = {}
@@ -223,7 +223,11 @@ class CampaignCampaign(orm.Model):
         'with_photo': fields.boolean('With photo'), # TODO so album!!
         'with_detail': fields.boolean('With detail', # XXX needed?
             help='One product may have more than one other detail photo'), 
-        'album_id': fields.many2one('product.image.album', 'Album'), 
+        'thumb_album_id': fields.many2one(
+            'product.image.album', 'Thumb Album', 
+                help='Album for thumb low resolution photo (XLS files)'), 
+        'album_id': fields.many2one('product.image.album', 'Album', 
+            help='Album for ZIP HQ images'), 
         # TODO more than one album ?        
         
         # Price creation: TODO decide how to use
@@ -238,7 +242,7 @@ class CampaignCampaign(orm.Model):
             help='Sale order generated from campaign'), 
         
         'status_info': fields.function(
-            _function_get_stasus_info, method=True, 
+            _function_get_status_info, method=True, 
             type='char', size=40, string='Status info', store=False, 
             help='Text status info for start or end campaign'),             
         'note': fields.text('Note'),
