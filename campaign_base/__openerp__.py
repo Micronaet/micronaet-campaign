@@ -35,6 +35,7 @@
         'sale', # for sale generation
         'stock', # for stock movement (inventory operations)
         'product_image_base', # Image management
+        'inventory_status', # for lord qty in product check
         ],
     'init_xml': [],
     'demo': [],

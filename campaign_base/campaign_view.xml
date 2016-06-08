@@ -133,7 +133,7 @@
                             <field name="to_date" />
                             
                             <field name="partner_id" domain="[('used_campaign', '=', True), ('is_company', '=', True), ('is_address', '=', False)]"/>
-                            <field name="partner_address_id" domain="[('parent_id', '=', partner_id)"/>
+                            <field name="partner_address_id" domain="[('parent_id', '=', partner_id)]" options="{'no_create': False}"/>
                             
                             <field name="album_id" />
                             <field name="thumb_album_id" />
