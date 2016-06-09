@@ -32,6 +32,15 @@ class Parser(report_sxw.rml_parse):
         self.context = context
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
-            #'get_counter': self.get_counter,
+            'load_context_image': self.load_context_image,
         })
+    
+    def load_context_image(self, album_id, product_id):
+        ''' Load image from album
+        '''
+        product_pool = self.pool.get('product.product')
+        product_proxy = product_pool.browse(self.cr, self.uid, product_id, 
+            context={'album_id': album_id})
+        return product_proxy.product_image_context
+        
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -30,7 +30,7 @@
             <field name="model">campaign.campaign</field>
             <field name="report_name">campaign_campaign_ods_report</field>
             <field name="report_type">aeroo</field>
-            <field name="in_format">oo-odt</field>
+            <field name="in_format">oo-ods</field>
             <!--<field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')" />-->
             <field name="parser_loc">campaign_base/report/campaign_parser.py</field>
             <field name="report_rml">campaign_base/report/campaign_report.ods</field>
