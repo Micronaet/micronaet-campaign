@@ -40,7 +40,7 @@ class Parser(report_sxw.rml_parse):
         '''
         product_pool = self.pool.get('product.product')
         product_proxy = product_pool.browse(self.cr, self.uid, product_id, 
-            context={'album_id': album_id})
+            context={'album_id': album_id})            
         return product_proxy.product_image_context
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
