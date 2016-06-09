@@ -80,7 +80,8 @@ class ProductProductAssignCampaign(orm.TransientModel):
             product_ids = context.get('active_ids', []) # get product selected
         else: # load selection in campaign
             product_ids = [
-                item.product_id.id for item in campaign_id.product_ids]
+                item.product_id.id for item in \
+                    wiz_proxy.campaign_id.product_ids]
 
         if not product_ids:
             _logger.warning('No product selected or empty campaign!')
