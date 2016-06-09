@@ -150,8 +150,16 @@
                                         <separator colspan="3" string="Products (red: not active, green: all ordered, blue: partial order, grey: not ordered)" />
                                         <button name="%(action_product_product_assign_campaign)d" string="Refresh quantity" type="action" context="{'default_campaign_id':active_id,'default_from_selection':False}"/>
                                         <newline/>
-                                        <field name="product_ids" nolabel="1" editable="bottom" context="{'campaign_product_embedded':True}">
+                                        <field name="product_ids" nolabel="1" editable="bottom" context="{'campaign_product_embedded':True}" colspan="4">
                                         </field>
+                                    </group>
+                                </page>
+                                <page string="Availability">
+                                    <group colspan="4" col="4">
+                                        <field name="use_rate" />
+                                        <newline/>
+                                        <field name="min_qty" />
+                                        <field name="max_qty" />
                                     </group>
                                 </page>
                                 <page string="Price">

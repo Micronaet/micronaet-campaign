@@ -238,6 +238,13 @@ class CampaignCampaign(orm.Model):
             help='Album for ZIP HQ images'), 
         # TODO more than one album ?        
         
+        # Product qty generation parameters for / from wizard:
+        'use_rate': fields.float('Use rate', digits=(16, 3)),
+        'min_qty': fields.integer('Min. qty', 
+            help='If product is not >= min qty will be discard'),
+        'max_qty': fields.integer('Max. qty', 
+            help='If product > max qty will be used max qty instead'),
+        
         # Price creation: TODO decide how to use
         'pricelist_id': fields.many2one('product.pricelist', 'Pricelist',
             help='''Pricelist used for this campaign (calculate end price 
