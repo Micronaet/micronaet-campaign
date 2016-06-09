@@ -190,7 +190,7 @@ class ProductProductAssignCampaign(orm.TransientModel):
         'mode': fields.selection([
             ('override', 'Override product qty'),
             ('jump', 'Jump existing product'),
-            ], 'mode', required=True),
+            ], 'Mode', required=True),
         'note': fields.text(
             'Annotation', readonly=True,
             help='Annotation about product association'),
