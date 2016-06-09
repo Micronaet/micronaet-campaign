@@ -377,7 +377,8 @@ class CampaignProduct(orm.Model):
         'price': fields.float(
             'Price', digits_compute=dp.get_precision('Product Price')),     
         'campaign_price': fields.float(
-            'Campaign price', digits_compute=dp.get_precision('Product Price')),     
+            'Campaign price', digits_compute=dp.get_precision('Product Price')
+            ),     
             
         'qty': fields.float(
             'Q.', digits_compute=dp.get_precision('Product Unit of Measure')
