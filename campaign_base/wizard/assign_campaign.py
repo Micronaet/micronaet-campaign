@@ -107,17 +107,21 @@ class ProductProductAssignCampaign(orm.TransientModel):
             if lord_qty > 0:
                 qty = lord_qty * use_rate / 100
                 qty -= qty % q_x_pack # - extra from pack
+                original_qty = qty
                 if min_qty and qty < min_qty:
                     qty = 0 # No in min qty treshold so not used
                 if max_qty and qty > max_qty:
                     qty = max_qty                    
             else:
                 qty = 0 # not used
+                original_qty = qty
                 
             # Test if need to be write:    
             if not qty:
-                log += 'Discard product cause of qty: %s\n' % (
-                    product.default_code)
+                log += 'Discard %s cause of qty: %s\n' % (
+                    product.default_code,
+                    original_qty,
+                    )
                 continue # jump element (write in log?    
             # TODO test if need to be deleted                              
             
