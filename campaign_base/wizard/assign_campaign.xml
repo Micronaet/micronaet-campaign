@@ -12,11 +12,11 @@
                        <button name="action_assign_campaign" string="Assign" type="object" icon="gtk-jump-to" class="oe_highlight" />
                    </header>                   
                    <group colspan="4" col="4">
-                        <separator string="Campaign:" colspan="4" />
+                        <separator string="Campaign:" colspan="4" attrs="{'invisible':[('from_selection','=',False)]}" />
                         <field name="from_selection" invisible="1"/>
                         <newline/>
                         <field name="campaign_id" colspan="4" attrs="{'invisible':[('from_selection','=',False)]}"/>
-                        <field name="mode" />
+                        <field name="mode" attrs="{'invisible':[('from_selection','=',False)]}" />
                         <newline/>
                         
                         <separator string="Quantity setup:" colspan="4" />

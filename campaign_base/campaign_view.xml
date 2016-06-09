@@ -148,7 +148,7 @@
                                 <page string="Products">
                                     <group colspan="4" col="4">
                                         <separator colspan="3" string="Products (red: not active, green: all ordered, blue: partial order, grey: not ordered)" />
-                                        <button name="%(action_product_product_assign_campaign)d" string="Refresh quantity" type="action" context="{'default_campaign_id':active_id,'default_from_selection':False,'default_min_qty':min_qty,'default_max_qty':max_qty,'default_use_rate':use_rate}"/>
+                                        <button name="%(action_product_product_assign_campaign)d" string="Refresh quantity" type="action" context="{'default_campaign_id':active_id,'default_from_selection':False,'default_min_qty':min_qty,'default_max_qty':max_qty,'default_use_rate':use_rate,'default_mode':'override'}"/>
                                         <newline/>
                                         <field name="product_ids" nolabel="1" editable="bottom" context="{'campaign_product_embedded':True}" colspan="4">
                                         </field>

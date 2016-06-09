@@ -53,11 +53,6 @@ class ProductProductAssignCampaign(orm.TransientModel):
         '''
         if context is None: 
             context = {}
-        product_ids = context.get('active_ids', []) # get product selected
-
-        if not product_ids:
-            _logger.warning('No product selected, no add in campaign!')
-            return {'type': 'ir.actions.act_window_close'} # TODO new campaign
     
         #  --------------------------------------------------------------------
         #                    Create / update campaign.product:        
@@ -73,11 +68,23 @@ class ProductProductAssignCampaign(orm.TransientModel):
         for product in wiz_proxy.campaign_id.product_ids:
             current_product[product.product_id.id] = product.id # save ID
 
+        from_selection = wiz_proxy.from_selection
         campaign_id = wiz_proxy.campaign_id.id
         mode = wiz_proxy.mode
         min_qty = wiz_proxy.min_qty
         max_qty = wiz_proxy.max_qty
         use_rate = wiz_proxy.use_rate
+
+        # Start up parameters:
+        if from_selection: # load selection in context
+            product_ids = context.get('active_ids', []) # get product selected
+        else: # load selection in campaign
+            product_ids = [
+                item.product_id.id for item in campaign_id.product_ids]
+
+        if not product_ids:
+            _logger.warning('No product selected or empty campaign!')
+            return {'type': 'ir.actions.act_window_close'} # TODO new campaign
                 
         # ---------------------------------------------------------------------
         #                       Loop on all selected product:
