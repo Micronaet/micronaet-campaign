@@ -49,6 +49,9 @@
         'workflow/campaign_workflow.xml',
         'report/campaign_report.xml',
         'wizard/wizard_status_report.xml',
+        
+        # Data:
+        'data/category.xml',
         ],
     'active': False,
     'installable': True,

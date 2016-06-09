@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="1">
+	    <record model="campaign.cost.category" id="campaign_cost_category_revenue">
+		    <field name="name">Revenue</field>
+		    <field name="note">Extra revenue (on cost or price)</field>
+	    </record>
+	    <record model="campaign.cost.category" id="campaign_cost_category_transport">
+		    <field name="name">Transport</field>
+	    </record>
+	    <record model="campaign.cost.category" id="campaign_cost_category_commission">
+		    <field name="name">Commission</field>
+	    </record>
+	    <record model="campaign.cost.category" id="campaign_cost_category_discount">
+		    <field name="name">Discount</field>
+		    <field name="note">Extra discount</field>
+	    </record>
+    </data>
+</openerp>
