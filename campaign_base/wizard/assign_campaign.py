@@ -143,13 +143,23 @@ class ProductProductAssignCampaign(orm.TransientModel):
                 campaign_product_pool.create(
                     cr, uid, data, context=context)
 
+        # ------------------------------
         # Write data on campaign header:
+        # ------------------------------
+        campaign_data = {
+            'use_rate': use_rate,
+            'min_qty': min_qty,
+            'max_qty': max_qty,
+            }
         if log:
-            campaign_pool.write(cr, uid, campaign_id, {
-                'log': log,
-                }, context=context)
+            campaign_data['log'] = log
+            
+        campaign_pool.write(
+            cr, uid, campaign_id, campaign_data, context=context)
         
+        # ----------
         # Open view: 
+        # ----------
         model_pool = self.pool.get('ir.model.data')
         view_id = model_pool.get_object_reference(cr, uid, 
             'campaign_base', 'view_campaign_campaign_form')[1]
