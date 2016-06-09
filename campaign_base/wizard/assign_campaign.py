@@ -78,12 +78,12 @@ class ProductProductAssignCampaign(orm.TransientModel):
         min_qty = wiz_proxy.min_qty
         max_qty = wiz_proxy.max_qty
         use_rate = wiz_proxy.use_rate
-        
-        
+                
         # ---------------------------------------------------------------------
         #                       Loop on all selected product:
         # ---------------------------------------------------------------------
         log = ''
+        product_discarded = [] # for delete in override mode
         for product in product_pool.browse(
                 cr, uid, product_ids, context=context):
                             
@@ -117,11 +117,16 @@ class ProductProductAssignCampaign(orm.TransientModel):
                 original_qty = qty
                 
             # Test if need to be write:    
-            if not qty:
-                log += 'Discard %s cause of qty: %s\n' % (
+            if not qty:                
+                if update_id: # deleted after in campaign
+                    product_discarded.append(update_id)
+                    log_msg = 'DELETED %s cause of qty: %s\n'
+                else:    
+                    log_msg = 'DISCARD %s cause of qty: %s\n'
+                log += log_msg % (
                     product.default_code,
                     original_qty,
-                    )
+                    )                                          
                 continue # jump element (write in log?    
             # TODO test if need to be deleted                              
             
@@ -140,13 +145,20 @@ class ProductProductAssignCampaign(orm.TransientModel):
                 'campaign_price': campaign_price, # start value
                 ##'qty_ordered': 0
                 }
-            if update_id:        
+            if update_id:
                 campaign_product_pool.write(
                     cr, uid, update_id, data, context=context)
             else:
                 campaign_product_pool.create(
                     cr, uid, data, context=context)
 
+        # -------------------------------------
+        # Delete discarded product yet present:
+        # -------------------------------------
+        if product_discarded:
+            campaign_product_pool.unlink(
+                cr, uid, product_discarded, context=context)
+                
         # ------------------------------
         # Write data on campaign header:
         # ------------------------------
