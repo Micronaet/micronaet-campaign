@@ -75,7 +75,6 @@ class ProductProductAssignCampaign(orm.TransientModel):
 
         campaign_id = wiz_proxy.campaign_id.id
         mode = wiz_proxy.mode
-        available = wiz_proxy.available
         min_qty = wiz_proxy.min_qty
         max_qty = wiz_proxy.max_qty
         use_rate = wiz_proxy.use_rate
@@ -100,29 +99,27 @@ class ProductProductAssignCampaign(orm.TransientModel):
             # ---------------
             # Qty generation:
             # ---------------
-            if available:
-                # Get data for calculare:
-                lord_qty = product.mx_lord_qty
-                # TODO manage campaign qty
-                q_x_pack = product.q_x_pack or 1  
-                
-                if lord_qty > 0:
-                    qty = lord_qty * use_rate / 100
-                    qty -= qty % q_x_pack # - extra from pack
-                    if min_qty and qty < min_qty:
-                        qty = 0 # No in min qty treshold so not used
-                    if max_qty and qty > max_qty:
-                        qty = max_qty                    
-                else:
-                    qty = 0
-                # Test if need to be write:    
-                if not qty:
-                    log += 'Discard product cause of qty: %s\n' % (
-                        product.default_code)
-                    continue # jump element (write in log?    
-                # TODO test if need to be deleted                              
+            # Get data for calculare:
+            lord_qty = product.mx_lord_qty
+            # TODO manage campaign qty
+            q_x_pack = product.q_x_pack or 1  
+            
+            if lord_qty > 0:
+                qty = lord_qty * use_rate / 100
+                qty -= qty % q_x_pack # - extra from pack
+                if min_qty and qty < min_qty:
+                    qty = 0 # No in min qty treshold so not used
+                if max_qty and qty > max_qty:
+                    qty = max_qty                    
             else:
-                qty = wiz_proxy.qty or 1
+                qty = 0 # not used
+                
+            # Test if need to be write:    
+            if not qty:
+                log += 'Discard product cause of qty: %s\n' % (
+                    product.default_code)
+                continue # jump element (write in log?    
+            # TODO test if need to be deleted                              
             
             # TODO Price generation:
             campaign_price = product.lst_price
@@ -189,11 +186,8 @@ class ProductProductAssignCampaign(orm.TransientModel):
             help='Annotation about product association'),
             
         # Q.ty generation:
-        'available': fields.boolean('% on available', 
-            help='Use available lord qty quantity'),
-        'qty': fields.integer('Initial qty'),
-        'use_rate': fields.float('Use rate', digits=(16, 3)),
-        'min_qty': fields.integer('Min. qty', 
+        'use_rate': fields.float('Use rate', digits=(16, 3), required=True),
+        'min_qty': fields.integer('Min. qty', required=True,
             help='If product is not >= min qty will be discard'),
         'max_qty': fields.integer('Max. qty', 
             help='If product > max qty will be used max qty instead'),
@@ -203,8 +197,8 @@ class ProductProductAssignCampaign(orm.TransientModel):
         
     _defaults = {
         'from_selection': lambda *x: True,
-        'available': lambda *x: True,
         'mode': lambda *x: 'override',
+        'min_qty': lambda *x: 1,
         }        
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

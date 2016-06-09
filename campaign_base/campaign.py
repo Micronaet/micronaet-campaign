@@ -280,8 +280,8 @@ class CampaignCost(orm.Model):
     """    
     _name = 'campaign.cost'
     _description = 'Campaign cost'
-    _rec_name = 'category_id'
-    _order = 'sequence,category_id'    
+    _rec_name = 'sequence'#category_id'
+    _order = 'sequence'#,category_id'
     
     _columns = {
         'sequence': fields.integer('Sequence'),

@@ -20,14 +20,10 @@
                         <newline/>
                         
                         <separator string="Quantity setup:" colspan="4" />
-                        <field name="available" />                        
+                        <field name="use_rate" />
                         <newline/>
-                        <field name="qty" attrs="{'invisible':[('available', '=', True)],'required':[('available', '=', False)]}"/>
-                        <newline/>
-                        <field name="use_rate" attrs="{'invisible':[('available', '=', False)],'required':[('available', '=', True)]}"/>
-                        <newline/>
-                        <field name="min_qty" attrs="{'invisible':[('available', '=', False)]}"/>
-                        <field name="max_qty" attrs="{'invisible':[('available', '=', False)]}"/>
+                        <field name="min_qty" />
+                        <field name="max_qty" />
                         <newline/>
                         
                         <separator string="Note" colspan="4"/>
