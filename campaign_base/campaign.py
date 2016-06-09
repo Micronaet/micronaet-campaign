@@ -242,8 +242,8 @@ class CampaignCampaign(orm.Model):
         'pricelist_id': fields.many2one('product.pricelist', 'Pricelist',
             help='''Pricelist used for this campaign (calculate end price 
                 'before discount'''), 
-        'discount_scale': fields.char('Discount scale', size=64), 
-        
+        'discount_scale': fields.char('Discount scale', size=60), 
+
         # Order reference
         'sale_id': fields.many2one(
             'sale.order', 'Sale order', readonly=True,
@@ -274,6 +274,25 @@ class CampaignCampaign(orm.Model):
             DEFAULT_SERVER_DATE_FORMAT),
         'state': lambda *x: 'draft',
         }    
+
+class CampaignCost(orm.Model):
+    """ Model name: Campaign cost
+    """    
+    _name = 'campaign.cost'
+    _description = 'Campaign cost'
+    _rec_name = 'category_id'
+    _order = 'sequence,category_id'    
+    
+    _columns = {
+        'sequence': fields.integer('Sequence'),
+        'campaign_id': fields.many2one('campaign.campaign', 'Campaign', 
+            help='Campaign referente', ondelete='cascade'),
+        'description': fields.char(
+            'Description', size=64),
+        'cost': fields.float(
+            'Cost', digits_compute=dp.get_precision('Product Price')),
+        }
+
 
 class CampaignProduct(orm.Model):
     """ Model name: Campaign product

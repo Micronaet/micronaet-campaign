@@ -1,4 +1,5 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
 access_campaign_campaign_user,campaign.campaign,model_campaign_campaign,base.group_user,1,1,1,1
 access_campaign_product_user,campaign.product,model_campaign_product,base.group_user,1,1,1,1
+access_campaign_cost_user,campaign.cost,model_campaign_cost,base.group_user,1,1,1,1
 

@@ -37,14 +37,14 @@
             </field>
       </record>
 
-      <!--<record model="ir.actions.act_window" id="action_product_product_assign_campaign">
+      <record model="ir.actions.act_window" id="action_product_product_assign_campaign">
           <field name="name">Assign campaign</field>
           <field name="res_model">product.product.assign.campaign</field>
           <field name="view_type">form</field>
           <field name="view_mode">form</field>
           <field name="target">new</field>
           <field name="view_id" ref="product_product_assign_campaign_view"/>
-      </record> target="new"-->
+      </record>
       
       <act_window
           id="act_product_product_assign_campaign"

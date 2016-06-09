@@ -43,11 +43,11 @@
     'data': [
         'security/campaign_group.xml',
         'security/ir.model.access.csv',    
+        'wizard/assign_campaign.xml', # for action
         'campaign_view.xml',
         'counter.xml',
         'workflow/campaign_workflow.xml',
         'report/campaign_report.xml',
-        'wizard/assign_campaign.xml',
         'wizard/wizard_status_report.xml',
         ],
     'active': False,

@@ -147,14 +147,16 @@
                             <notebook colspan="4">
                                 <page string="Products">
                                     <group colspan="4" col="4">
-                                        <separator colspan="4" string="Products (red: not active, green: all ordered, blue: partial order, grey: not ordered)" />
+                                        <separator colspan="2" string="Products (red: not active, green: all ordered, blue: partial order, grey: not ordered)" />
+                                        <button name="%(action_product_product_assign_campaign)d" string="Assign product" type="action" context="{'default_campaign_id':active_id}"/>
                                         <field name="product_ids" nolabel="1" editable="bottom" context="{'campaign_product_embedded':True}">
                                         </field>
                                     </group>
                                 </page>
                                 <page string="Price">
                                     <group colspan="4" col="4">
-                                    </group>    
+                                        <field name="discount_scale" />
+                                    </group>
                                 </page>
                                 <page string="Log">
                                     <group colspan="4" col="4">
