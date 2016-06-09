@@ -19,13 +19,13 @@
             <field eval="'action'" name="key"/>
             <field eval="'client_print_multi'" name="key2"/>
             <field eval="['campaign.campaign']" name="models"/>
-            <field name="name">Campaign report</field>
+            <field name="name">Campaign report (DOC w/image)</field>
             <field eval="'ir.actions.report.xml,'+str(aeroo_campaign_campaign_report)" name="value"/>
             <field eval="True" name="isobject"/>
             <field eval="True" name="replace"/>
         </ir_set>
         <record id="aeroo_campaign_campaign_ods_report" model="ir.actions.report.xml">
-            <field name="name">Campaign ODS report</field>
+            <field name="name">Campaign pre-order (XLS)</field>
             <field name="type">ir.actions.report.xml</field>
             <field name="model">campaign.campaign</field>
             <field name="report_name">campaign_campaign_ods_report</field>

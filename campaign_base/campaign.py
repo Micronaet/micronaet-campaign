@@ -282,6 +282,18 @@ class CampaignCampaign(orm.Model):
         'state': lambda *x: 'draft',
         }    
 
+class CampaignCostCategory(orm.Model):
+    """ Model name: Campaign cost category
+    """    
+    _name = 'campaign.cost.category'
+    _description = 'Campaign cost category'
+    
+    _columns = {
+        'name': fields.char(
+            'Cost category', size=64),
+        'note': fields.text('Note'),
+        }
+
 class CampaignCost(orm.Model):
     """ Model name: Campaign cost
     """    
@@ -294,11 +306,29 @@ class CampaignCost(orm.Model):
         'sequence': fields.integer('Sequence'),
         'campaign_id': fields.many2one('campaign.campaign', 'Campaign', 
             help='Campaign referente', ondelete='cascade'),
-        'description': fields.char(
-            'Description', size=64),
+        'category_id': fields.many2one('campaign.cost.category', 'Category', 
+            help='Campaign referente', ondelete='set null'),
+        'description': fields.char('Description', size=64),
+        'base': fields.selection([
+            ('cost', 'Cost'),
+            ('price', 'Price'),
+            ('price', 'Price'),
+            ], 'Base', required=True),
         'cost': fields.float(
             'Cost', digits_compute=dp.get_precision('Product Price')),
+        'mode': fields.selection([
+            ('fixed', 'Fixed'),
+            ('percentual', 'Percentual'),
+            ], 'Cost mode', required=True),
+        'note': fields.char('Note', size=80),
         }
+        
+    _defaults = {
+        # Default value:
+        'base': lambda *x: 'cost',
+        'mode': lambda *x: 'percentual',
+        }    
+
 
 
 class CampaignProduct(orm.Model):
@@ -389,6 +419,8 @@ class CampaignCampaign(orm.Model):
     _columns = {
         'product_ids': fields.one2many(
             'campaign.product', 'campaign_id', 'Products'), 
+        'cost_ids': fields.one2many(
+            'campaign.cost', 'campaign_id', 'Costs'), 
         }
 
 class ResPartner(orm.Model):
