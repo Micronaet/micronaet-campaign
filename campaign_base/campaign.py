@@ -362,8 +362,7 @@ class CampaignProduct(orm.Model):
         'sequence': fields.integer('Sequence'), # XXX used for order?
         'product_id': fields.many2one('product.product', 'Product', 
             required=True, #domain=[('type', 'in', ('service'))])
-            ondelete='set null',
-            help='Product in campaign',     
+            ondelete='set null', help='Product in campaign',     
             ),
         'campaign_id': fields.many2one('campaign.campaign', 'Campaign', 
             help='Campaign referente', ondelete='cascade'),

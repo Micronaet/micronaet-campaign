@@ -116,8 +116,8 @@ class ProductProductAssignCampaign(orm.TransientModel):
                 qty = lord_qty * use_rate / 100
                 qty -= qty % q_x_pack # - extra from pack
                 original_qty = qty
-                if min_qty and qty < min_qty:
-                    qty = 0 # No in min qty treshold so not used
+                #if min_qty and qty < min_qty:
+                #    qty = 0 # No in min qty treshold so not used
                 if max_qty and qty > max_qty:
                     qty = max_qty                    
             else:
@@ -125,7 +125,8 @@ class ProductProductAssignCampaign(orm.TransientModel):
                 original_qty = qty
                 
             # Test if need to be write:    
-            if not qty:                
+            if qty < min_qty:
+            #if not qty:                
                 if update_id: # deleted after in campaign
                     product_discarded.append(update_id)
                     log_msg = 'DELETED %s cause of qty: %s\n'
@@ -221,7 +222,7 @@ class ProductProductAssignCampaign(orm.TransientModel):
             
         # Q.ty generation:
         'use_rate': fields.float('Use rate', digits=(16, 3), required=True),
-        'min_qty': fields.integer('Min. qty', required=True,
+        'min_qty': fields.integer('Min. qty', #required=True,
             help='If product is not >= min qty will be discard'),
         'max_qty': fields.integer('Max. qty', 
             help='If product > max qty will be used max qty instead'),

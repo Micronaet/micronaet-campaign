@@ -17,7 +17,7 @@
             <field name="name">campaign.product.tree</field>
             <field name="model">campaign.product</field>
             <field name="arch" type="xml">
-                <tree string="Campaign product" editable="bottom" colors="red:is_active==False;green:qty_ordered==qty;blue:qty_ordered>0 and qty_ordered != qty;grey:qty_ordered==0">
+                <tree string="Campaign product" editable="bottom" colors="red:is_active==False;green:qty>0 and qty_ordered==qty;blue:qty_ordered>0 and qty_ordered != qty;grey:qty_ordered==0">
                     <field name="sequence" invisible="1"/>
                     <field name="is_active" string="On"/>
                     <field name="campaign_id" invisible="context.get('campaign_product_embedded', False)"/>
