@@ -57,7 +57,6 @@ class ProductProductAssignCampaign(orm.TransientModel):
         #  --------------------------------------------------------------------
         #                    Create / update campaign.product:        
         #  --------------------------------------------------------------------
-        import pdb; pdb.set_trace()
         wiz_proxy = self.browse(cr, uid, ids, context=context)[0]
 
         campaign_pool = self.pool.get('campaign.campaign')
