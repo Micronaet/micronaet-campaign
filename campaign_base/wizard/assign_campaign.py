@@ -71,6 +71,7 @@ class ProductProductAssignCampaign(orm.TransientModel):
         from_selection = wiz_proxy.from_selection
         campaign_id = wiz_proxy.campaign_id.id
         mode = wiz_proxy.mode
+        set_min_qty = wiz_proxy.set_min_qty
         min_qty = wiz_proxy.min_qty
         max_qty = wiz_proxy.max_qty
         use_rate = wiz_proxy.use_rate
@@ -124,6 +125,10 @@ class ProductProductAssignCampaign(orm.TransientModel):
                 qty = 0 # not used
                 original_qty = qty
                 
+            # Set minimum value:    
+            if set_min_qty and qty < set_min_qty:
+                qty = set_min_qty
+                    
             # Test if need to be write:    
             if qty < min_qty:
             #if not qty:                
@@ -173,6 +178,7 @@ class ProductProductAssignCampaign(orm.TransientModel):
         # ------------------------------
         campaign_data = {
             'use_rate': use_rate,
+            'set_min_qty': set_min_qty,
             'min_qty': min_qty,
             'max_qty': max_qty,
             }
@@ -222,10 +228,16 @@ class ProductProductAssignCampaign(orm.TransientModel):
             
         # Q.ty generation:
         'use_rate': fields.float('Use rate', digits=(16, 3), required=True),
+        
+        # Treshold
         'min_qty': fields.integer('Min. qty', #required=True,
             help='If product is not >= min qty will be discard'),
         'max_qty': fields.integer('Max. qty', 
             help='If product > max qty will be used max qty instead'),
+
+        'set_min_qty': fields.integer('Set. min. qty',
+            help='If present this is the minimum qty setted up'),
+            
         'check_min_package': fields.boolean('Check min pack', 
             help='Use min package qty multiple, es. N.10 , 4 pack >> N.8 '),            
         }

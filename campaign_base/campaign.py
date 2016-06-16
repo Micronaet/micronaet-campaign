@@ -240,6 +240,8 @@ class CampaignCampaign(orm.Model):
         
         # Product qty generation parameters for / from wizard:
         'use_rate': fields.float('Use rate', digits=(16, 3)),
+        'set_min_qty': fields.integer('Set min. qty', 
+            help='If present is the minimum qty value'),
         'min_qty': fields.integer('Min. qty', 
             help='If product is not >= min qty will be discard'),
         'max_qty': fields.integer('Max. qty', 

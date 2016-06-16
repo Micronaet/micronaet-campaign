@@ -21,7 +21,8 @@
                         
                         <separator string="Quantity setup:" colspan="4" />
                         <field name="use_rate" />
-                        <newline/>
+                        <field name="set_min_qty" />
+                        <separator string="Treshold:" colspan="4" />
                         <field name="min_qty" />
                         <field name="max_qty" />
                         <newline/>
