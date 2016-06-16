@@ -44,12 +44,13 @@
       </record>
       
       <act_window
-          id="act_product_product_assign_campaign"
+          id="act_windows_product_product_assign_campaign"
           name="Assign campaign"
           src_model="product.product"
           res_model="product.product.assign.campaign"
           view_mode="form"
-          view_type="form"          
+          view_type="form"
+          target="new"
           key2="client_action_multi"
           />
     </data>
