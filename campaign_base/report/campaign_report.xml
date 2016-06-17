@@ -49,7 +49,7 @@
 
         <!--Campaign product status report-->
         <record id="aeroo_campaign_product_status_report" model="ir.actions.report.xml">
-            <field name="name">Campaign report</field>
+            <field name="name">Campaign report status</field>
             <field name="type">ir.actions.report.xml</field>
             <field name="model">campaign.campaign</field>
             <field name="report_name">campaign_campaign_product_status_report</field>
