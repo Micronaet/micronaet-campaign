@@ -253,6 +253,8 @@ class CampaignCampaign(orm.Model):
             help='''Pricelist used for this campaign (calculate end price 
                 'before discount'''), 
         'discount_scale': fields.char('Discount scale', size=60), 
+        'volume_cost': fields.float(
+            'Volume cost', digits_compute=dp.get_precision('Product Price')),
 
         # Order reference
         'sale_id': fields.many2one(
@@ -313,7 +315,8 @@ class CampaignCostType(orm.Model):
         return True
     
     _columns = {
-        'name': fields.char('Type', size=64, required=True), 
+        'name': fields.char('Cost type', size=64, required=True, 
+            help='Cost depend on product category'), 
         'campaign_id': fields.many2one('campaign.campaign', 'Campaign', 
             help='Campaign referente', ondelete='cascade'),
         # TODO add filter for product    
@@ -338,7 +341,7 @@ class CampaignCost(orm.Model):
             ('cost', 'Cost'),
             ('price', 'Price'),
             ('previous', 'Previous'),
-            ('volume', 'Volume'),
+            #('volume', 'Volume'),
             ], 'Base', required=True),
         'cost': fields.float(
             'Cost', digits_compute=dp.get_precision('Product Price')),
@@ -426,7 +429,7 @@ class CampaignProduct(orm.Model):
         'q_x_pack': fields.related('product_id', 'q_x_pack',
             type='float', string='Q. x pack'), 
 
-        'type_id': fields.many2one('campaign.cost.type', 'Cost type',
+        'cost_type_id': fields.many2one('campaign.cost.type', 'Cost type',
             help='Cost type reference', ondelete='set null'),
 
         # -----------------------

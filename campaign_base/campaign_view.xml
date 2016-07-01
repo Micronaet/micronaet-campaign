@@ -31,6 +31,7 @@
                     <field name="description" />
                     <field name="cost" />
                     <field name="price" />
+                    <field name="cost_type_id" />
                     <field name="campaign_price" />
                 </tree>
             </field>
@@ -51,7 +52,7 @@
                             <field name="description" />
                             <field name="cost" />
                             <field name="price" />
-                            <field name="type_id" />
+                            <field name="cost_type_id" />
                             <field name="campaign_price" />
                        </group>     
                     </sheet>
@@ -165,8 +166,7 @@
                                 </page>
                                 <page string="Price">
                                     <group colspan="4" col="4">
-                                        <field name="discount_scale" />
-                                        <newline/>
+                                        <separator string="Product cost:" colspan="4" />
                                         <field name="cost_ids" colspan="4" nolabel="1">
                                             <tree string="Cost type">
                                                 <field name="name" />                                                
@@ -192,6 +192,9 @@
                                                 </sheet>
                                             </form>
                                         </field>
+                                        <separator string="General cost:" colspan="4" />
+                                        <field name="discount_scale" />
+                                        <field name="volume_cost" />
                                     </group>
                                 </page>
                                 <page string="Log">
