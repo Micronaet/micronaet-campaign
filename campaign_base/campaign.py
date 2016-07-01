@@ -209,7 +209,8 @@ class CampaignCampaign(orm.Model):
     # -------------------------------------------------------------------------
     #                            Fields functions 
     # -------------------------------------------------------------------------    
-    def _function_get_status_info(self, cr, uid, ids, fields, args, context=None):
+    def _function_get_status_info(self, cr, uid, ids, fields, args, 
+            context=None):
         ''' Fields function for calculate 
         '''
         res = {}
@@ -296,18 +297,40 @@ class CampaignCostCategory(orm.Model):
         'note': fields.text('Note'),
         }
 
+class CampaignCostType(orm.Model):
+    """ Model name: Campaign cost type
+    """    
+    _name = 'campaign.cost.type'
+    _description = 'Campaign cost type'
+        
+    # --------------
+    # Button events:
+    # --------------
+    def setup_product_cost_type(self, cr, uid, ids, context=None):
+        ''' Procedure for force assign price to product selected
+        '''
+        # TODO override function!
+        return True
+    
+    _columns = {
+        'name': fields.char('Type', size=64, required=True), 
+        'campaign_id': fields.many2one('campaign.campaign', 'Campaign', 
+            help='Campaign referente', ondelete='cascade'),
+        # TODO add filter for product    
+        }
+
 class CampaignCost(orm.Model):
     """ Model name: Campaign cost
     """    
     _name = 'campaign.cost'
     _description = 'Campaign cost'
-    _rec_name = 'sequence'#category_id'
-    _order = 'sequence'#,category_id'
+    _rec_name = 'sequence' #category_id'
+    _order = 'sequence' #,category_id'
     
     _columns = {
         'sequence': fields.integer('Sequence'),
-        'campaign_id': fields.many2one('campaign.campaign', 'Campaign', 
-            help='Campaign referente', ondelete='cascade'),
+        'type_id': fields.many2one('campaign.cost.type', 'Cost type', 
+            help='Campaign reference', ondelete='cascade'),
         'category_id': fields.many2one('campaign.cost.category', 'Category', 
             help='Campaign referente', ondelete='set null'),
         'description': fields.char('Description', size=64),
@@ -331,7 +354,15 @@ class CampaignCost(orm.Model):
         'mode': lambda *x: 'percentual',
         }    
 
+class CampaignCostType(orm.Model):
+    """ Model name: Campaign cost type
+    """    
+    _inherit = 'campaign.cost.type'
 
+    _columns = {
+        'rule_ids': fields.one2many('campaign.cost', 'type_id', 'Cost rule', 
+            ondelete='cascade'),
+        }
 
 class CampaignProduct(orm.Model):
     """ Model name: Campaign product
@@ -422,7 +453,7 @@ class CampaignCampaign(orm.Model):
         'product_ids': fields.one2many(
             'campaign.product', 'campaign_id', 'Products'), 
         'cost_ids': fields.one2many(
-            'campaign.cost', 'campaign_id', 'Costs'), 
+            'campaign.cost.type', 'campaign_id', 'Costs'), 
         }
 
 class ResPartner(orm.Model):
