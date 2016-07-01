@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_campaign_campaign_form">
+            <field name="name">campaign.campaign.form</field>
+            <field name="model">campaign.campaign</field>
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='cost_ids']/tree/field[@name='name']" position="after">
+                     <field name="status" />
+                 </xpath>
+                 <xpath expr="//field[@name='cost_ids']/form//field[@name='name']" position="after">
+                     <field name="status" />
+                 </xpath>                 
+            </field>
+        </record>    
+
+    </data>
+</openerp>
+
