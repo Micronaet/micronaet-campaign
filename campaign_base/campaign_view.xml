@@ -186,6 +186,7 @@
                                                                 <field name="mode" />
                                                                 <field name="cost" />
                                                                 <field name="note" />
+                                                                <!--TODO button?-->
                                                             </tree>                                                            
                                                         </field>        
                                                     </group>    
