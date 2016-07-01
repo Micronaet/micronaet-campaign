@@ -51,6 +51,7 @@
                             <field name="description" />
                             <field name="cost" />
                             <field name="price" />
+                            <field name="type_id" />
                             <field name="campaign_price" />
                        </group>     
                     </sheet>
@@ -175,7 +176,8 @@
                                                     <group colspan="4" col="4">
                                                         <field name="name" />
                                                         <newline />
-                                                        <field name="rule_ids">    
+                                                        <separator string="Cost rules:" colspan="4"/>
+                                                        <field name="rule_ids" nolabel="1" colspan="4">
                                                             <tree string="Cost rules:" editable="bottom">
                                                                 <field name="sequence" />
                                                                 <field name="category_id" />
