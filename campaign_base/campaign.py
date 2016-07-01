@@ -338,6 +338,7 @@ class CampaignCost(orm.Model):
             ('cost', 'Cost'),
             ('price', 'Price'),
             ('previous', 'Previous'),
+            ('volume', 'Volume'),
             ], 'Base', required=True),
         'cost': fields.float(
             'Cost', digits_compute=dp.get_precision('Product Price')),
