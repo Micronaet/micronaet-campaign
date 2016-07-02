@@ -360,17 +360,29 @@ class CampaignCostType(orm.Model):
             _logger.warning('No cost type use sale price') # TODO correct?
             return price
         
-        # ------------------------
+        # ---------------------------------------------------------------------
         # Product cost generation:
-        # ------------------------
+        # ---------------------------------------------------------------------
         total = 0.0
         for rule in cost_type.rule_ids:
             # Read rule parameters
+            sign = rule.sign
             base = rule.base
             mode = rule.mode
             value = rule.value
             text_value = rule.text_value
             
+            # -----------
+            # Sign coeff:
+            # -----------
+            if sign == 'plus':
+                sign_coeff = +1.0
+            else:
+                sign_coeff = -1.0  
+                
+            # ----------------
+            # Base evaluation:
+            # ----------------
             if base == 'previous':
                 base_value = total
             elif base == 'cost':
@@ -388,14 +400,23 @@ class CampaignCostType(orm.Model):
                 _logger.error('No base value found!!!')
                 # TODO raise error?        
 
+            # -----------
+            # Value type:
+            # -----------
             if mode == 'fixed':
-                total += value
+                total += sign_coeff * value
                 continue # Fixed case only increment total no other operations
                 
-            if mode == 'multi':
+            elif mode == 'multi':
                 # Convert multi discount with value
-                value = partner_pool.format_multi_discount(
+                value = sign_coeff * partner_pool.format_multi_discount(
                     text_value).get('value', 0.0)
+            elif mode == 'percentual':
+                value *= sign_coeff
+            else:    
+                _logger.error('No mode value found!!!')
+                # TODO raise error?        
+                    
             if not value:
                 _logger.error('Percentual value is mandatory!')
                 pass
@@ -459,6 +480,10 @@ class CampaignCost(orm.Model):
             ('percentual', 'Percentual'),
             ('multi', 'Multi percentual'),
             ], 'Cost mode', required=True),
+        'sign': fields.selection([
+            ('add', '+'),
+            ('minus', '-'),
+            ], 'Sign', required=True),
         'note': fields.char('Note', size=80),
         }
         
@@ -466,6 +491,7 @@ class CampaignCost(orm.Model):
         # Default value:
         'base': lambda *x: 'cost',
         'mode': lambda *x: 'percentual',
+        'sign': lambda *x: 'add',
         }    
 
 class CampaignCostType(orm.Model):
