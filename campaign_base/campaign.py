@@ -286,7 +286,7 @@ class CampaignCampaign(orm.Model):
                 'before discount'''), 
         'discount_scale': fields.char('Discount scale', size=60, 
             help='Extra discount scale calculated on all rules'), 
-        'revenue_scale': fields.char('Revenue scale', size=60
+        'revenue_scale': fields.char('Revenue scale', size=60,
             help='Extra revenue scale calculated on all rules'), 
         'volume_cost': fields.float(
             'Volume cost', digits_compute=dp.get_precision('Product Price')),
