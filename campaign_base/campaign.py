@@ -328,6 +328,10 @@ class CampaignCostCategory(orm.Model):
     _columns = {
         'name': fields.char(
             'Cost category', size=64),
+        'sign': fields.selection([
+            ('plus', '+'),
+            ('minus', '-'),
+            ], 'Sign', required=True),
         'note': fields.text('Note'),
         }
 
@@ -375,10 +379,10 @@ class CampaignCostType(orm.Model):
             # -----------
             # Sign coeff:
             # -----------
-            if sign == 'plus':
-                sign_coeff = +1.0
-            else:
+            if sign == 'minus':
                 sign_coeff = -1.0  
+            else:
+                sign_coeff = 1.0
                 
             # ----------------
             # Base evaluation:
@@ -397,7 +401,7 @@ class CampaignCostType(orm.Model):
             #    base_value = (
             #        product.volume / campaign.volume_total)                    
             else:
-                _logger.error('No base value found!!!')
+                _logger.error('No base value found!!!')                
                 # TODO raise error?        
 
             # -----------
@@ -405,8 +409,7 @@ class CampaignCostType(orm.Model):
             # -----------
             if mode == 'fixed':
                 total += sign_coeff * value
-                continue # Fixed case only increment total no other operations
-                
+                continue # Fixed case only increment total no other operations                
             elif mode == 'multi':
                 # Convert multi discount with value
                 value = sign_coeff * partner_pool.format_multi_discount(
@@ -439,7 +442,8 @@ class CampaignCostType(orm.Model):
             discount_value = partner_pool.format_multi_discount(
                 discount_scale).get('value', 0.0)
             total -= total * discount_value / 100.0
-
+            
+        # TODO extra recharge:
         return total
         
     _columns = {
@@ -481,7 +485,7 @@ class CampaignCost(orm.Model):
             ('multi', 'Multi percentual'),
             ], 'Cost mode', required=True),
         'sign': fields.selection([
-            ('add', '+'),
+            ('plus', '+'),
             ('minus', '-'),
             ], 'Sign', required=True),
         'note': fields.char('Note', size=80),
@@ -491,7 +495,7 @@ class CampaignCost(orm.Model):
         # Default value:
         'base': lambda *x: 'cost',
         'mode': lambda *x: 'percentual',
-        'sign': lambda *x: 'add',
+        'sign': lambda *x: 'plus',
         }    
 
 class CampaignCostType(orm.Model):
