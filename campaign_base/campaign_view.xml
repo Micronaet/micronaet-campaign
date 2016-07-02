@@ -185,7 +185,7 @@
                                                                 <field name="description" />
                                                                 <field name="base" />
                                                                 <field name="mode" />
-                                                                <field name="cost" />
+                                                                <field name="value" />
                                                                 <field name="note" />
                                                                 <!--TODO button?-->
                                                             </tree>                                                            

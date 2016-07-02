@@ -347,7 +347,16 @@ class CampaignCostType(orm.Model):
         # ------------------------
         total = 0.0
         for rule in cost_type_id:
-        
+            # Read rule parameters
+            base = rule.base
+            mode = rule.mode
+            value = rule.value
+            
+            if base == 'previous':
+                base_value = total
+            elif base == 'cost':
+                base_value = cost
+            
             pass
         
         # --------------------------------
@@ -406,8 +415,8 @@ class CampaignCost(orm.Model):
             ('previous', 'Previous'),
             #('volume', 'Volume'),
             ], 'Base', required=True),
-        'cost': fields.float(
-            'Cost', digits_compute=dp.get_precision('Product Price')),
+        'value': fields.float(
+            'Value', digits_compute=dp.get_precision('Product Price')),
         'mode': fields.selection([
             ('fixed', 'Fixed'),
             ('percentual', 'Percentual'),
