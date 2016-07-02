@@ -198,9 +198,9 @@
                                         </field>
                                         <group colspan="4" col="6">
                                             <separator string="General cost:" colspan="6"/>
+                                            <field name="volume_cost" />
                                             <field name="discount_scale" />
                                             <field name="revenue_scale" />
-                                            <field name="volume_cost" />
                                         </group>
                                     </group>
                                 </page>
