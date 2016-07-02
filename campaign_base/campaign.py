@@ -428,6 +428,7 @@ class CampaignCostType(orm.Model):
                 total += sign_coeff * value
                 continue # Fixed case only increment total no other operations                
             elif mode == 'multi':
+                # TODO check sign for multi discount value (different from revenue)
                 # Convert multi discount with value
                 value = sign_coeff * partner_pool.format_multi_discount(
                     text_value).get('value', 0.0)
