@@ -45,7 +45,6 @@ class CampaignCampaign(orm.Model):
     _inherit = ['mail.thread']
     _description = 'Campaign'
 
-
     # -------------------------------------------------------------------------
     #                             Button event:
     # -------------------------------------------------------------------------
@@ -57,7 +56,20 @@ class CampaignCampaign(orm.Model):
     def generate_campaign_price(self, cr, uid, ids, context=None):
         ''' Force campaign price depend on cost group
         '''
-        # TODO
+        assert len(ids) == 1, 'Button for one campaign a time!'
+        
+        cost_pool = self.pool.get('campaign.cost.type')
+        product_pool = self.pool.get('campaign.product')
+        
+        campaign = self.browse(cr, uid, ids, context=context)[0]
+        for product in campaign.product_ids:
+            campaign_price = cost_pool.get_campaign_price(
+                product.cost, product.price, 
+                campaign, product, product.cost_type_id,
+                )
+            product_pool.write(cr, uid, product.id, {
+                'campaign_price': campaign_price,
+                }, context=context) # TODO check no dependency problems!!         
         return True
         
     # -------------------------------------------------------------------------
@@ -311,6 +323,50 @@ class CampaignCostType(orm.Model):
     _name = 'campaign.cost.type'
     _description = 'Campaign cost type'
         
+    def get_campaign_price(cost, price, campaign, product, cost_type):
+        ''' Master function for calculate price depend on rules:
+            cost: cost price for product
+            price: sale price for product
+            volume_rate: 
+            BROWSE OBJ:
+            cost_type: all rules for product cost type
+            campaign: campaign, used for get extra cost or discount
+            product: used to get extra info from product (ex. volume)            
+        '''
+        campaign_price = 0.0
+
+        # -----------
+        # Start test:
+        # -----------
+        if not cost_type_id:
+            _logger.warning('No cost type use sale price') # TODO correct?
+            return price
+        
+        # ------------------------
+        # Product cost generation:
+        # ------------------------
+        total = 0.0
+        for rule in cost_type_id:
+            pass
+        
+        # --------------------------------
+        # General cost depend on campaign:    
+        # --------------------------------
+        volume_cost = campaign.volume_cost
+        discount_scale = campaign.discount_scale
+        
+        # TODO:
+        if volume_cost:        
+            #volume_rate = product.volume / campaign.volume_total 
+            # TODO use heigh, width, length 
+            # TODO use pack_l, pack_h, pack_p
+            # TODO use packaging dimension?
+            pass
+        if discount_scale:
+            # TODO Add extra discount to price
+            pass
+
+        return campaign_price 
     # --------------
     # Button events:
     # --------------
