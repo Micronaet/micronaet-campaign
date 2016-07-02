@@ -54,6 +54,12 @@ class CampaignCampaign(orm.Model):
         '''
         return self.write(cr, uid, ids, {'log': False}, context=context)
 
+    def generate_campaign_price(self, cr, uid, ids, context=None):
+        ''' Force campaign price depend on cost group
+        '''
+        # TODO
+        return True
+        
     # -------------------------------------------------------------------------
     #                                Utility:
     # -------------------------------------------------------------------------
