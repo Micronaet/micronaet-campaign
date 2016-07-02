@@ -577,6 +577,8 @@ class CampaignProduct(orm.Model):
         
         'q_x_pack': fields.related('product_id', 'q_x_pack',
             type='float', string='Q. x pack'), 
+        'volume': fields.related('product_id', 'volume',
+            type='float', string='Vol.'), # TODO manage as a function fields?
 
         'cost_type_id': fields.many2one('campaign.cost.type', 'Cost type',
             help='Cost type reference', ondelete='set null'),

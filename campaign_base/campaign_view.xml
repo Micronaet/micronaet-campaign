@@ -26,6 +26,7 @@
                     <field name="qty_ordered" />
                     <button name="assign_zero" string="&lt;&lt; 0" type="object" class="oe_link"/>
                     <field name="q_x_pack" />
+                    <field name="volume" />
                     <field name="uom_id" />
                     <field name="product_id" />
                     <field name="description" />
