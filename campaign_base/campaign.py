@@ -347,6 +347,7 @@ class CampaignCostType(orm.Model):
         # ------------------------
         total = 0.0
         for rule in cost_type_id:
+        
             pass
         
         # --------------------------------
@@ -410,6 +411,7 @@ class CampaignCost(orm.Model):
         'mode': fields.selection([
             ('fixed', 'Fixed'),
             ('percentual', 'Percentual'),
+            ('multi', 'Multi percentual'),
             ], 'Cost mode', required=True),
         'note': fields.char('Note', size=80),
         }
