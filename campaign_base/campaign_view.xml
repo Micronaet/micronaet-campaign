@@ -196,8 +196,9 @@
                                                 </sheet>
                                             </form>
                                         </field>
-                                        <separator string="General cost:" colspan="4" />
+                                        <separator string="General cost:" colspan="4" col="6"/>
                                         <field name="discount_scale" />
+                                        <field name="revenue_scale" />
                                         <field name="volume_cost" />
                                     </group>
                                 </page>

@@ -284,7 +284,10 @@ class CampaignCampaign(orm.Model):
         'pricelist_id': fields.many2one('product.pricelist', 'Pricelist',
             help='''Pricelist used for this campaign (calculate end price 
                 'before discount'''), 
-        'discount_scale': fields.char('Discount scale', size=60), 
+        'discount_scale': fields.char('Discount scale', size=60, 
+            help='Extra discount scale calculated on all rules'), 
+        'revenue_scale': fields.char('Revenue scale', size=60
+            help='Extra revenue scale calculated on all rules'), 
         'volume_cost': fields.float(
             'Volume cost', digits_compute=dp.get_precision('Product Price')),
 
@@ -430,6 +433,7 @@ class CampaignCostType(orm.Model):
         # --------------------------------
         volume_cost = campaign.volume_cost
         discount_scale = campaign.discount_scale
+        revenue_scale = campaign.revenue_scale
         
         # TODO:
         if volume_cost:        
@@ -442,6 +446,11 @@ class CampaignCostType(orm.Model):
             discount_value = partner_pool.format_multi_discount(
                 discount_scale).get('value', 0.0)
             total -= total * discount_value / 100.0
+
+        if revenue_scale:
+            revenue_value = partner_pool.format_multi_discount(
+                revenue_scale).get('value', 0.0)
+            total += total * revenue_value / 100.0
             
         # TODO extra recharge:
         return total
