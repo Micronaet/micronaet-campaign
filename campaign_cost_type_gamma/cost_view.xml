@@ -4,6 +4,7 @@
         <record model="ir.ui.view" id="view_campaign_campaign_form">
             <field name="name">campaign.campaign.form</field>
             <field name="model">campaign.campaign</field>
+            <field name="inherit_id" ref="campaign_base.view_campaign_campaign_form"/>
             <field name="arch" type="xml">
                  <xpath expr="//field[@name='cost_ids']/tree/field[@name='name']" position="after">
                      <field name="status" />
