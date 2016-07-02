@@ -374,8 +374,12 @@ class CampaignCostType(orm.Model):
                 base_value = total
             elif base == 'cost':
                 base_value = cost
+                if not total: # Initial setup depend on first rule
+                    total = cost 
             elif base == 'price':
                 base_value = price
+                if not total: # Initial setup depend on first rule
+                    total = price
             #elif base == 'volume':
             #    base_value = (
             #        product.volume / campaign.volume_total)                    
