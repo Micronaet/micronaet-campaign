@@ -146,6 +146,7 @@
                             <field name="date_deadline" />
 
                             <field name="status_info" /><!--TODO function-->
+                            <field name="volume_total" />
                             
                             <notebook colspan="4">
                                 <page string="Products">

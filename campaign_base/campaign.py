@@ -249,6 +249,17 @@ class CampaignCampaign(orm.Model):
         # TODO manage status for start info depend on state value
         return res
 
+    def _get_total_volume(self, cr, uid, ids, fields, args, context=None):
+        ''' Fields function for calculate 
+        '''
+        res = {}
+        for campaign in self.browse(cr, uid, ids, context=context):
+            volume = 0.0
+            for product in campaign.product_ids:
+                volume += product.volume * product.qty
+            res[campaign.id] = volume
+        return res
+
     _columns = {
         'name': fields.char('Name', size=64, required=True),
         'code': fields.char('Code', size=20, readonly=True),
@@ -302,7 +313,10 @@ class CampaignCampaign(orm.Model):
             help='Text status info for start or end campaign'),             
         'note': fields.text('Note'),
         'log': fields.text('Log', readonly=True, help='Log assign operation'),
-        
+        'volume_total': fields.function(
+            _get_total_volume, method=True, type='float', string='Tot. Volume',
+            store=False), 
+                        
         # Function fields:
         # TODO total cost and revenue (for all products) campaign and order
        
@@ -437,7 +451,8 @@ class CampaignCostType(orm.Model):
         
         # TODO:
         if volume_cost:        
-            total += total * product.volume / campaign.volume_total
+            total += total * product.qty * (
+                product.volume / campaign.volume_total)
             # TODO use heigh, width, length 
             # TODO use pack_l, pack_h, pack_p
             # TODO use packaging dimension?
