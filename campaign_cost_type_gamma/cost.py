@@ -44,16 +44,14 @@ class CampaignCostType(orm.Model):
     """    
     _inherit = 'campaign.cost.type'
 
+    def _get_selection_list(self, cr, uid, context=None):
+        ''' Get list from product
+        '''
+        return self.pool.get('product.template')._columns['status'].selection
+        
     _columns = {
         # TODO read selection list from product.product (for future change)
-        'status': fields.selection([
-            ('catalog', 'Catalog'),
-            ('out', 'Out catalog'),
-            ('stock', 'Stock'),
-            ('obsolete', 'Obsolete'),
-            ('sample', 'Sample'),
-            ('todo', 'Todo'),
-            ], 'Gamma'),
+        'status': fields.selection(_get_selection_list, 'Gamma'),
         }
 
 class CampaignProduct(orm.Model):
@@ -61,17 +59,15 @@ class CampaignProduct(orm.Model):
     """    
     _inherit = 'campaign.product'
 
+    def _get_selection_list(self, cr, uid, context=None):
+        ''' Get list from product
+        '''
+        return self.pool.get('product.template')._columns['status'].selection
+
     _columns = {
         'status': fields.related(
             'product_id', 'status', type='selection', 
-            selection=[
-            ('catalog', 'Catalog'),
-            ('out', 'Out catalog'),
-            ('stock', 'Stock'),
-            ('obsolete', 'Obsolete'),
-            ('sample', 'Sample'),
-            ('todo', 'Todo'),
-            ], string='Status'), 
+            selection=_get_selection_list, string='Status'), 
         }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
