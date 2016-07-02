@@ -45,6 +45,17 @@ class CampaignCampaign(orm.Model):
     _inherit = ['mail.thread']
     _description = 'Campaign'
 
+    # --------
+    # Utility:
+    # --------
+    def assign_type_price_to_product(self, cr, uid, campaign, context=None):
+        ''' Procedure for force assign price to product selected
+            campaign: browse object for selected campaign
+        '''
+        # This procedure will be overrided from module that manage product 
+        # association rules. No association for base procedure!        
+        return True
+
     # -------------------------------------------------------------------------
     #                             Button event:
     # -------------------------------------------------------------------------
@@ -62,6 +73,9 @@ class CampaignCampaign(orm.Model):
         product_pool = self.pool.get('campaign.product')
         
         campaign = self.browse(cr, uid, ids, context=context)[0]
+
+        # Link rule to product:
+        self.assign_type_price_to_product(cr, uid, campaign, context=context)
         for product in campaign.product_ids:
             campaign_price = cost_pool.get_campaign_price(
                 product.cost, product.price, 
@@ -323,7 +337,7 @@ class CampaignCostType(orm.Model):
     _name = 'campaign.cost.type'
     _description = 'Campaign cost type'
         
-    def get_campaign_price(cost, price, campaign, product, cost_type):
+    def get_campaign_price(self, cost, price, campaign, product, cost_type):
         ''' Master function for calculate price depend on rules:
             cost: cost price for product
             price: sale price for product
@@ -333,7 +347,10 @@ class CampaignCostType(orm.Model):
             campaign: campaign, used for get extra cost or discount
             product: used to get extra info from product (ex. volume)            
         '''
-        # Initial setup
+        # --------------
+        # Initial setup:
+        # --------------
+        # Pool used:
         partner_pool = self.pool.get('res.partner')
 
         # -----------
@@ -399,15 +416,6 @@ class CampaignCostType(orm.Model):
 
         return total
         
-    # --------------
-    # Button events:
-    # --------------
-    def setup_product_cost_type(self, cr, uid, ids, context=None):
-        ''' Procedure for force assign price to product selected
-        '''
-        # TODO override function!
-        return True
-    
     _columns = {
         'name': fields.char('Cost type', size=64, required=True, 
             help='Cost depend on product category'), 

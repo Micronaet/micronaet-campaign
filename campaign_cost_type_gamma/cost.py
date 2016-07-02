@@ -38,11 +38,34 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 
 _logger = logging.getLogger(__name__)
 
+class CampaignCampaign(orm.Model):
+    """ Model name: Campaign campaign
+    """    
+    _inherit = 'campaign.campaign'
+
+    # Override association procedure:
+    def assign_type_price_to_product(self, cr, uid, campaign, context=None):
+        ''' Procedure for force assign price to product selected
+        '''
+        # Pool used:
+        product_pool = self.pool.get('campaign.product')
+        
+        # Create gamma database        
+        gamma = {}        
+        for rule in campaign.cost_ids:
+            gamma[status] = rule.id
+        
+        for product in campaign.product_ids:
+            product_pool.write(cr, uid, product.id, {
+                'cost_type_id': gamma.get(product.status, False),
+                }, context=context)
+        return True
 
 class CampaignCostType(orm.Model):
     """ Model name: Campaign cost type
     """    
     _inherit = 'campaign.cost.type'
+
 
     def _get_selection_list(self, cr, uid, context=None):
         ''' Get list from product
