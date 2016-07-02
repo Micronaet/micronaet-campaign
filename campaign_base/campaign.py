@@ -356,7 +356,7 @@ class CampaignCostType(orm.Model):
         # -----------
         # Start test:
         # -----------
-        if not cost_type_id:
+        if not cost_type:
             _logger.warning('No cost type use sale price') # TODO correct?
             return price
         
@@ -364,7 +364,7 @@ class CampaignCostType(orm.Model):
         # Product cost generation:
         # ------------------------
         total = 0.0
-        for rule in cost_type_id:
+        for rule in cost_type.rule_ids:
             # Read rule parameters
             base = rule.base
             mode = rule.mode
@@ -383,7 +383,7 @@ class CampaignCostType(orm.Model):
                 _logger.error('No base value found!!!')
                 # TODO raise error?        
 
-            if mode == 'fixed'        
+            if mode == 'fixed':
                 total += value
                 continue # Fixed case only increment total no other operations
                 

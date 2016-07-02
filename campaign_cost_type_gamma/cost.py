@@ -53,7 +53,7 @@ class CampaignCampaign(orm.Model):
         # Create gamma database        
         gamma = {}        
         for rule in campaign.cost_ids:
-            gamma[status] = rule.id
+            gamma[rule.status] = rule.id
         
         for product in campaign.product_ids:
             product_pool.write(cr, uid, product.id, {
