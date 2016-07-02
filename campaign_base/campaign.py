@@ -333,7 +333,8 @@ class CampaignCostType(orm.Model):
             campaign: campaign, used for get extra cost or discount
             product: used to get extra info from product (ex. volume)            
         '''
-        campaign_price = 0.0
+        # Initial setup
+        partner_pool = self.pool.get('res.partner')
 
         # -----------
         # Start test:
@@ -356,9 +357,28 @@ class CampaignCostType(orm.Model):
                 base_value = total
             elif base == 'cost':
                 base_value = cost
-            
-            pass
-        
+            elif base == 'price':
+                base_value = price
+            #elif base == 'volume':
+            #    base_value = (
+            #        product.volume / campaign.volume_total)                    
+            else:
+                _logger.error('No base value found!!!')
+                # TODO raise error?        
+
+            if mode == 'fixed'        
+                total += value
+                continue # Fixed case only increment total no other operations
+                
+            if mode == 'multi':
+                # Convert multi discount with value
+                value = partner_pool.format_multi_discount(
+                    value).get('value', 0.0)
+            if not value:
+                _logger.error('Percentual value is mandatory!')
+                pass
+            total += base_value * value / 100.0
+
         # --------------------------------
         # General cost depend on campaign:    
         # --------------------------------
@@ -367,16 +387,18 @@ class CampaignCostType(orm.Model):
         
         # TODO:
         if volume_cost:        
-            #volume_rate = product.volume / campaign.volume_total 
+            total += total * product.volume / campaign.volume_total
             # TODO use heigh, width, length 
             # TODO use pack_l, pack_h, pack_p
             # TODO use packaging dimension?
-            pass
+            
         if discount_scale:
-            # TODO Add extra discount to price
-            pass
+            discount_value = partner_pool.format_multi_discount(
+                discount_scale).get('value', 0.0)
+            total -= total * discount_value / 100.0
 
-        return campaign_price 
+        return total
+        
     # --------------
     # Button events:
     # --------------

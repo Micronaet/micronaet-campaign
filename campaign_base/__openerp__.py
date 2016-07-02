@@ -37,6 +37,7 @@
         'product_image_base', # Image management
         'inventory_status', # for lord qty in product check
         'base_accounting_program', # for q_x_pack field
+        'mx_discount_scale_base', # for discount multi management
         ],
     'init_xml': [],
     'demo': [],
