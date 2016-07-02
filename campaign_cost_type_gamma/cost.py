@@ -53,8 +53,25 @@ class CampaignCostType(orm.Model):
             ('obsolete', 'Obsolete'),
             ('sample', 'Sample'),
             ('todo', 'Todo'),
-            ], 'Gamma')
+            ], 'Gamma'),
         }
 
+class CampaignProduct(orm.Model):
+    """ Model name: Campaign product
+    """    
+    _inherit = 'campaign.product'
+
+    _columns = {
+        'status': fields.related(
+            'product_id', 'status', type='selection', 
+            selection=[
+            ('catalog', 'Catalog'),
+            ('out', 'Out catalog'),
+            ('stock', 'Stock'),
+            ('obsolete', 'Obsolete'),
+            ('sample', 'Sample'),
+            ('todo', 'Todo'),
+            ], string='Status'), 
+        }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

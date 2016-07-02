@@ -496,5 +496,4 @@ class StockMove(orm.Model):
         }
 
 # TODO manage product in campaign as stock.move??
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
