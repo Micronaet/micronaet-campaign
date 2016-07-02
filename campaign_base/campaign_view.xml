@@ -185,7 +185,8 @@
                                                                 <field name="description" />
                                                                 <field name="base" />
                                                                 <field name="mode" />
-                                                                <field name="value" />
+                                                                <field name="value" attrs="{'readonly':[('mode', '=', 'multi')]}" />
+                                                                <field name="text_value" attrs="{'readonly':[('mode', '!=', 'multi')]}"/>
                                                                 <field name="note" />
                                                                 <!--TODO button?-->
                                                             </tree>                                                            

@@ -369,6 +369,7 @@ class CampaignCostType(orm.Model):
             base = rule.base
             mode = rule.mode
             value = rule.value
+            text_value = rule.text_value
             
             if base == 'previous':
                 base_value = total
@@ -394,7 +395,7 @@ class CampaignCostType(orm.Model):
             if mode == 'multi':
                 # Convert multi discount with value
                 value = partner_pool.format_multi_discount(
-                    value).get('value', 0.0)
+                    text_value).get('value', 0.0)
             if not value:
                 _logger.error('Percentual value is mandatory!')
                 pass
@@ -451,6 +452,8 @@ class CampaignCost(orm.Model):
             ], 'Base', required=True),
         'value': fields.float(
             'Value', digits_compute=dp.get_precision('Product Price')),
+        'text_value': fields.char('Text value', size=30, 
+            help='Used for multi discount element'),
         'mode': fields.selection([
             ('fixed', 'Fixed'),
             ('percentual', 'Percentual'),
