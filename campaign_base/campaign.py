@@ -573,19 +573,28 @@ class CampaignProduct(orm.Model):
             if item.packaging_id:
                 # Q x pack:
                 pack = item.packaging_id # readability
-                res[item.id]['q_x_pack'] = pack.qty
+                q_x_pack = pack.qty
+                res[item.id]['q_x_pack'] = q_x_pack
+                
+                box = qty / q_x_pack
+                incompleted = qty % q_x_pack == 0
+                
                 # Volume:
-                res[item.id]['volume'] = (
+                res[item.id]['volume'] = box * (
                     0.000001 * pack.pack_l * pack.pack_h * pack.pack_p
                     ) or pack.pack_volume
             else:
                 product = item.product_id # readability:
                 # Q x pack:
-                res[item.id]['q_x_pack'] = product.q_x_pack
+                q_x_pack = product.q_x_pack
+                res[item.id]['q_x_pack'] = q_x_pack
                 
+                box = qty / q_x_pack
+                incompleted = qty % q_x_pack == 0
+
                 # TODO manage multipack!!!
                 # Volume:
-                res[item.id]['volume'] = (
+                res[item.id]['volume'] = box * (
                     0.000001 * \
                     product.pack_l * product.pack_h * product.pack_p
                     ) or product.volume 
