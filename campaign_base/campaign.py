@@ -540,7 +540,8 @@ class CampaignProduct(orm.Model):
     _description = 'Campaign product'
     _rec_name = 'product_id'
     _order = 'sequence,product_id'    
-    
+
+        
     # -------------
     # Button event:
     # -------------
@@ -559,6 +560,37 @@ class CampaignProduct(orm.Model):
             'qty_ordered': 0,
             }, context=context)
 
+    # ----------------
+    # Fields function:
+    # ----------------
+    def _get_packaging_status_element(self, cr, uid, ids, fields, args, context=None):
+        ''' Q. x pack are standard value in no packagin selected
+        '''    
+        res = {}
+        for item in self.browse(cr, uid, ids, context=context):
+            res[item.id] = {}
+            
+            if item.packaging_id:
+                # Q x pack:
+                pack = item.packaging_id # readability
+                res[item.id]['q_x_pack'] = pack.qty
+                # Volume:
+                res[item.id]['volume'] = (
+                    0.000001 * pack.pack_l * pack.pack_h * pack.pack_p
+                    ) or pack.pack_volume
+            else:
+                product = item.product_id # readability:
+                # Q x pack:
+                res[item.id]['q_x_pack'] = product.q_x_pack
+                
+                # TODO manage multipack!!!
+                # Volume:
+                res[item.id]['volume'] = (
+                    0.000001 * \
+                    product.pack_l * product.pack_h * product.pack_p
+                    ) or product.volume 
+        return res        
+    
     _columns = {
         'is_active': fields.boolean('Is active'),
         'sequence': fields.integer('Sequence'), # XXX used for order?
@@ -591,13 +623,28 @@ class CampaignProduct(orm.Model):
         'uom_id': fields.many2one( # TODO used?
             'product.uom', 'UOM', ondelete='set null'),
         
-        'q_x_pack': fields.related('product_id', 'q_x_pack',
-            type='float', string='Q. x pack'), 
-        'volume': fields.related('product_id', 'volume',
-            type='float', string='Vol.'), # TODO manage as a function fields?
+        #'q_x_pack': fields.related('product_id', 'q_x_pack',
+        #    type='float', string='Q. x pack'),
+        #'volume': fields.related('product_id', 'volume',
+        #    type='float', string='Vol.'), # TODO manage as a function fields?
+        'q_x_pack': fields.function(
+            _get_packaging_status_element, method=True, 
+            type='float', string='Q. x pack', store=False, multi=True), 
+        'volume': fields.function(
+            _get_packaging_status_element, method=True, 
+            type='float', string='Vol.', store=False, multi=True), 
+
+                        
 
         'cost_type_id': fields.many2one('campaign.cost.type', 'Cost type',
             help='Cost type reference', ondelete='set null'),
+
+        'product_tmpl_id': fields.related(
+            'product_id', 'product_tmpl_id', type='many2one', 
+            relation='product.template', string='Template', 
+            store=False), 
+        'packaging_id': fields.many2one('product.packaging', 'Pack',
+            help='Use different pack for product', ondelete='set null'),
 
         # -----------------------
         # Product related fields: 
