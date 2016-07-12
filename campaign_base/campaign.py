@@ -648,7 +648,7 @@ class CampaignProduct(orm.Model):
             type='float', string='Q. x pack', store=False, multi=True), 
         'pack_error': fields.function(
             _get_packaging_status_element, method=True, 
-            type='float', string='Pack error', store=False, multi=True,
+            type='boolean', string='Pack error', store=False, multi=True,
             help='Choosen total not fit in packaging choosen'), 
         'volume': fields.function(
             _get_packaging_status_element, method=True, 
