@@ -559,7 +559,14 @@ class CampaignProduct(orm.Model):
         return self.write(cr, uid, ids, {
             'qty_ordered': 0,
             }, context=context)
-
+    
+    def correct_pack_error(self, cr, uid, ids, context=None):
+        ''' 
+        '''
+        #TODO evaluate to create function for correct value
+        
+        return True
+        
     # ----------------
     # Fields function:
     # ----------------
