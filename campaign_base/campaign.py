@@ -573,11 +573,11 @@ class CampaignProduct(orm.Model):
             if item.packaging_id:
                 # Q x pack:
                 pack = item.packaging_id # readability
-                q_x_pack = pack.qty
+                q_x_pack = pack.qty or 1 # TODO raise error?
                 res[item.id]['q_x_pack'] = q_x_pack
                 
-                box = qty / q_x_pack
-                incompleted = qty % q_x_pack == 0
+                box = item.qty / q_x_pack
+                res[item.id]['pack_error'] = item.qty % q_x_pack != 0
                 
                 # Volume:
                 res[item.id]['volume'] = box * (
@@ -586,11 +586,11 @@ class CampaignProduct(orm.Model):
             else:
                 product = item.product_id # readability:
                 # Q x pack:
-                q_x_pack = product.q_x_pack
+                q_x_pack = product.q_x_pack or 1# TODO raise error?
                 res[item.id]['q_x_pack'] = q_x_pack
                 
-                box = qty / q_x_pack
-                incompleted = qty % q_x_pack == 0
+                box = item.qty / q_x_pack
+                res[item.id]['pack_error'] = item.qty % q_x_pack != 0
 
                 # TODO manage multipack!!!
                 # Volume:
@@ -639,6 +639,10 @@ class CampaignProduct(orm.Model):
         'q_x_pack': fields.function(
             _get_packaging_status_element, method=True, 
             type='float', string='Q. x pack', store=False, multi=True), 
+        'pack_error': fields.function(
+            _get_packaging_status_element, method=True, 
+            type='float', string='Pack error', store=False, multi=True,
+            help='Choosen total not fit in packaging choosen'), 
         'volume': fields.function(
             _get_packaging_status_element, method=True, 
             type='float', string='Vol.', store=False, multi=True), 
