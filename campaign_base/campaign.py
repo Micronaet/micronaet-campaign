@@ -256,7 +256,7 @@ class CampaignCampaign(orm.Model):
         for campaign in self.browse(cr, uid, ids, context=context):
             volume = 0.0
             for product in campaign.product_ids:
-                volume += product.volume * product.qty
+                volume += product.volume #* product.qty
             res[campaign.id] = volume
         return res
 
@@ -450,7 +450,7 @@ class CampaignCostType(orm.Model):
         discount_scale = campaign.discount_scale
         revenue_scale = campaign.revenue_scale
         
-        # TODO:
+        # TODO correct!!!!:
         if volume_cost:        
             total += total * product.qty * (
                 product.volume / campaign.volume_total)
@@ -578,26 +578,21 @@ class CampaignProduct(orm.Model):
             res[item.id] = {}
             
             if item.packaging_id: # force pack for campaign:
-                # Q x pack:
                 pack = item.packaging_id # readability
-                q_x_pack = pack.qty or 1 # TODO raise error?
-                # Volume:
-                volume = (pack.pack_l * pack.pack_h * pack.pack_p
-                    ) or pack.pack_volume or 0.0
+                q_x_pack = pack.qty or 1 # TODO raise error?                
+                volume = (pack.pack_l * pack.pack_h * pack.pack_p)
+                # or pack.pack_volume or 0.0
             else: # use default packaging (product one's)
                 product = item.product_id # readability:
-                
-                # Volume:
                 if product.has_multipackage:
                     q_x_pack = 1
                     volume = 0.0
                     for mp in product.multi_pack_ids:
                         volume += mp.number * mp.height * mp.width * mp.length
-                else:    
+                else: # default pack   
                     q_x_pack = product.q_x_pack or 1 # TODO raise error?
-                    volume = (
-                        product.pack_l * product.pack_h * product.pack_p
-                        ) or product.volume
+                    volume = (product.pack_l * product.pack_h * product.pack_p)
+                    # or product.volume
 
             res[item.id]['q_x_pack'] = q_x_pack                     
             res[item.id]['pack_error'] = item.qty % q_x_pack != 0                
