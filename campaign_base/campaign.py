@@ -577,34 +577,31 @@ class CampaignProduct(orm.Model):
         for item in self.browse(cr, uid, ids, context=context):
             res[item.id] = {}
             
-            if item.packaging_id:
+            if item.packaging_id: # force pack for campaign:
                 # Q x pack:
                 pack = item.packaging_id # readability
                 q_x_pack = pack.qty or 1 # TODO raise error?
-                res[item.id]['q_x_pack'] = q_x_pack
-                
-                box = item.qty / q_x_pack
-                res[item.id]['pack_error'] = item.qty % q_x_pack != 0
-                
                 # Volume:
-                res[item.id]['volume'] = box * (
-                    0.000001 * pack.pack_l * pack.pack_h * pack.pack_p
-                    ) or pack.pack_volume
-            else:
+                volume = (pack.pack_l * pack.pack_h * pack.pack_p
+                    ) or pack.pack_volume or 0.0
+            else: # use default packaging (product one's)
                 product = item.product_id # readability:
-                # Q x pack:
-                q_x_pack = product.q_x_pack or 1# TODO raise error?
-                res[item.id]['q_x_pack'] = q_x_pack
                 
-                box = item.qty / q_x_pack
-                res[item.id]['pack_error'] = item.qty % q_x_pack != 0
-
-                # TODO manage multipack!!!
                 # Volume:
-                res[item.id]['volume'] = box * (
-                    0.000001 * \
-                    product.pack_l * product.pack_h * product.pack_p
-                    ) or product.volume 
+                if product.has_multipackage:
+                    q_x_pack = 1
+                    volume = 0.0
+                    for mp in product.multi_pack_ids:
+                        volume += (mp.height * mp.width * length)
+                else:    
+                    q_x_pack = product.q_x_pack or 1 # TODO raise error?
+                    volume = (
+                        product.pack_l * product.pack_h * product.pack_p
+                        ) or product.volume
+
+            res[item.id]['q_x_pack'] = q_x_pack                     
+            res[item.id]['pack_error'] = item.qty % q_x_pack != 0                
+            res[item.id]['volume'] = (item.qty / q_x_pack) * volume / 1000000.0    
         return res        
     
     _columns = {
