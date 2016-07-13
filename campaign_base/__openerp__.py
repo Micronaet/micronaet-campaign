@@ -39,6 +39,7 @@
         'base_accounting_program', # for q_x_pack field
         'mx_discount_scale_base', # for discount multi management
         'product_package_volume', # for volume in package
+        'product_multi_package', # for multipackage mode
         ],
     'init_xml': [],
     'demo': [],
