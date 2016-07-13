@@ -592,7 +592,7 @@ class CampaignProduct(orm.Model):
                     q_x_pack = 1
                     volume = 0.0
                     for mp in product.multi_pack_ids:
-                        volume += (mp.height * mp.width * length)
+                        volume += mp.number * mp.height * mp.width * mp.length
                 else:    
                     q_x_pack = product.q_x_pack or 1 # TODO raise error?
                     volume = (
