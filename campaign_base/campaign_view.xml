@@ -25,14 +25,14 @@
                     <button name="assign_all" string="&gt;&gt;" type="object" class="oe_link"/>
                     <field name="qty_ordered" />
                     <button name="assign_zero" string="&lt;&lt; 0" type="object" class="oe_link"/>
-                    <field name="packaging_id" domain="[('product_tmpl_id', '=', product_tmpl_id)]" invisible="1"/>
+                    <field name="packaging_id" domain="[('product_tmpl_id', '=', product_tmpl_id)]"/>
                     <field name="q_x_pack" />
                     <field name="pack_error" invisible="1" />
                     <button name="correct_pack_error" string="Packaging error" type="object" attrs="{'invisible':[('pack_error','=',False)]}" icon="terp-product"/>
                     <field name="volume" />
                     <field name="uom_id" />
                     <field name="product_id" />
-                    <field name="product_tmpl_id" />
+                    <field name="product_tmpl_id" invisible="1"/>
                     <field name="description" />
                     <field name="cost" />
                     <field name="price" />
