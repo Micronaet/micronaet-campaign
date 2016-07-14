@@ -1,0 +1,251 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* campaign_product
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-07-14 15:50+0000\n"
+"PO-Revision-Date: 2016-07-14 17:54+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Acquisto"
+msgstr "Acquisto"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Approvvigionamenti"
+msgstr "Approvvigionamenti"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Campaign"
+msgstr "Campagna"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+#: field:product.template,campaign_color:0
+msgid "Color"
+msgstr "Colori presenti"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+#: field:product.template,campaign_comment:0
+msgid "Comment"
+msgstr "Commento"
+
+#. module: campaign_product
+#: help:product.template,campaign_comment:0
+msgid "Comment on dimension, product, set and measure"
+msgstr "Commenti aggiuntivi sulla dimensione prodotto, set e misure"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Confezionamento"
+msgstr "Confezionamento"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Configurazioni"
+msgstr "Configurazioni"
+
+#. module: campaign_product
+#: field:product.template.extra,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: campaign_product
+#: field:product.template.extra,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: campaign_product
+#: field:product.template.extra,name:0
+msgid "Description"
+msgstr "Descrizione"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Descrizione estesa per WEB"
+msgstr "Descrizione estesa per WEB"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Descrizione per fornitori"
+msgstr "Descrizione per fornitori"
+
+#. module: campaign_product
+#: field:product.template,campaign_diameter:0
+msgid "Diameter"
+msgstr "Diametro"
+
+#. module: campaign_product
+#: field:product.template,extra_ids:0
+msgid "Extra info"
+msgstr "Extra info"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Fornitori"
+msgstr "Fornitori"
+
+#. module: campaign_product
+#: field:product.template.extra,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Imballo default"
+msgstr "Imballo default"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Informazioni"
+msgstr "Informazioni"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Internal Category"
+msgstr "Categoria interna"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Inventario"
+msgstr "Inventario"
+
+#. module: campaign_product
+#: field:product.template.extra,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: campaign_product
+#: field:product.template.extra,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+#: field:product.template,campaign_material:0
+msgid "Material"
+msgstr "Materiali"
+
+#. module: campaign_product
+#: field:product.template,campaign_mounted:0
+msgid "Mounted"
+msgstr "Arriva montato"
+
+#. module: campaign_product
+#: field:product.template,campaign_name:0
+msgid "Name for campaign"
+msgstr "Nome per campagna"
+
+#. module: campaign_product
+#: view:product.template.extra:campaign_product.view_product_template_extra_form
+#: field:product.template.extra,note:0
+msgid "Note"
+msgstr "Note"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Parametri di consegna"
+msgstr "Parametri di consegna"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Pesi"
+msgstr "Pesi"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Prezzo di Costo"
+msgstr "Prezzo di Costo"
+
+#. module: campaign_product
+#: model:ir.ui.menu,name:campaign_product.menu_product_product_campaign_tree
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: campaign_product
+#: model:ir.model,name:campaign_product.model_product_template
+msgid "Product Template"
+msgstr "Modello Prodotto"
+
+#. module: campaign_product
+#: model:ir.model,name:campaign_product.model_product_template_extra
+#: view:product.template.extra:campaign_product.view_product_template_extra_form
+#: view:product.template.extra:campaign_product.view_product_template_extra_tree
+msgid "Product extra info"
+msgstr "Extra info prodotto"
+
+#. module: campaign_product
+#: model:ir.actions.act_window,name:campaign_product.action_view_product_template_campaign_tree
+msgid "Product for campaign"
+msgstr "Prodotti per campagna"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Product generic info"
+msgstr "Informazioni generiche prodotto"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Product name"
+msgstr "Nome prodotto"
+
+#. module: campaign_product
+#: model:ir.actions.act_window,name:campaign_product.action_product_template_extra_form
+#: model:ir.ui.menu,name:campaign_product.menu_product_template_extra_tree
+msgid "Product template extra info"
+msgstr "Extra info prodotto"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Product variant"
+msgstr "Varianti di prodotto"
+
+#. module: campaign_product
+#: field:product.template,campaign_cover:0
+msgid "Removeable cover"
+msgstr "Copertura removibile"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Stato"
+msgstr "Stato"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "This note will be displayed on requests for quotation..."
+msgstr "Questa nota verrà visualizzata sulle richieste di preventivo ..."
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Unità di misura"
+msgstr "Unità di misura"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "Vendite"
+msgstr "Vendite"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+#: field:product.template,campaign_wash:0
+msgid "Wash info"
+msgstr "Informazioni lavaggio"
+
+#. module: campaign_product
+#: view:product.product:campaign_product.view_product_template_campaign_form
+msgid "describe the product characteristics..."
+msgstr "descrive le caratteristiche del prodotto..."
