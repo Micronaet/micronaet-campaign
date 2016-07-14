@@ -160,8 +160,7 @@
             <field name="view_mode">tree,form</field>
             <field name="context">{'form_view_ref': 'campaign_product.view_product_template_campaign_form'}</field>
             <field name="domain">[]</field>            
-        </record>
-        
+        </record>        
 
         <!--product.template.extra-->
         <record model="ir.ui.view" id="view_product_template_extra_form">

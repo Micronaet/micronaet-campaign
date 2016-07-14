@@ -312,8 +312,6 @@
             name="Configuration"
             sequence="100"
             />
-        
-        
     </data>
 </openerp>
 
