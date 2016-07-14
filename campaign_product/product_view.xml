@@ -214,7 +214,7 @@
             sequence="20"/>
         
         <menuitem 
-            parent="product.menu_products" 
+            parent="menu_product_product_campaign_tree" 
             id="menu_product_template_extra_tree" 
             action="action_product_template_extra_form"
             sequence="30"/>
