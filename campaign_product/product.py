@@ -45,7 +45,8 @@ class ProductTemplateExtra(orm.Model):
     _description = 'Product extra info'
     
     _columns = {
-        'name': fields.char('Description', size=90, required=True),
+        'name': fields.char('Description', size=90, required=True, 
+            translate=True),
         'note': fields.text('Note'),
         }
     
@@ -55,14 +56,16 @@ class ProductTemplate(orm.Model):
     _inherit = 'product.template'
     
     _columns = {
-        'campaign_name': fields.char('Name for campaign', size=64),
-        'campaign_material': fields.text('Material'),
-        'campaign_color': fields.text('Color'),
+        'campaign_name': fields.char('Name for campaign', size=64, 
+            translate=True),
+        'campaign_material': fields.text('Material', translate=True),
+        'campaign_color': fields.text('Color', translate=True),
         'campaign_cover': fields.boolean('Removeable cover'),
-        'campaign_wash': fields.text('Wash info'),
+        'campaign_wash': fields.text('Wash info', translate=True),
         'campaign_diameter': fields.float('Diameter', digits=(16, 2)),         
         'campaign_comment': fields.text(
-            'Comment', help='Comment on dimension, product, set and measure'),
+            'Comment', help='Comment on dimension, product, set and measure',
+            translate=True),
         'campaign_mounted': fields.boolean('Mounted'),
         'extra_ids': fields.many2many(
             'product.template.extra', 'product_template_extra_info_rel', 
