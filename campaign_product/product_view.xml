@@ -24,6 +24,26 @@
 			                </div>
 		                </div>
 		                <notebook>
+			                <page string="Campaign">
+				                <group colspan="4" col="4">
+				                    <field name="campaign_name" />
+				                    <newline/>
+				                    <field name="extra_ids" widget="many2many_tags" colspan="4"/>
+				                    
+				                    <field name="campaign_cover" />
+				                    <field name="campaign_mounted" />
+
+                                    <separator string="Material" colspan="2"/>
+                                    <separator string="Color" colspan="2"/>
+				                    <field name="campaign_material" nolabel="1" colspan="2"/>
+				                    <field name="campaign_color" nolabel="1" colspan="2"/>
+
+                                    <separator string="Wash info" colspan="2"/>
+                                    <separator string="Comment" colspan="2"/>
+				                    <field name="campaign_wash" nolabel="1" colspan="2"/>
+				                    <field name="campaign_comment" nolabel="1" colspan="2"/>
+				                </group>
+				            </page>
 			                <page string="Informazioni">
 				                <group colspan="4">
 					                <group name="dimension">
@@ -32,6 +52,7 @@
 						                <field digits="(14, 3)" name="height" attrs="{'readonly':[('type','=','service')]}" />
 						                <field digits="(14, 3)" name="width" attrs="{'readonly':[('type','=','service')]}" />
 						                <field digits="(14, 3)" name="length" attrs="{'readonly':[('type','=','service')]}" />
+    				                    <field name="campaign_diameter" />
 						                <field name="type" />
 					                </group>
 					                <group>
