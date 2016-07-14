@@ -56,17 +56,20 @@ class ProductTemplate(orm.Model):
     _inherit = 'product.template'
     
     _columns = {
+        'campaign_cover': fields.boolean('Removeable cover'),
+        'campaign_diameter': fields.float('Diameter', digits=(16, 2)),         
+        'campaign_mounted': fields.boolean('Mounted'),
+
         'campaign_name': fields.char('Name for campaign', size=64, 
             translate=True),
+
         'campaign_material': fields.text('Material', translate=True),
         'campaign_color': fields.text('Color', translate=True),
-        'campaign_cover': fields.boolean('Removeable cover'),
         'campaign_wash': fields.text('Wash info', translate=True),
-        'campaign_diameter': fields.float('Diameter', digits=(16, 2)),         
         'campaign_comment': fields.text(
             'Comment', help='Comment on dimension, product, set and measure',
             translate=True),
-        'campaign_mounted': fields.boolean('Mounted'),
+
         'extra_ids': fields.many2many(
             'product.template.extra', 'product_template_extra_info_rel', 
             'product_id', 'extra_id', 'Extra info'), 
