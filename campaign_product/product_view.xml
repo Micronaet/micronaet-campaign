@@ -208,13 +208,14 @@
         </record>
         
         <menuitem 
-            parent="product.menu_products" 
+            parent="campaign_base.menu_campaign_root" 
             id="menu_product_product_campaign_tree" 
             action="action_view_product_template_campaign_tree"
-            sequence="20"/>
+            name="Product"
+            sequence="90"/>
         
         <menuitem 
-            parent="menu_product_product_campaign_tree" 
+            parent="campaign_base.menu_campaign_root" 
             id="menu_product_template_extra_tree" 
             action="action_product_template_extra_form"
             sequence="30"/>
