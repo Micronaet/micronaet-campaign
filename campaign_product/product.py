@@ -74,5 +74,4 @@ class ProductTemplate(orm.Model):
             'product.template.extra', 'product_template_extra_info_rel', 
             'product_id', 'extra_id', 'Extra info'), 
         }
-    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
