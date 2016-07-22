@@ -33,6 +33,8 @@ class Parser(report_sxw.rml_parse):
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
             'load_context_image': self.load_context_image,
+            'get_total_pack_block': self.get_total_pack_block,
+            'get_product_pack': self.get_product_pack,
         })
     
     def load_context_image(self, album_id, product_id):
@@ -42,5 +44,57 @@ class Parser(report_sxw.rml_parse):
         product_proxy = product_pool.browse(self.cr, self.uid, product_id, 
             context={'album_id': album_id})            
         return product_proxy.product_image_context
+   
+    def get_total_pack_block(self, objects):
+        ''' Read all package objects for decide how much colums
+        '''
+        # Readability:
+        cr = self.cr
+        uid = self.uid
+        context = {}
+        
+        self.pack_max = 1
+        for campaign in objects:
+            for line in campaign.product_ids:
+                product = line.product_id
+                if product.has_multipackage:
+                    tot = sum([item.number for item in product.multi_pack_ids])
+                else:
+                    tot = len(product.packaging_ids)
+                if tot > self.pack_max:
+                    self.pack_max = tot    
+        return self.pack_max
+        
+
+    def get_product_pack(self, product):
+        ''' Create a list for all package in product
+            [(l, h, p, w)] 
+            fill extra element till pack_max
+        '''
+        import pdb; pdb.set_trace()
+        self.pack_max = 30
+        res = []
+        if product.has_multipackage:
+            # Multipackage test:
+            i = 0
+            for pack in product.multi_pack_ids: # Loop on all elements
+                i += 1
+                for item in range(0, pack.number or 1):
+                    res.append((
+                        pack.height,
+                        pack.width, 
+                        pack.length, 
+                        pack.weight,
+                        ))           
+                          
+            # Add empty extra fields:               
+            for item in range(0, self.pack_max - i):
+                res.append(('', '', '', ''))
+        else:
+            # TODO
+            for item in range(0, self.pack_max):
+                res.append(('', '', '', ''))
+        import pdb; pdb.set_trace()
+        return res
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
