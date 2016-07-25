@@ -50,9 +50,10 @@ class ProductProductImportationTraceColumn(orm.Model):
             ProductProductImportationTraceColumn, self)._get_field_list(
                 cr, uid, context=context)
         res.extend([
-            ('campaign_cover', 'Campaign: Removeable cover'),
+            # TODO managed boolean!
+            #('campaign_cover', 'Campaign: Removeable cover'),
+            #('campaign_mounted', 'Campaign: Mounted'),            
             ('campaign_diameter', 'Campaign: Diameter'),            
-            ('campaign_mounted', 'Campaign: Mounted'),            
             ('campaign_name', 'Campaign: Name'),            
             ('campaign_material', 'Campaign: Material'),            
             ('campaign_color', 'Campaign: Color'),            
@@ -64,26 +65,4 @@ class ProductProductImportationTraceColumn(orm.Model):
     _columns = {
         'field': fields.selection(_get_field_list, 'Field linked'),
         }
-    '''def __init__(self, cr, uid, name, context=None):
-        super(ProductProductImportationTraceColumn, self).__init__(
-            cr, uid, name, context=context)
-        import pdb; pdb.set_trace()    
-        options = [
-            ('campaign_cover', 'Campaign: Removeable cover'),
-            ('campaign_diameter', 'Campaign: Diameter'),            
-            ('campaign_mounted', 'Campaign: Mounted'),            
-            ('campaign_name', 'Campaign: Name'),            
-            ('campaign_material', 'Campaign: Material'),            
-            ('campaign_color', 'Campaign: Color'),            
-            ('campaign_wash', 'Campaign: Wash info'),            
-            ('campaign_comment', 'Campaign: Comment'),            
-            ]
-
-        self._columns['field'].selection.extend(options)
-        #for option in options: # XXX better for duplicate
-        #    if option not in field_selection:
-        #        field_selection.append(option)                '''
-    
-        
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
