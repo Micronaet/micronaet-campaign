@@ -570,7 +570,8 @@ class CampaignProduct(orm.Model):
     # ----------------
     # Fields function:
     # ----------------
-    def _get_packaging_status_element(self, cr, uid, ids, fields, args, context=None):
+    def _get_packaging_status_element(self, cr, uid, ids, fields, args, 
+            context=None):
         ''' Q. x pack are standard value in no packagin selected
         '''    
         res = {}
@@ -645,8 +646,6 @@ class CampaignProduct(orm.Model):
         'volume': fields.function(
             _get_packaging_status_element, method=True, 
             type='float', string='Vol.', store=False, multi=True), 
-
-                        
 
         'cost_type_id': fields.many2one('campaign.cost.type', 'Cost type',
             help='Cost type reference', ondelete='set null'),

@@ -59,8 +59,6 @@ class Parser(report_sxw.rml_parse):
                 product = line.product_id
                 if product.has_multipackage:
                     tot = sum([item.number for item in product.multi_pack_ids])
-                else:
-                    tot = len(product.packaging_ids)
                 if tot > self.pack_max:
                     self.pack_max = tot    
         return self.pack_max
@@ -71,8 +69,6 @@ class Parser(report_sxw.rml_parse):
             [(l, h, p, w)] 
             fill extra element till pack_max
         '''
-        import pdb; pdb.set_trace()
-        self.pack_max = 30
         res = []
         if product.has_multipackage:
             # Multipackage test:
@@ -94,7 +90,6 @@ class Parser(report_sxw.rml_parse):
             # TODO
             for item in range(0, self.pack_max):
                 res.append(('', '', '', ''))
-        import pdb; pdb.set_trace()
         return res
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
