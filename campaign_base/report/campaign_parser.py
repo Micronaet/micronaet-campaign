@@ -82,7 +82,7 @@ class Parser(report_sxw.rml_parse):
                     tot = sum([item.number for item in product.multi_pack_ids])
                 if tot > self.pack_max:
                     self.pack_max = tot    
-        return self.pack_max
+        return '' #self.pack_max
         
 
     def get_product_pack(self, product=None, header=False):
@@ -91,7 +91,7 @@ class Parser(report_sxw.rml_parse):
             fill extra element till pack_max
         '''
         res = []
-        empty = ('', '', '', '', '')
+        empty = ('', '', '', '', '', '', '', '', '', '', '')
         #Altezza seduta	Altezza seduta	Commenti aggiuntivi	Peso Prodotto	Arriva montato	Unità imballo
         #altezza seduta	altezza seduta	commenti	peso lordo	montaggio
 
@@ -100,10 +100,16 @@ class Parser(report_sxw.rml_parse):
             for item in range(0, self.pack_max):
                 res.append((
                     _('Altezza seduta'),
+                    _('Commenti Aggiuntivi'),
+                    _('Peso Prodotto'),
+                    _('Arriva Montato'),
+                    _('Unità Imballo'),
                     _('Lunghezza # %s') % (item + 1), 
                     _('Altezza # %s') % (item + 1), 
                     _('Profondità # %s') % (item + 1), 
                     _('Peso # %s') % (item + 1), 
+                    _('Ean'),
+                    _('Disponibilità'),
                     ))
             return res
                 
@@ -114,11 +120,22 @@ class Parser(report_sxw.rml_parse):
                 i += pack.number or 1
                 for item in range(0, pack.number or 1):
                     res.append((
+                        # Product:
                         product.seat_height,
+                        product.campaign_comment,
+                        product.weight
+                        'Si' if product.campaign_mounted else 'No'
+                        '', #TODO completare   
+                        
+                        # Pack                      
                         pack.height,
                         pack.width, 
                         pack.length, 
                         pack.weight,
+                        
+                        # Product:
+                        product.ean13 or '',
+                        int(product.qty),
                         ))           
 
             # Add empty extra fields:               
@@ -128,7 +145,6 @@ class Parser(report_sxw.rml_parse):
             # TODO
             for item in range(0, self.pack_max):
                 res.append(empty)
-        _logger.warning(res)        
         return res
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
