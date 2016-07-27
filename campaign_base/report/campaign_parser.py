@@ -74,6 +74,8 @@ class Parser(report_sxw.rml_parse):
         uid = self.uid
         context = {}
         
+        import pdb; pdb.set_trace()
+        
         self.pack_max = 1
         for campaign in objects:
             for line in campaign.product_ids:
@@ -92,8 +94,7 @@ class Parser(report_sxw.rml_parse):
         '''
         res = []
         empty = ('', '', '', '', '', '', '', '', '', '', '')
-        #Altezza seduta	Altezza seduta	Commenti aggiuntivi	Peso Prodotto	Arriva montato	Unità imballo
-        #altezza seduta	altezza seduta	commenti	peso lordo	montaggio
+        import pdb; pdb.set_trace()
 
         # Header block:
         if not product:
@@ -123,8 +124,8 @@ class Parser(report_sxw.rml_parse):
                         # Product:
                         product.seat_height,
                         product.campaign_comment,
-                        product.weight
-                        'Si' if product.campaign_mounted else 'No'
+                        product.weight,
+                        'Si' if product.campaign_mounted else 'No',
                         '', #TODO completare   
                         
                         # Pack                      
