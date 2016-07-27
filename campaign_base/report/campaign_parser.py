@@ -91,15 +91,19 @@ class Parser(report_sxw.rml_parse):
             fill extra element till pack_max
         '''
         res = []
-        empty = ('', '', '', '')
+        empty = ('', '', '', '', '')
+        #Altezza seduta	Altezza seduta	Commenti aggiuntivi	Peso Prodotto	Arriva montato	Unità imballo
+        #altezza seduta	altezza seduta	commenti	peso lordo	montaggio
+
         # Header block:
         if not product:
             for item in range(0, self.pack_max):
                 res.append((
-                    _('Lung. %s') % (item + 1), 
-                    _('Alt. %s') % (item + 1), 
-                    _('Prof. %s') % (item + 1), 
-                    _('Peso. %s') % (item + 1), 
+                    _('Altezza seduta'),
+                    _('Lunghezza # %s') % (item + 1), 
+                    _('Altezza # %s') % (item + 1), 
+                    _('Profondità # %s') % (item + 1), 
+                    _('Peso # %s') % (item + 1), 
                     ))
             return res
                 
@@ -110,6 +114,7 @@ class Parser(report_sxw.rml_parse):
                 i += pack.number or 1
                 for item in range(0, pack.number or 1):
                     res.append((
+                        product.seat_height,
                         pack.height,
                         pack.width, 
                         pack.length, 
