@@ -21,8 +21,29 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
+import os
+import sys
+import logging
+import openerp
+import openerp.netsvc as netsvc
+import openerp.addons.decimal_precision as dp
 from openerp.report import report_sxw
 from openerp.report.report_sxw import rml_parse
+from openerp.osv import fields, osv, expression, orm
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
+from openerp import SUPERUSER_ID, api
+from openerp import tools
+from openerp.tools.translate import _
+from openerp.tools.float_utils import float_round as round
+from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT, 
+    DEFAULT_SERVER_DATETIME_FORMAT, 
+    DATETIME_FORMATS_MAP, 
+    float_compare)
+
+
+_logger = logging.getLogger(__name__)
 
 class Parser(report_sxw.rml_parse):
     counters = {}
@@ -64,17 +85,29 @@ class Parser(report_sxw.rml_parse):
         return self.pack_max
         
 
-    def get_product_pack(self, product):
+    def get_product_pack(self, product=None, header=False):
         ''' Create a list for all package in product
             [(l, h, p, w)] 
             fill extra element till pack_max
         '''
         res = []
+        empty = ('', '', '', '')
+        # Header block:
+        if not product:
+            for item in range(0, self.pack_max):
+                res.append((
+                    _('Lung. %s') % (item + 1), 
+                    _('Alt. %s') % (item + 1), 
+                    _('Prof. %s') % (item + 1), 
+                    _('Peso. %s') % (item + 1), 
+                    ))
+            return res
+                
         if product.has_multipackage:
             # Multipackage test:
             i = 0
             for pack in product.multi_pack_ids: # Loop on all elements
-                i += 1
+                i += pack.number or 1
                 for item in range(0, pack.number or 1):
                     res.append((
                         pack.height,
@@ -82,14 +115,15 @@ class Parser(report_sxw.rml_parse):
                         pack.length, 
                         pack.weight,
                         ))           
-                          
+
             # Add empty extra fields:               
             for item in range(0, self.pack_max - i):
-                res.append(('', '', '', ''))
+                res.append(empty)
         else:
             # TODO
             for item in range(0, self.pack_max):
-                res.append(('', '', '', ''))
+                res.append(empty)
+        _logger.warning(res)        
         return res
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
