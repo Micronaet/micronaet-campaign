@@ -119,31 +119,38 @@ class Parser(report_sxw.rml_parse):
         res.append(('', header_data))
 
         for relation in relations:
-            # Data block:
+            # -----------------------------------------------------------------
+            #                            Data block:
+            # -----------------------------------------------------------------
             product = relation.product_id # readability
+            # ------------
+            # Common part:
+            # ------------
+            data = [
+                # Product:
+                product.default_code,
+
+                # Relation:
+                relation.description,
+                int(relation.qty),
+                relation.price,
+                relation.campaign_price,                        
+
+                product.seat_height,
+                product.campaign_comment,
+                product.weight,
+                _('Sì') if product.campaign_mounted else _('No'),
+                '', #TODO completare
+                # Product:
+                product.ean13 or '',
+                0.0, #TODO what data?!?!? int(product.qty),
+                ]
+
             if product.has_multipackage:
-                # Multipackage test:
-                i = 0
-                data = [
-                    # Product:
-                    product.default_code,
-
-                    # Relation:
-                    relation.description,
-                    int(relation.qty),
-                    relation.price,
-                    relation.campaign_price,                        
-
-                    product.seat_height,
-                    product.campaign_comment,
-                    product.weight,
-                    _('Sì') if product.campaign_mounted else _('No'),
-                    '', #TODO completare
-                    # Product:
-                    product.ean13 or '',
-                    0.0, #TODO what data?!?!? int(product.qty),
-                    ]
-                    
+                # -------------------------------------------------------------
+                #                   Multipackage product:
+                # -------------------------------------------------------------
+                i = 0                    
                 for pack in product.multi_pack_ids: # Loop on all elements
                     i += pack.number or 1
                     for item in range(0, pack.number or 1):
@@ -154,15 +161,36 @@ class Parser(report_sxw.rml_parse):
                             pack.weight,                            
                             ])  
 
-                # Add empty extra fields:               
-                for item in range(0, self.pack_max - i):
-                    data.extend(empty)
-                    
-                res.append((relation.id, data))
-            #else:
-            #    # TODO add no multipack elements
-            #    for item in range(0, self.pack_max):
-            #        res.append(empty)
+            elif relation.packaging_id: # extra pack setted
+                # -------------------------------------------------------------
+                #                  Extra package selected:
+                # -------------------------------------------------------------
+                i = 1 # only one
+                data.extend([ # extra pack selected
+                    relation.packaging_id.pack_h,
+                    relation.packaging_id.pack_l, 
+                    relation.packaging_id.pack_p, 
+                    relation.packaging_id.weight,                            
+                    ])                  
+            else:
+                i = 1 # only one
+                # -------------------------------------------------------------
+                #                    Default package:
+                # -------------------------------------------------------------
+                data.extend([ # extra pack selected
+                    product.pack_h,
+                    product.pack_l, 
+                    product.pack_p, 
+                    product.weight,                            
+                    ])      
+                                                
+            # -----------------------
+            # Add empty extra fields:               
+            # -----------------------
+            for item in range(0, self.pack_max - i):
+                data.extend(empty)
+                       
+            res.append((relation.id, data))            
         return res
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
