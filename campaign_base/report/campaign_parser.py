@@ -74,8 +74,6 @@ class Parser(report_sxw.rml_parse):
         uid = self.uid
         context = {}
         
-        import pdb; pdb.set_trace()
-        
         self.pack_max = 1
         for campaign in objects:
             for line in campaign.product_ids:
@@ -83,69 +81,88 @@ class Parser(report_sxw.rml_parse):
                 if product.has_multipackage:
                     tot = sum([item.number for item in product.multi_pack_ids])
                 if tot > self.pack_max:
-                    self.pack_max = tot    
+                    self.pack_max = tot
+                    
         return '' #self.pack_max
         
 
-    def get_product_pack(self, product=None, header=False):
+    def get_product_pack(self, relations=None):
         ''' Create a list for all package in product
             [(l, h, p, w)] 
             fill extra element till pack_max
         '''
         res = []
-        empty = ('', '', '', '', '', '', '', '', '', '', '')
-        import pdb; pdb.set_trace()
+        empty = ['', '', '', ''] # XXX loop block if empty
+        
+        # Add header block    
+        header_data = [
+            _('Codice prodotto'),
+            _('Nome prodotto'),
+            _('Quantità riservata'),
+            _('Prezzo listino (IVA inclusa)'),
+            _('Prezzo acquisto (IVA esclusa)'),
+            _('Altezza seduta'),
+            _('Commenti Aggiuntivi'),
+            _('Peso Prodotto'),
+            _('Arriva Montato'),
+            _('Unità Imballo'),
+            _('Ean'),
+            _('Disponibilità'),
+            ]
+        for i in range(0, self.pack_max):
+            header_data.extend([    
+                _('Lunghezza # %s') % (i + 1), 
+                _('Altezza # %s') % (i + 1), 
+                _('Profondità # %s') % (i + 1), 
+                _('Peso # %s') % (i + 1), 
+                ])
+        res.append(('', header_data))
 
-        # Header block:
-        if not product:
-            for item in range(0, self.pack_max):
-                res.append((
-                    _('Altezza seduta'),
-                    _('Commenti Aggiuntivi'),
-                    _('Peso Prodotto'),
-                    _('Arriva Montato'),
-                    _('Unità Imballo'),
-                    _('Lunghezza # %s') % (item + 1), 
-                    _('Altezza # %s') % (item + 1), 
-                    _('Profondità # %s') % (item + 1), 
-                    _('Peso # %s') % (item + 1), 
-                    _('Ean'),
-                    _('Disponibilità'),
-                    ))
-            return res
-                
-        if product.has_multipackage:
-            # Multipackage test:
-            i = 0
-            for pack in product.multi_pack_ids: # Loop on all elements
-                i += pack.number or 1
-                for item in range(0, pack.number or 1):
-                    res.append((
-                        # Product:
-                        product.seat_height,
-                        product.campaign_comment,
-                        product.weight,
-                        'Si' if product.campaign_mounted else 'No',
-                        '', #TODO completare   
-                        
-                        # Pack                      
-                        pack.height,
-                        pack.width, 
-                        pack.length, 
-                        pack.weight,
-                        
-                        # Product:
-                        product.ean13 or '',
-                        int(product.qty),
-                        ))           
+        for relation in relations:
+            # Data block:
+            product = relation.product_id # readability
+            if product.has_multipackage:
+                # Multipackage test:
+                i = 0
+                data = [
+                    # Product:
+                    product.default_code,
 
-            # Add empty extra fields:               
-            for item in range(0, self.pack_max - i):
-                res.append(empty)
-        else:
-            # TODO
-            for item in range(0, self.pack_max):
-                res.append(empty)
+                    # Relation:
+                    relation.description,
+                    int(relation.qty),
+                    relation.price,
+                    relation.campaign_price,                        
+
+                    product.seat_height,
+                    product.campaign_comment,
+                    product.weight,
+                    _('Sì') if product.campaign_mounted else _('No'),
+                    '', #TODO completare
+                    # Product:
+                    product.ean13 or '',
+                    0.0, #TODO what data?!?!? int(product.qty),
+                    ]
+                    
+                for pack in product.multi_pack_ids: # Loop on all elements
+                    i += pack.number or 1
+                    for item in range(0, pack.number or 1):
+                        data.extend([ # pack
+                            pack.height,
+                            pack.width, 
+                            pack.length, 
+                            pack.weight,                            
+                            ])  
+
+                # Add empty extra fields:               
+                for item in range(0, self.pack_max - i):
+                    data.extend(empty)
+                    
+                res.append((relation.id, data))
+            #else:
+            #    # TODO add no multipack elements
+            #    for item in range(0, self.pack_max):
+            #        res.append(empty)
         return res
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
