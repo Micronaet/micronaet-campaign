@@ -94,7 +94,9 @@ class Parser(report_sxw.rml_parse):
         res = []
         empty = ['', '', '', ''] # XXX loop block if empty
         
-        # Add header block    
+        # ---------------------------------------------------------------------
+        #                               Header block:
+        # ---------------------------------------------------------------------
         header_data = [
             _('Codice prodotto'),
             _('Nome prodotto'),
@@ -116,12 +118,24 @@ class Parser(report_sxw.rml_parse):
                 _('Profondità # %s') % (i + 1), 
                 _('Peso # %s') % (i + 1), 
                 ])
-        res.append(('', header_data))
+        res.append(('HEADER', header_data))
 
+        # ---------------------------------------------------------------------
+        #                               Hidden block:
+        # ---------------------------------------------------------------------
+        # Static data list:
+        hidden_data = [
+            'id', 'default_code', '', '', '', '', '', '', '', '', '', '']
+        # Dynamic part:
+        for i in range(0, self.pack_max):
+            hidden_data.extend(empty)
+        
+        res.append(('HIDDEN', hidden_data))
+
+        # ---------------------------------------------------------------------
+        #                            Data block:
+        # ---------------------------------------------------------------------
         for relation in relations:
-            # -----------------------------------------------------------------
-            #                            Data block:
-            # -----------------------------------------------------------------
             product = relation.product_id # readability
             # ------------
             # Common part:
