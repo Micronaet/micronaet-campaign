@@ -86,7 +86,7 @@ class Parser(report_sxw.rml_parse):
         return '' #self.pack_max
         
 
-    def get_product_pack(self, relations=None):
+    def get_product_pack(self, relations):
         ''' Create a list for all package in product
             [(l, h, p, w)] 
             fill extra element till pack_max
@@ -154,7 +154,7 @@ class Parser(report_sxw.rml_parse):
                 product.campaign_comment,
                 product.weight,
                 _('Sì') if product.campaign_mounted else _('No'),
-                '', #TODO completare
+                int(relation.q_x_pack),
                 # Product:
                 product.ean13 or '',
                 0.0, #TODO what data?!?!? int(product.qty),
@@ -165,6 +165,7 @@ class Parser(report_sxw.rml_parse):
                 #                   Multipackage product:
                 # -------------------------------------------------------------
                 i = 0                    
+                
                 for pack in product.multi_pack_ids: # Loop on all elements
                     i += pack.number or 1
                     for item in range(0, pack.number or 1):
@@ -180,6 +181,7 @@ class Parser(report_sxw.rml_parse):
                 #                  Extra package selected:
                 # -------------------------------------------------------------
                 i = 1 # only one
+                
                 data.extend([ # extra pack selected
                     relation.packaging_id.pack_h,
                     relation.packaging_id.pack_l, 
@@ -196,8 +198,8 @@ class Parser(report_sxw.rml_parse):
                     product.pack_l, 
                     product.pack_p, 
                     product.weight,                            
-                    ])      
-                                                
+                    ])   
+                       
             # -----------------------
             # Add empty extra fields:               
             # -----------------------
