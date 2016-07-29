@@ -80,11 +80,11 @@ class Parser(report_sxw.rml_parse):
                 product = line.product_id
                 if product.has_multipackage:
                     tot = sum([item.number for item in product.multi_pack_ids])
+                else:
+                    tot = 1    
                 if tot > self.pack_max:
-                    self.pack_max = tot
-                    
-        return '' #self.pack_max
-        
+                    self.pack_max = tot                    
+        return        
 
     def get_product_pack(self, relations):
         ''' Create a list for all package in product
