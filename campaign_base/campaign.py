@@ -621,13 +621,20 @@ class CampaignProduct(orm.Model):
         'campaign_price': fields.float(
             'Campaign price', digits_compute=dp.get_precision('Product Price')
             ),     
-            
+        # Used for history elements during importation of confirmed qty:
+        'qty_offered': fields.float(
+            'Q.', digits_compute=dp.get_precision('Product Unit of Measure'),
+            help='Quantity offered depend on stock and company availability'
+            ),
         'qty': fields.float(
-            'Q.', digits_compute=dp.get_precision('Product Unit of Measure')
+            'Q.', 
+            digits_compute=dp.get_precision('Product Unit of Measure',
+            help='Quantity confirmed from customer')
             ),     
         'qty_ordered': fields.float(
             'Q. ordered', 
-            digits_compute=dp.get_precision('Product Unit of Measure')
+            digits_compute=dp.get_precision('Product Unit of Measure'),
+            help='Quantity ordered at the end of campaign'
             ),     
         'uom_id': fields.many2one( # TODO used?
             'product.uom', 'UOM', ondelete='set null'),
