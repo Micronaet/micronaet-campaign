@@ -42,7 +42,7 @@ _logger = logging.getLogger(__name__)
 class CampaignCampaign(orm.Model):
     ''' Add import method
     '''    
-    _name = 'campaign.campaign'
+    _inherit = 'campaign.campaign'
 
     # -------------------------------------------------------------------------
     # Button event:
@@ -160,5 +160,7 @@ class CampaignCampaign(orm.Model):
         
     _columns = {
         'filename': fields.char('File name', size=80),
+        'xls_import_confirm': fields.text('Log import confirm', readonly=True),
+        'xls_import_order': fields.text('Log import order', readonly=True),
         }        
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

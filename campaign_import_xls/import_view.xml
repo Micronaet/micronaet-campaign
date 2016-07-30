@@ -1,7 +1,27 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-
+        <record model="ir.ui.view" id="view_campaign_campaign_import_xls_form">
+            <field name="name">campaign.campaign.form</field>
+            <field name="model">campaign.campaign</field>
+            <field name="inherit_id" ref="campaign_base.view_campaign_campaign_form"/>
+            <field name="arch" type="xml">
+                <page string="Note" position="before">
+                   <page string="Import XLS">
+                       <group colspan="4" col="4">
+                           <field name="filename" />
+                           <newline/>
+                           <button name="xls_import_confirmed_qty" string="Import confirmed ty" type="object" colspan="2"/>
+                           <button name="xls_import_confirmed_qty" string="Import confirmed ty" type="object" colspan="2"/>
+                           <separator colspan="2" string="Confirm q. log" />
+                           <separator colspan="2" string="Ordered q. log" />
+                           <field name="xls_import_confirm" nolabel="1" colspan="2"/>
+                           <field name="xls_import_order" nolabel="1" colspan="2"/>
+                       </group>
+                   </page>
+                </page>
+            </field>
+        </record>
     </data>
 </openerp>
 
