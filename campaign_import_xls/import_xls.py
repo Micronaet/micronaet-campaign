@@ -163,7 +163,6 @@ class CampaignCampaign(orm.Model):
         # Read data:
         # ---------------------------------------------------------------------        
         end_import = False
-        import pdb; pdb.set_trace()
         while not end_import:
             line += 1 # next before header (the first time)            
             try:
@@ -176,6 +175,7 @@ class CampaignCampaign(orm.Model):
             data = {}
             try:
                 item_id = int(row[0].value) # ID columns is 0
+                # TODO keep more strong not sure was integer in cells!
                 if import_field == 'qty':
                     qty_value = int(row[qty].value or '0')
                     if qty_value:
