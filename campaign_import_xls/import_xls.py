@@ -47,18 +47,20 @@ class CampaignCampaign(orm.Model):
     # -------------------------------------------------------------------------
     # Button event:
     # -------------------------------------------------------------------------
-    def xls_import_confirmed_qty(sef, cr, uid, ids, context=None):
+    def xls_import_confirmed_qty(self, cr, uid, ids, context=None):
         ''' Import confirmed qty
         '''
+        # TODO reset data before?
         if context == None:
             context = {}
         context['import_field'] = 'qty'
             
         return self.action_import_xls(cr, uid, ids, context=context)
 
-    def xls_import_ordered_qty(sef, cr, uid, ids, context=None):
+    def xls_import_ordered_qty(self, cr, uid, ids, context=None):
         ''' Import ordered qty
         '''
+        # TODO reset data before?
         if context is None:
             context = {}
         context['import_field'] = 'qty_ordered'
@@ -117,12 +119,11 @@ class CampaignCampaign(orm.Model):
         # ---------------------------------------------------------------------        
         # Identify hidden columns with parameters:
         # ---------------------------------------------------------------------        
-        import pdb; pdb.set_trace()
         hidden_line = False
         # Search header line (for start import:        
         for line in range(0, max_check):
             row = ws.row(line)
-            if row[0] == 'id': # header line found!
+            if row[0].value == 'id': # header line found!
                 hidden_line = True
                 
                 # Read columns position:
@@ -130,10 +131,11 @@ class CampaignCampaign(orm.Model):
                 qty_ordered = -1       
                 tot_param = 2 # max number or data to read
                 for column in range(1, max_param):
-                    if row[column] == 'qty':
+                    cell = row[column].value
+                    if cell == 'qty':
                         qty = column
                         tot_param -= 1
-                    if row[column] == 'qty_ordered':
+                    if cell == 'qty_ordered':
                         qty_ordered = column
                         tot_param -= 1
                     if not tot_param:
@@ -161,6 +163,7 @@ class CampaignCampaign(orm.Model):
         # Read data:
         # ---------------------------------------------------------------------        
         end_import = False
+        import pdb; pdb.set_trace()
         while not end_import:
             line += 1 # next before header (the first time)            
             try:
@@ -172,26 +175,32 @@ class CampaignCampaign(orm.Model):
             #  Prepare new record:
             data = {}
             try:
-                item_id = row[0].value # ID columns is 0
+                item_id = int(row[0].value) # ID columns is 0
                 if import_field == 'qty':
-                    data['qty'] = row[qty].value
+                    qty_value = int(row[qty].value or '0')
+                    if qty_value:
+                        data['qty'] = qty_value
+                    
                 else: # qty_ordered
-                    data['qty'] = row[qty_ordered].value
+                    qty_ordered_value = int(row[qty_ordered].value or '0')
+                    if qty_ordered_value:
+                        data['qty_ordered'] = qty_ordered_value
             except: 
                 _logger.error('Error read line: %s' % line)
                 continue                        
-                            
-            # Float value:
-            #if type(f) not in (float, int) :
-            #    f = float(f.replace(',', '.'))
             
+            if not data: # no data in cell or no integer
+                _logger.error('No data to write line: %s' % line)
+                continue
+                                
             # --------------------------------
             # Update data in campaign.product:
             # --------------------------------
-            # Check presence
+            # Check presence:
             try:
-                product_pool.browse(cr, uid, item_id, context=context)
-            except: 
+                product_proxy = product_pool.browse(
+                    cr, uid, item_id, context=context)
+            except:
                 _logger.error('No ID %s in campaign.product' % item_id)
                 continue # XXX log better
                 
