@@ -47,6 +47,24 @@ class CampaignCampaign(orm.Model):
     # -------------------------------------------------------------------------
     # Button event:
     # -------------------------------------------------------------------------
+    def xls_import_confirmed_qty(sef, cr, uid, ids, context=None):
+        ''' Import confirmed qty
+        '''
+        if context == None:
+            context = {}
+        context['import_field'] = 'qty'
+            
+        return self.action_import_xls(cr, uid, ids, context=context)
+
+    def xls_import_ordered_qty(sef, cr, uid, ids, context=None):
+        ''' Import ordered qty
+        '''
+        if context is None:
+            context = {}
+        context['import_field'] = 'qty_ordered'
+            
+        return self.action_import_xls(cr, uid, ids, context=context)
+        
     def action_import_xls(self, cr, uid, ids, context=None):
         ''' Import quantity from campaign report:
             1. Confirmed quantity
@@ -54,10 +72,20 @@ class CampaignCampaign(orm.Model):
             
             Generate log for importation status (and error management)
         '''
+        if context is None:
+            context = {}
+        
+        import_field = context.get('import_field', False)    
+        if not import_field:
+            raise osv.except_osv(
+                _('Import error!'), 
+                _('Input field not present (ordered or confirmed?)'),
+                )
+        
         # Parameters:
         filepath = '/home/administrator/photo/xls/campaign' # TODO parametrize
         max_check = 1000 # max number of line used for check start elements
-        max_param = 1000 # max number of column used for check hidden parameter
+        max_param = 1000 # max number of column used for check hidden parameter        
         
         # Pool used:
         product_pool = self.pool.get('campaign.product')
@@ -142,19 +170,36 @@ class CampaignCampaign(orm.Model):
                 break
                 
             #  Prepare new record:
-            product_data = {}
+            data = {}
             try:
                 item_id = row[0].value # ID columns is 0
-                qty = row[qty].value
-                qty_ordered = row[qty].value                
-                
-                # Float value:
-                #if type(f) not in (float, int) :
-                #    f = float(f.replace(',', '.'))
+                if import_field == 'qty':
+                    data['qty'] = row[qty].value
+                else: # qty_ordered
+                    data['qty'] = row[qty_ordered].value
             except: 
                 _logger.error('Error read line: %s' % line)
                 continue                        
-                    
+                            
+            # Float value:
+            #if type(f) not in (float, int) :
+            #    f = float(f.replace(',', '.'))
+            
+            # --------------------------------
+            # Update data in campaign.product:
+            # --------------------------------
+            # Check presence
+            try:
+                product_pool.browse(cr, uid, item_id, context=context)
+            except: 
+                _logger.error('No ID %s in campaign.product' % item_id)
+                continue # XXX log better
+                
+            # Updata data:
+            data['qty_offered'] = product_proxy.qty # old                
+            product_pool.write(cr, uid, item_id, data, context=context) 
+        
+        # TODO update log data on campaign.campaign            
         _logger.info('End import XLS product file: %s' % fullname)
         return True
         

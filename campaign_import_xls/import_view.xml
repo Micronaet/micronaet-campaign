@@ -12,7 +12,7 @@
                            <field name="filename" />
                            <newline/>
                            <button name="xls_import_confirmed_qty" string="Import confirmed ty" type="object" colspan="2"/>
-                           <button name="xls_import_confirmed_qty" string="Import confirmed ty" type="object" colspan="2"/>
+                           <button name="xls_import_ordered_qty" string="Import ordered qty" type="object" colspan="2"/>
                            <separator colspan="2" string="Confirm q. log" />
                            <separator colspan="2" string="Ordered q. log" />
                            <field name="xls_import_confirm" nolabel="1" colspan="2"/>
