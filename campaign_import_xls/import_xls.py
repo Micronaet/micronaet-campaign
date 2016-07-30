@@ -94,7 +94,7 @@ class CampaignCampaign(orm.Model):
         # Search header line (for start import:        
         for line in range(0, max_check):
             row = ws.row(line)
-            if row[0] == 'id' # header line found!
+            if row[0] == 'id': # header line found!
                 hidden_line = True
                 
                 # Read columns position:

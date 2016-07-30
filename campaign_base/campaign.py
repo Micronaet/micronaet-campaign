@@ -628,8 +628,8 @@ class CampaignProduct(orm.Model):
             ),
         'qty': fields.float(
             'Q.', 
-            digits_compute=dp.get_precision('Product Unit of Measure',
-            help='Quantity confirmed from customer')
+            digits_compute=dp.get_precision('Product Unit of Measure'),
+            help='Quantity confirmed from customer',
             ),     
         'qty_ordered': fields.float(
             'Q. ordered', 
