@@ -53,10 +53,27 @@ class Parser(report_sxw.rml_parse):
         self.context = context
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
+            'get_objects': self.get_objects,
             'load_context_image': self.load_context_image,
             'get_total_pack_block': self.get_total_pack_block,
             'get_product_pack': self.get_product_pack,
         })
+
+    def get_objects(self, objects, data=None):
+        ''' If wizard call return list of all campaign 
+            else current objects
+        '''
+        cr = self.cr
+        uid = self.uid
+        context = {}
+        
+        if data is None:
+            return objects
+        
+        campaign_pool = self.pool.get('campaign.campaign')
+        campaign_ids = campaign_pool.search(cr, uid, [
+            ('state', 'in', ('draft', 'confirmed', ))], context=context)
+        return campaign_pool.browse(cr, uid, campaign_ids, context=context)    
     
     def load_context_image(self, album_id, product_id):
         ''' Load image from album
@@ -90,11 +107,14 @@ class Parser(report_sxw.rml_parse):
                     self.pack_max = tot                    
         return        
 
-    def get_product_pack(self, relations):
+    def get_product_pack(self, relations, data=None):
         ''' Create a list for all package in product
             [(l, h, p, w)] 
             fill extra element till pack_max
         '''
+        if data is None:
+            data = {}
+
         res = []
         empty = ['', '', '', ''] # XXX loop block if empty
         
@@ -113,7 +133,7 @@ class Parser(report_sxw.rml_parse):
             _('Arriva Montato'),
             _('Unità Imballo'),
             _('Ean'),
-            _('Disponibilità'),
+            #_('Disponibilità'),
             ]
         for i in range(0, self.pack_max):
             header_data.extend([    
@@ -129,7 +149,7 @@ class Parser(report_sxw.rml_parse):
         # ---------------------------------------------------------------------
         # Static data list:
         hidden_data = [
-            'id', 'default_code', '', '', '', '', '', '', '', '', '', '']
+            'id', 'default_code', '', '', '', '', '', '', '', '', '']#, '']
         # Dynamic part:
         for i in range(0, self.pack_max):
             hidden_data.extend(empty)
@@ -161,7 +181,7 @@ class Parser(report_sxw.rml_parse):
                 int(relation.q_x_pack),
                 # Product:
                 product.ean13 or '',
-                0.0, #TODO what data?!?!? int(product.qty),
+                #0.0, #TODO what data?!?!? int(product.qty),
                 ]
 
             if product.has_multipackage:

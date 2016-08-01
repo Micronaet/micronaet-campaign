@@ -13,8 +13,10 @@
                     </head>
                     <sheet>
                         <group colspan="4" col="4">
-                            <field name="mode" />
-                            <field name="days" />
+                            <field name="report_name" />
+                            <newline/>
+                            <field name="mode" attrs="{'invisible': [('report_name','!=','campaign_campaign_product_status_report')]}"/>
+                            <field name="days" attrs="{'invisible': [('report_name','!=','campaign_campaign_product_status_report')]}" />
                         </group>
                     </sheet>
                 </form>

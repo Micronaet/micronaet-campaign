@@ -58,15 +58,23 @@ class ProductProductCampaignStatusReport(orm.TransientModel):
         datas['wizard'] = True # started from wizard                
         datas['days'] = wiz_proxy.days
         datas['mode'] = wiz_proxy.mode
+        report_name = wiz_proxy.report_name
 
         return {
             'type': 'ir.actions.report.xml',
-            'report_name': 'campaign_campaign_product_status_report',
+            'report_name': report_name, 
+            #'campaign_campaign_product_status_report',
             'datas': datas,
             'context': context,
             }
 
     _columns = {
+        'report_name': fields.selection([
+            ('campaign_campaign_product_status_report', 
+                'Stock status report'),
+            ('campaign_campaign_ods_report', 
+                'Campaign XLS report (with avail.)'),
+            ], 'Report', required=True),
         'days': fields.integer('Days', required=True),
         'mode': fields.selection([
             ('confirmed', 'Only confirmed'),
@@ -75,6 +83,7 @@ class ProductProductCampaignStatusReport(orm.TransientModel):
         }
         
     _defaults = {
+        'report_name': lambda *x: 'campaign_campaign_product_status_report',            
         'days': lambda *x: 30,
         'mode': lambda *x: 'confirmed',
         }
