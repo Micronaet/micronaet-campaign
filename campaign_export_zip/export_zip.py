@@ -98,6 +98,8 @@ class CampaignCampaign(orm.Model):
             zip_fullname,
             '\' \''.join(image_list),
             )
+            
+        os.system('rm %s.zip' % zip_fullname)    
         os.system(command)
         
         # TODO update log data on campaign.campaign            
