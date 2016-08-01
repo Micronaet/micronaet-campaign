@@ -50,7 +50,6 @@ class CampaignCampaign(orm.Model):
     def action_export_zip(self, cr, uid, ids, context=None):
         ''' Export ZIP file for all HQ Album in campaign folder
         '''
-        import pdb; pdb.set_trace()
         # Parameters:
         filepath = '/home/administrator/photo/xls/campaign' # TODO parametrize
         
@@ -58,43 +57,48 @@ class CampaignCampaign(orm.Model):
         zip_fullname = os.path.join(
             filepath, campaign_proxy.code.replace('/', '_'))
             
-        command = 'zip %s %s.zip'
+        command = 'zip -j \'%s.zip\' \'%s\' '
         
         # ---------------------------------------------------------------------
         # Generate list of image Album HQ:
         # ---------------------------------------------------------------------
         album = campaign_proxy.album_id
-        path = album.path
-        extension = album.extension
-        album_image = album_image_ids
+        path = os.path.expanduser(album.path)
+        extension = album.extension_image        
+        album_image_list = [
+            item.product_id.id for item in album.image_ids \
+                if item.product_id.id]
         image_list = []
+        
         for item in campaign_proxy.product_ids:
-            if item.product_id in album_image:
-                if not item.product_id.default_code:
+            product = item.product_id
+            if product.id in album_image_list:
+                if not product.default_code:
                     _logger.warning('No default code: %s' % \
-                        item.product_id.name)
-                   continue     
+                        product.name)
+                    continue     
                 image_list.append(
                     os.path.join(
                         path,
                         '%s.%s' % (
-                            item.product_id.default_code,
+                            product.default_code,
                             extension,
-                            ))
+                            )))
             else:    
                 _logger.warning('No image in album: %s' % \
-                    item.product_id.name)
+                    product.name)
 
-
+        if not image_list:
             raise osv.except_osv(
-                _('Import file: %s') % fullname, 
-                _('No qty or qty_ordered columns found on XLS file!'),
-                )            
+                _('Export file: %s') % zip_fullname, 
+                _('Image list not present!'),
+                )           
+
         command = command % (
-            ' '.join(image_list)
-            zip_fullname)
-            
-        os.shell(command)
+            zip_fullname,
+            '\' \''.join(image_list),
+            )
+        os.system(command)
         
         # TODO update log data on campaign.campaign            
         _logger.info('End export ZIP image file: %s' % zip_fullname)
