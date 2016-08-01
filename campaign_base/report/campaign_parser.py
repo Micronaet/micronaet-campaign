@@ -61,9 +61,13 @@ class Parser(report_sxw.rml_parse):
     def load_context_image(self, album_id, product_id):
         ''' Load image from album
         '''
+        cr = self.cr
+        uid = self.uid
+        context = {'album_id': album_id}
+        
         product_pool = self.pool.get('product.product')
         product_proxy = product_pool.browse(self.cr, self.uid, product_id, 
-            context={'album_id': album_id})            
+            context={'album_id': album_id})                 
         return product_proxy.product_image_context
    
     def get_total_pack_block(self, objects):
