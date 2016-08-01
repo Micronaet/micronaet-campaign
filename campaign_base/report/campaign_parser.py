@@ -159,7 +159,6 @@ class Parser(report_sxw.rml_parse):
             _('Arriva Montato'),
             _('Unità Imballo'),
             _('Ean'),
-            #_('Disponibilità'),
             ]
         if from_wizard:
             header_data.append(_('Disponibilità'))
