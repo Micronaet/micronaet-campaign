@@ -70,13 +70,19 @@ class Parser(report_sxw.rml_parse):
             data = {} # TODO manage filter confirmed draft 
             
         campaign_pool = self.pool.get('campaign.campaign')
+
         if data.get('mode', False) == 'draft':
             domain = [('state', 'in', ('draft', 'confirmed'))]
         else: # only confirmed
             domain = [('state', '=', 'confirmed')]
             
-        campaign_ids = campaign_pool.search(cr, uid, [
-            ], context=context)
+        campaign_ids = campaign_pool.search(cr, uid, domain, context=context)
+        if not campaign_ids:
+            raise osv.except_osv(
+                _('Report error!'), 
+                _('No data, change filter'),
+                )
+            
         return campaign_pool.browse(cr, uid, campaign_ids, context=context)    
         
     def get_objects(self, objects, data=None):
