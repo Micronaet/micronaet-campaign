@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_campaign_campaign_export_zip_form">
+            <field name="name">campaign.campaign.form</field>
+            <field name="model">campaign.campaign</field>
+            <field name="inherit_id" ref="campaign_base.view_campaign_campaign_form"/>
+            <field name="arch" type="xml">
+                <page string="Note" position="before">
+                   <page string="Export ZIP">
+                       <group colspan="4" col="2">
+                           <button name="action_export_zip" string="Export ZIP image" type="object" colspan="2"/>
+                           <separator colspan="2" string="Export log:" />
+                           <field name="zip_export_confirm" nolabel="1" colspan="2"/>
+                       </group>
+                   </page>
+                </page>
+            </field>
+        </record>
+    </data>
+</openerp>
+
