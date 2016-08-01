@@ -59,21 +59,35 @@ class Parser(report_sxw.rml_parse):
             'get_product_pack': self.get_product_pack,
         })
 
-    def get_objects(self, objects, data=None):
-        ''' If wizard call return list of all campaign 
-            else current objects
+    def _get_active_objects(self, data=None):
+        ''' Return active campaign
         '''
         cr = self.cr
         uid = self.uid
         context = {}
+
+        if data is None:
+            data = {} # TODO manage filter confirmed draft 
+            
+        campaign_pool = self.pool.get('campaign.campaign')
+        if data.get('mode', False) == 'draft':
+            domain = [('state', 'in', ('draft', 'confirmed'))]
+        else: # only confirmed
+            domain = [('state', '=', 'confirmed')]
+            
+        campaign_ids = campaign_pool.search(cr, uid, [
+            ], context=context)
+        return campaign_pool.browse(cr, uid, campaign_ids, context=context)    
         
+    def get_objects(self, objects, data=None):
+        ''' If wizard call return list of all campaign 
+            else current objects
+        '''
         if data is None:
             return objects
+            
+        return self._get_active_objects(data)    
         
-        campaign_pool = self.pool.get('campaign.campaign')
-        campaign_ids = campaign_pool.search(cr, uid, [
-            ('state', 'in', ('draft', 'confirmed', ))], context=context)
-        return campaign_pool.browse(cr, uid, campaign_ids, context=context)    
     
     def load_context_image(self, album_id, product_id):
         ''' Load image from album
@@ -87,7 +101,7 @@ class Parser(report_sxw.rml_parse):
             context={'album_id': album_id})                 
         return product_proxy.product_image_context
    
-    def get_total_pack_block(self, objects):
+    def get_total_pack_block(self, objects, data=None):
         ''' Read all package objects for decide how much colums
         '''
         # Readability:
@@ -95,6 +109,9 @@ class Parser(report_sxw.rml_parse):
         uid = self.uid
         context = {}
         
+        if data is not None:
+            objects = self._get_active_objects(data)
+            
         self.pack_max = 1
         for campaign in objects:
             for line in campaign.product_ids:
@@ -113,7 +130,10 @@ class Parser(report_sxw.rml_parse):
             fill extra element till pack_max
         '''
         if data is None:
-            data = {}
+            data = {}        
+            from_wizard = False
+        else:    
+            from_wizard = True
 
         res = []
         empty = ['', '', '', ''] # XXX loop block if empty
@@ -135,6 +155,9 @@ class Parser(report_sxw.rml_parse):
             _('Ean'),
             #_('Disponibilità'),
             ]
+        if from_wizard:
+            header_data.append(_('Disponibilità'))
+            
         for i in range(0, self.pack_max):
             header_data.extend([    
                 _('Lunghezza # %s') % (i + 1), 
@@ -150,6 +173,9 @@ class Parser(report_sxw.rml_parse):
         # Static data list:
         hidden_data = [
             'id', 'default_code', '', '', '', '', '', '', '', '', '']#, '']
+        if from_wizard:
+            hidden_data.append('')
+            
         # Dynamic part:
         for i in range(0, self.pack_max):
             hidden_data.extend(empty)
@@ -183,6 +209,9 @@ class Parser(report_sxw.rml_parse):
                 product.ean13 or '',
                 #0.0, #TODO what data?!?!? int(product.qty),
                 ]
+
+            if from_wizard:
+                data.append(int(product.mx_lord_qty or 0.0))
 
             if product.has_multipackage:
                 # -------------------------------------------------------------

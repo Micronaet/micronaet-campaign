@@ -53,10 +53,12 @@ class ProductProductCampaignStatusReport(orm.TransientModel):
         ''' Redirect to report passing parameters
         ''' 
         wiz_proxy = self.browse(cr, uid, ids)[0]
-        
+
         datas = {}
+
         datas['wizard'] = True # started from wizard                
         datas['days'] = wiz_proxy.days
+        datas['mode'] = wiz_proxy.mode
         datas['mode'] = wiz_proxy.mode
         report_name = wiz_proxy.report_name
 
