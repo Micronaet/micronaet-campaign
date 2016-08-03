@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_product_for_campaign_extra_search">
+            <field name="name">product.product.campaign.search</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="campaign_product.view_product_for_campaign_search"/>
+            <field name="arch" type="xml">
+                <field name="first_supplier_id" position="after">                    
+                    <field name="statistic_category" />
+                    <field name="family_id" />
+                    <field name="status" />
+                </field>
+                <filter string="First supplier" position="after">
+                    <filter string="Statistic category" context="{'group_by': 'statistic_category'}" />
+                    <filter string="Family" context="{'group_by': 'family_id'}" />
+                    <filter string="Gamma" context="{'group_by': 'status'}" />
+                </filter>
+            </field>
+        </record>
+    </data>
+</openerp>
+
