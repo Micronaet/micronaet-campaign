@@ -31,6 +31,7 @@
         'base',
         'campaign_base',
         'product',
+        'product_first_supplier',
         ],
     'init_xml': [],
     'demo': [],

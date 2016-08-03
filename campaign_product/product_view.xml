@@ -152,13 +152,29 @@
                 </form>        
             </field>
         </record>
-        
+        <record model="ir.ui.view" id="view_product_for_campaign_search">
+            <field name="name">product.product.campaign.search</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <search string="Product for campaign" version="7.0">        
+                    <field name="default_code" />
+                    <field name="name" />
+                    <field name="categ_id" />
+                    <field name="first_supplier_id" />
+                    <group expand="0" string="Group By">
+                        <filter string="First supplier" context="{'group_by': 'first_supplier_id'}" />
+                        <filter string="Category" context="{'group_by': 'categ_id'}" />
+                    </group>                
+               </search>
+            </field>
+        </record>
         <record model="ir.actions.act_window" id="action_view_product_template_campaign_tree">
             <field name="name">Product for campaign</field>
             <field name="res_model">product.product</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="context">{'form_view_ref': 'campaign_product.view_product_template_campaign_form'}</field>
+            <field name="search_view_id" ref="view_product_for_campaign_search" />            
             <field name="domain">[]</field>            
         </record>        
 
