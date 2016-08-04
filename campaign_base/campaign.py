@@ -59,6 +59,15 @@ class CampaignCampaign(orm.Model):
     # -------------------------------------------------------------------------
     #                             Button event:
     # -------------------------------------------------------------------------
+    def check_image_album_presence_report(self, cr, uid, ids, context=None):
+        ''' Open report for check image
+        '''
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'campaign_campaign_check_image_report', 
+            'context': context,
+            }
+    
     def check_image_album_presence(self, cr, uid, ids, context=None):
         ''' Check if the product_ids in campaign are in album
         '''        

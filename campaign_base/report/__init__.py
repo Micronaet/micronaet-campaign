@@ -19,6 +19,7 @@
 ###############################################################################
 from . import campaign_parser
 from . import campaign_product_status_parser
+from . import check_image_parser
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
