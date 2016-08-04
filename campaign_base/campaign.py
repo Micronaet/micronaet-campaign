@@ -59,6 +59,34 @@ class CampaignCampaign(orm.Model):
     # -------------------------------------------------------------------------
     #                             Button event:
     # -------------------------------------------------------------------------
+    def check_image_album_presence(self, cr, uid, ids, context=None):
+        ''' Check if the product_ids in campaign are in album
+        '''        
+        product_ids = [
+            item.product_id.id for item in self.browse(
+                cr, uid, ids, context=context)[0].product_ids]
+        
+        # Get view for check image:
+        model_pool = self.pool.get('ir.model.data')
+        view_id = model_pool.get_object_reference(
+            cr, uid, 
+            'product_image_base', 'view_product_product_check_tree')[1]
+        
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Check campaign image'),
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            #'res_id': 1,
+            'res_model': 'product.product',
+            'view_id': view_id, # False
+            'views': [(view_id, 'tree'), (False, 'form')],
+            'domain': [('id', 'in', product_ids)],
+            'context': context,
+            'target': 'current', # 'new'
+            'nodestroy': False,
+            }
+            
     def reset_log_event(self, cr, uid, ids, context=None):
         ''' Remove log
         '''
