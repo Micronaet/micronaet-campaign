@@ -22,9 +22,9 @@
                     <field name="is_active" string="On"/>
                     <field name="campaign_id" invisible="context.get('campaign_product_embedded', False)"/>
                     <field name="qty" />
-                    <button name="assign_all" string="&gt;&gt;" type="object" class="oe_link"/>
+                    <!--<button name="assign_all" string="&gt;&gt;" type="object" class="oe_link"/>-->
                     <field name="qty_ordered" />
-                    <button name="assign_zero" string="&lt;&lt; 0" type="object" class="oe_link"/>
+                    <!--<button name="assign_zero" string="&lt;&lt; 0" type="object" class="oe_link"/>-->
                     <field name="packaging_id" domain="[('product_tmpl_id', '=', product_tmpl_id)]"/>
                     <field name="q_x_pack" />
                     <field name="pack_error" invisible="1" />
