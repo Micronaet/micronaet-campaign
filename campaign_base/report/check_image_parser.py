@@ -52,12 +52,11 @@ class Parser(report_sxw.rml_parse):
             'check_product_image': self.check_product_image,
         })
     
-    def check_product_image(self, record, thumb_id, hd_id):
+    def check_product_image(self, product, album_id):
         ''' Check if record has thumb and HD image in database
         '''
-        res = ''
-        
         # TODO check presence
-        return res
+        
+        return True
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
