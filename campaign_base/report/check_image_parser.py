@@ -42,7 +42,6 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
     DATETIME_FORMATS_MAP, 
     float_compare)
 
-
 _logger = logging.getLogger(__name__)
 
 class Parser(report_sxw.rml_parse):
@@ -50,5 +49,15 @@ class Parser(report_sxw.rml_parse):
         self.context = context
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
+            'check_product_image': self.check_product_image,
         })
+    
+    def check_product_image(self, record, thumb_id, hd_id):
+        ''' Check if record has thumb and HD image in database
+        '''
+        res = ''
+        
+        # TODO check presence
+        return res
+        
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
