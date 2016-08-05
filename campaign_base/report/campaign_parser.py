@@ -112,7 +112,7 @@ class CampaignCampaign(orm.Model):
         
         # Column dimension:        
         WS.set_column ('A:A', 0, None, {'hidden': 1}) # ID column        
-        WS.set_column ('B:B', 500, None) # Image colums
+        WS.set_column ('B:B', 30) # Image colums
         
         row = 1
         for o in objects: # NOTE: only one from button
@@ -135,12 +135,13 @@ class CampaignCampaign(orm.Model):
                 # Body mode:    
                 # -------------------------------------------------------------
                 # Title:
-                WS.set_row(row, 25)
+                WS.set_row(row, 30)
                 if mode == 'HEADER':
                     WS.write(row, 1, 'Immagine', format_title)
                     col = 1
                     for field in line:
                         col += 1
+                        WS.set_column (col, col, 20) # Col large
                         WS.write(row, col, field, format_title)
                         
                     # Add 2 extra col:                   
