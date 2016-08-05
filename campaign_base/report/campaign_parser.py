@@ -84,6 +84,7 @@ class CampaignCampaign(orm.Model):
         # Init setup:
         self.get_total_pack_block(cr, uid, objects, context=context) # no data
         
+        WS.set_column(1, 1, 0)
         row = 1
         for o in objects: # NOTE: only one from button
             # -----------------------------------------------------------------
@@ -105,25 +106,34 @@ class CampaignCampaign(orm.Model):
                 # Body mode:    
                 # -------------------------------------------------------------
                 # Title:
+                WS.set_row(row, 25)
                 if mode == 'HEADER':
                     col = 0
                     for field in line:
                         col += 1
                         WS.write(row, col, field, bold)
-                    # TODO add 2 extra col
                         
+                    # Add 2 extra col:
+                    WS.write(row, col + 1, 'Campagna', bold)
+                    WS.write(row, col + 2, 'Ordine', bold)
                     
-                # Hidden:
+                # Hidden:               
                 elif mode == 'HIDDEN':
-                    WS.write(row, 0, 'id') # TODO white
-                    col = 1 # TODO
+                    WS.set_row(row, 0)
+                    WS.write(row, 0, 'id')
+                    col = 1 + len(line)
                     WS.write(row, col, 'qty')
                     WS.write(row, col + 1, 'qty_ordered')
                     
                 # Body:
                 else: # Product line
+                    WS.set_row(row, 50)
                     WS.write(row, 0, mode) # TODO white
-                    # TODO loop        
+                    col = 0
+                    for field in line:
+                        col += 1
+                        WS.write(row, col, field)                    
+                            
         
         
         WB.close()
