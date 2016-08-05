@@ -89,7 +89,7 @@ class CampaignCampaign(orm.Model):
         for o in objects: # NOTE: only one from button
             # -----------------------------------------------------------------
             # Header:
-            # -----------------------------------------------------------------
+            # -----------------------------------------------------------------            
             WS.write(row, 1, 'CAMPAGNA', bold)
             WS.write(row, 2, o.name, bold)
             WS.write(row, 4, 'Cliente:', bold)
@@ -108,12 +108,13 @@ class CampaignCampaign(orm.Model):
                 # Title:
                 WS.set_row(row, 25)
                 if mode == 'HEADER':
-                    col = 0
+                    WS.write(row, 1, 'Immagine', bold)
+                    col = 1
                     for field in line:
                         col += 1
                         WS.write(row, col, field, bold)
                         
-                    # Add 2 extra col:
+                    # Add 2 extra col:                   
                     WS.write(row, col + 1, 'Campagna', bold)
                     WS.write(row, col + 2, 'Ordine', bold)
                     
@@ -121,7 +122,7 @@ class CampaignCampaign(orm.Model):
                 elif mode == 'HIDDEN':
                     WS.set_row(row, 0)
                     WS.write(row, 0, 'id')
-                    col = 1 + len(line)
+                    col = 2 + len(line)
                     WS.write(row, col, 'qty')
                     WS.write(row, col + 1, 'qty_ordered')
                     
@@ -129,13 +130,14 @@ class CampaignCampaign(orm.Model):
                 else: # Product line
                     WS.set_row(row, 50)
                     WS.write(row, 0, mode) # TODO white
-                    col = 0
+                    WS.insert_image(row, 1, '/home/administrator/photo/xls/campaign/netixone.jpg', {'x_scale': 0.1, 'y_scale': 0.1})
+                    col = 1
                     for field in line:
                         col += 1
                         WS.write(row, col, field)                    
                             
         
-        
+        WS.set_column ('A:A', 0)
         WB.close()
         return True
     
