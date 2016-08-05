@@ -52,6 +52,9 @@ class CampaignCampaign(orm.Model):
     
     _inherit = 'campaign.campaign'
     
+    # -------------------------------------------------------------------------
+    # Button event:
+    # -------------------------------------------------------------------------
     def export_report_as_xlsx(self, cr, uid, ids, context=None):
         ''' Export report in XLSX file
         '''
@@ -291,16 +294,6 @@ class Parser(report_sxw.rml_parse):
             'get_product_pack': self.get_product_pack,
         })
 
-    def _get_active_objects(self, data=None):
-        ''' Return active campaign
-        '''
-        cr = self.cr
-        uid = self.uid
-        context = {}
-        
-        return self.pool.get('campaign.campaign')._get_active_objects(
-            cr, uid, data=data, context=context)
-        
     def get_objects(self, objects, data=None):
         ''' If wizard call return list of all campaign 
             else current objects
@@ -312,8 +305,10 @@ class Parser(report_sxw.rml_parse):
         
     
     def load_context_image(self, album_id, product_id):
-        ''' Load image from album
+        ''' Load image from album        
         '''
+        # XXX used????
+        # Readability:
         cr = self.cr
         uid = self.uid
         context = {'album_id': album_id}
