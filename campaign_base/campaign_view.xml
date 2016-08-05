@@ -122,7 +122,8 @@
             <field name="model">campaign.campaign</field>
             <field name="arch" type="xml">
                 <form string="Campaign" version="7.0">    
-                    <header> 
+                    <header>                         
+                        <button name="export_report_as_xlsx" string="Export XLSX" type="object" />
                         <!--TODO button-->
                         <button name="trigger_campaign_draft_confirmed" string="Confirm" type="workflow" states="draft" class="oe_highlight"/>
                         <button name="trigger_campaign_draft_cancel" string="Cancel" type="workflow" states="draft"/>

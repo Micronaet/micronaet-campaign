@@ -49,6 +49,7 @@ class ProductProduct(orm.Model):
         ''' Return status net and lord
         '''
         return (product.qty_available, product.virtual_available)
+        
 
 class Parser(report_sxw.rml_parse):
     counters = {}

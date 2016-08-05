@@ -26,6 +26,7 @@ import os
 import sys
 import logging
 import openerp
+import xlsxwriter # XLSX export
 import openerp.netsvc as netsvc
 import openerp.addons.decimal_precision as dp
 from openerp.report import report_sxw
@@ -45,6 +46,28 @@ from openerp.tools import (DEFAULT_SERVER_DATE_FORMAT,
 
 _logger = logging.getLogger(__name__)
 
+class CampaignCampaign(orm.Model):
+    """ Model name: CampaignCampaign
+    """
+    
+    _name = 'campaign.campaign'
+    
+    def export_report_as_xlsx(self, cr, uid, ids, context=None):
+        ''' Export report in XLSX file
+        '''
+        path = '/home/administrator/photo/xls/campaign'
+        campaign_proxy = self.browse(cr, uid, ids, context=context)
+        fullname = '%s.xlsx' % campaign_proxy.code
+        
+        WB = xlsxwriter.Workbook(fullname)
+        WS = WB.add_worksheet(campaign_proxy.code)
+        
+        # Export 
+        
+        WB.close()
+        return True
+    
+    
 class Parser(report_sxw.rml_parse):
     counters = {}
     context = False
