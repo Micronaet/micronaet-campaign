@@ -93,29 +93,37 @@ class CampaignCampaign(orm.Model):
             WS.write(row, 2, o.name, bold)
             WS.write(row, 4, 'Cliente:', bold)
             WS.write(row, 5, o.partner_id.name, bold)            
-            row += 2
+            row += 1
             
             # -----------------------------------------------------------------
             # Body:
             # -----------------------------------------------------------------
             for mode, line in self.get_product_pack(
                     cr, uid, o.product_ids, data):
-                
+                row += 1
                 # -------------------------------------------------------------
                 # Body mode:    
                 # -------------------------------------------------------------
                 # Title:
                 if mode == 'HEADER':
-                    pass
+                    col = 0
+                    for field in line:
+                        col += 1
+                        WS.write(row, col, field, bold)
+                    # TODO add 2 extra col
+                        
                     
                 # Hidden:
                 elif mode == 'HIDDEN':
-                    pass
+                    WS.write(row, 0, 'id') # TODO white
+                    col = 1 # TODO
+                    WS.write(row, col, 'qty')
+                    WS.write(row, col + 1, 'qty_ordered')
                     
                 # Body:
                 else: # Product line
-                    pass
-        
+                    WS.write(row, 0, mode) # TODO white
+                    # TODO loop        
         
         
         WB.close()
