@@ -48,8 +48,7 @@ _logger = logging.getLogger(__name__)
 
 class CampaignCampaign(orm.Model):
     """ Model name: CampaignCampaign
-    """
-    
+    """    
     _inherit = 'campaign.campaign'
     
     # -------------------------------------------------------------------------
@@ -58,6 +57,19 @@ class CampaignCampaign(orm.Model):
     def export_report_as_xlsx(self, cr, uid, ids, context=None):
         ''' Export report in XLSX file
         '''
+        def get_image(path, code, extension):
+            ''' Generate image name
+            '''
+            name = '%s.%s' % (
+                os.path.join(path, line[0]),
+                extension,
+                )
+            # Test if file exists:
+            if os.path.isfile(name):
+                return name
+            else:
+                return False     
+           
         # ---------------------------------------------------------------------
         # Parameters:
         # ---------------------------------------------------------------------
@@ -116,6 +128,9 @@ class CampaignCampaign(orm.Model):
         
         row = 1
         for o in objects: # NOTE: only one from button
+            path = os.path.expanduser(o.thumb_album_id.path)
+            extension = o.thumb_album_id.extension_image
+            
             # -----------------------------------------------------------------
             # Header:
             # -----------------------------------------------------------------            
@@ -159,14 +174,15 @@ class CampaignCampaign(orm.Model):
                 # Body:
                 else: # Product line
                     WS.set_row(row, 50)
-                    WS.write(row, 0, mode, format_data) 
-                    WS.insert_image(
-                        row, 1, 
-                        '/home/administrator/photo/xls/campaign/netixone.jpg', {
-                            'x_scale': 0.1, 'y_scale': 0.1, 
+                    WS.write(row, 0, mode, format_hidden) 
+                    image = get_image(path, line[0], extension)
+                    if image:
+                        WS.insert_image(row, 1, image, {
+                            'x_scale': 1, 'y_scale': 1, 
                             'x_offset': 2, 'y_offset': 2,                            
-                            },
-                        )
+                            })
+                    else:
+                        WS.write(row, 1, 'Nessuna immagine', format_data)        
                     col = 1
                     for field in line:
                         col += 1
@@ -365,7 +381,7 @@ class Parser(report_sxw.rml_parse):
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
             'get_objects': self.get_objects,
-            #'load_context_image': self.load_context_image,
+            'load_context_image': self.load_context_image,
             'get_total_pack_block': self.get_total_pack_block,
             'get_product_pack': self.get_product_pack,
         })
@@ -381,19 +397,18 @@ class Parser(report_sxw.rml_parse):
         return self.pool.get('campaign.campaign')._get_active_objects(
             cr, uid, data=data, context=context)
         
-    #def load_context_image(self, album_id, product_id):
-    #    ''' Load image from album        
-    #    '''
-    #    # XXX used????
-    #    # Readability:
-    #    cr = self.cr
-    #    uid = self.uid
-    #    context = {'album_id': album_id}
-    #    
-    #    product_pool = self.pool.get('product.product')
-    #    product_proxy = product_pool.browse(cr, uid, product_id, 
-    #        context={'album_id': album_id})                 
-    #    return product_proxy.product_image_context
+    def load_context_image(self, album_id, product_id):
+        ''' Load image from album (used in ODT document, not in ODS)      
+        '''
+        # Readability:
+        cr = self.cr
+        uid = self.uid
+        context = {'album_id': album_id}
+        
+        product_pool = self.pool.get('product.product')
+        product_proxy = product_pool.browse(cr, uid, product_id, 
+            context={'album_id': album_id})                 
+        return product_proxy.product_image_context
    
     def get_total_pack_block(self, objects, data=None):
         ''' Read all package objects for decide how much colums
