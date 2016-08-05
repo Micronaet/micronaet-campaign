@@ -67,7 +67,7 @@ class CampaignCampaign(orm.Model):
         fullname = os.path.join(path, filename)
         data = {} # Not from wizard
         
-                # ---------------------------------------------------------------------
+        # ---------------------------------------------------------------------
         # Create and open Workbook:
         # ---------------------------------------------------------------------
         WB = xlsxwriter.Workbook(fullname)
@@ -76,7 +76,33 @@ class CampaignCampaign(orm.Model):
         # ---------------------------------------------------------------------
         # Format elements:
         # ---------------------------------------------------------------------
-        bold = WB.add_format({'bold': True})
+        format_header = WB.add_format({
+            'bold': True, 
+            'font_name': 'Arial',
+            'font_size': 11,
+            })
+
+        format_title = WB.add_format({
+            'bold': True, 
+            'font_color': 'black',
+            'font_name': 'Arial',
+            'font_size': 10,
+            'align': 'center',
+            'valign': 'center',
+            'bg_color': 'gray',
+            'border': 1,
+            })
+
+        format_hidden = WB.add_format({
+            'font_color': 'white',
+            'font_name': 'Arial',
+            'font_size': 8,
+            })
+
+        format_data = WB.add_format({
+            'font_name': 'Arial',
+            'font_size': 10,
+            })
         
         # ---------------------------------------------------------------------
         # Export
@@ -84,16 +110,19 @@ class CampaignCampaign(orm.Model):
         # Init setup:
         self.get_total_pack_block(cr, uid, objects, context=context) # no data
         
-        WS.set_column(1, 1, 0)
+        # Column dimension:        
+        WS.set_column ('A:A', 0, None, {'hidden': 1}) # ID column        
+        WS.set_column ('B:B', 500, None) # Image colums
+        
         row = 1
         for o in objects: # NOTE: only one from button
             # -----------------------------------------------------------------
             # Header:
             # -----------------------------------------------------------------            
-            WS.write(row, 1, 'CAMPAGNA', bold)
-            WS.write(row, 2, o.name, bold)
-            WS.write(row, 4, 'Cliente:', bold)
-            WS.write(row, 5, o.partner_id.name, bold)            
+            WS.write(row, 1, 'CAMPAGNA', format_header)
+            WS.write(row, 2, o.name, format_header)
+            WS.write(row, 4, 'Cliente:', format_header)
+            WS.write(row, 5, o.partner_id.name, format_header)            
             row += 1
             
             # -----------------------------------------------------------------
@@ -108,36 +137,39 @@ class CampaignCampaign(orm.Model):
                 # Title:
                 WS.set_row(row, 25)
                 if mode == 'HEADER':
-                    WS.write(row, 1, 'Immagine', bold)
+                    WS.write(row, 1, 'Immagine', format_title)
                     col = 1
                     for field in line:
                         col += 1
-                        WS.write(row, col, field, bold)
+                        WS.write(row, col, field, format_title)
                         
                     # Add 2 extra col:                   
-                    WS.write(row, col + 1, 'Campagna', bold)
-                    WS.write(row, col + 2, 'Ordine', bold)
+                    WS.write(row, col + 1, 'Campagna', format_title)
+                    WS.write(row, col + 2, 'Ordine', format_title)
                     
                 # Hidden:               
                 elif mode == 'HIDDEN':
                     WS.set_row(row, 0)
-                    WS.write(row, 0, 'id')
+                    WS.write(row, 0, 'id', format_hidden)
                     col = 2 + len(line)
-                    WS.write(row, col, 'qty')
-                    WS.write(row, col + 1, 'qty_ordered')
+                    WS.write(row, col, 'qty', format_hidden)
+                    WS.write(row, col + 1, 'qty_ordered', format_hidden)
                     
                 # Body:
                 else: # Product line
                     WS.set_row(row, 50)
-                    WS.write(row, 0, mode) # TODO white
-                    WS.insert_image(row, 1, '/home/administrator/photo/xls/campaign/netixone.jpg', {'x_scale': 0.1, 'y_scale': 0.1})
+                    WS.write(row, 0, mode, format_data) 
+                    WS.insert_image(
+                        row, 1, 
+                        '/home/administrator/photo/xls/campaign/netixone.jpg', {
+                            'x_scale': 0.1, 'y_scale': 0.1, 
+                            'x_offset': 2, 'y_offset': 2,                            
+                            },
+                        )
                     col = 1
                     for field in line:
                         col += 1
-                        WS.write(row, col, field)                    
-                            
-        
-        WS.set_column ('A:A', 0)
+                        WS.write(row, col, field, format_data)        
         WB.close()
         return True
     
