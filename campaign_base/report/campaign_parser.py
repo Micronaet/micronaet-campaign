@@ -110,76 +110,7 @@ class CampaignCampaign(orm.Model):
                     tot = 1    
                 if tot > self.pack_max:
                     self.pack_max = tot                    
-        return        
-    
-    
-class Parser(report_sxw.rml_parse):
-    counters = {}
-    context = False
-    
-    def __init__(self, cr, uid, name, context):
-        self.context = context
-        super(Parser, self).__init__(cr, uid, name, context)
-        self.localcontext.update({
-            'get_objects': self.get_objects,
-            'load_context_image': self.load_context_image,
-            'get_total_pack_block': self.get_total_pack_block,
-            'get_product_pack': self.get_product_pack,
-        })
-
-    def _get_active_objects(self, data=None):
-        ''' Return active campaign
-        '''
-        cr = self.cr
-        uid = self.uid
-        context = {}
-
-        if data is None:
-            data = {} # TODO manage filter confirmed draft 
-            
-        campaign_pool = self.pool.get('campaign.campaign')
-
-        if data.get('mode', False) == 'draft':
-            domain = [('state', 'in', ('draft', 'confirmed'))]
-        else: # only confirmed
-            domain = [('state', '=', 'confirmed')]
-            
-        campaign_ids = campaign_pool.search(cr, uid, domain, context=context)
-        if not campaign_ids:
-            raise osv.except_osv(
-                _('Report error!'), 
-                _('No data, change filter'),
-                )
-            
-        return campaign_pool.browse(cr, uid, campaign_ids, context=context)    
-        
-    def get_objects(self, objects, data=None):
-        ''' If wizard call return list of all campaign 
-            else current objects
-        '''
-        if data is None:
-            return objects
-            
-        return self._get_active_objects(data)    
-        
-    
-    def load_context_image(self, album_id, product_id):
-        ''' Load image from album
-        '''
-        cr = self.cr
-        uid = self.uid
-        context = {'album_id': album_id}
-        
-        product_pool = self.pool.get('product.product')
-        product_proxy = product_pool.browse(self.cr, self.uid, product_id, 
-            context={'album_id': album_id})                 
-        return product_proxy.product_image_context
-   
-    def get_total_pack_block(self, objects, data=None):
-        ''' Read all package objects for decide how much colums
-        '''
-        self.pool.get('campaign.campaign').get_total_pack_block(
-            objects, data=data)
+        return ''       
 
     def get_product_pack(self, relations, data=None):
         ''' Create a list for all package in product
@@ -317,5 +248,83 @@ class Parser(report_sxw.rml_parse):
                        
             res.append((relation.id, data))            
         return res
+            
+    
+class Parser(report_sxw.rml_parse):
+    counters = {}
+    context = False
+    
+    def __init__(self, cr, uid, name, context):
+        self.context = context
+        super(Parser, self).__init__(cr, uid, name, context)
+        self.localcontext.update({
+            'get_objects': self.get_objects,
+            'load_context_image': self.load_context_image,
+            'get_total_pack_block': self.get_total_pack_block,
+            'get_product_pack': self.get_product_pack,
+        })
+
+    def _get_active_objects(self, data=None):
+        ''' Return active campaign
+        '''
+        cr = self.cr
+        uid = self.uid
+        context = {}
+
+        if data is None:
+            data = {} # TODO manage filter confirmed draft 
+            
+        campaign_pool = self.pool.get('campaign.campaign')
+
+        if data.get('mode', False) == 'draft':
+            domain = [('state', 'in', ('draft', 'confirmed'))]
+        else: # only confirmed
+            domain = [('state', '=', 'confirmed')]
+            
+        campaign_ids = campaign_pool.search(cr, uid, domain, context=context)
+        if not campaign_ids:
+            raise osv.except_osv(
+                _('Report error!'), 
+                _('No data, change filter'),
+                )
+            
+        return campaign_pool.browse(cr, uid, campaign_ids, context=context)    
         
+    def get_objects(self, objects, data=None):
+        ''' If wizard call return list of all campaign 
+            else current objects
+        '''
+        if data is None:
+            return objects
+            
+        return self._get_active_objects(data)    
+        
+    
+    def load_context_image(self, album_id, product_id):
+        ''' Load image from album
+        '''
+        cr = self.cr
+        uid = self.uid
+        context = {'album_id': album_id}
+        
+        product_pool = self.pool.get('product.product')
+        product_proxy = product_pool.browse(self.cr, self.uid, product_id, 
+            context={'album_id': album_id})                 
+        return product_proxy.product_image_context
+   
+    def get_total_pack_block(self, objects, data=None):
+        ''' Read all package objects for decide how much colums
+        '''
+        return self.pool.get('campaign.campaign').get_total_pack_block(
+            objects, data=data)
+
+    def get_product_pack(self, relations, data=None):
+        ''' Create a list for all package in product
+            [(l, h, p, w)] 
+            fill extra element till pack_max
+        '''
+        return self.pool.get('campaign.campaign').get_product_pack(
+            relations, data=data)
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
