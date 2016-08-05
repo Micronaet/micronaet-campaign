@@ -65,9 +65,9 @@ class CampaignCampaign(orm.Model):
         objects = self.browse(cr, uid, ids, context=context)
         filename = 'export.xlsx' #'%s.xlsx' % campaign_proxy.code
         fullname = os.path.join(path, filename)
+        data = {} # Not from wizard
         
-        
-        # ---------------------------------------------------------------------
+                # ---------------------------------------------------------------------
         # Create and open Workbook:
         # ---------------------------------------------------------------------
         WB = xlsxwriter.Workbook(fullname)
@@ -83,16 +83,39 @@ class CampaignCampaign(orm.Model):
         # ---------------------------------------------------------------------
         # Init setup:
         self.get_total_pack_block(cr, uid, objects, context=context) # no data
-        row = 0
-        for campaign in objects:
-            # Header:
-            WS.write(row, 1, 'CAMPAGNA', bold)
-            WS.write(row, 2, campaign.name, bold)
-            WS.write(row, 4, 'Cliente', bold)
-            WS.write(row, 5, campaign.partner_id.name, bold)            
-            row += 1
         
-        # Body:
+        row = 1
+        for o in objects: # NOTE: only one from button
+            # -----------------------------------------------------------------
+            # Header:
+            # -----------------------------------------------------------------
+            WS.write(row, 1, 'CAMPAGNA', bold)
+            WS.write(row, 2, o.name, bold)
+            WS.write(row, 4, 'Cliente:', bold)
+            WS.write(row, 5, o.partner_id.name, bold)            
+            row += 2
+            
+            # -----------------------------------------------------------------
+            # Body:
+            # -----------------------------------------------------------------
+            for mode, line in self.get_product_pack(
+                    cr, uid, o.product_ids, data):
+                
+                # -------------------------------------------------------------
+                # Body mode:    
+                # -------------------------------------------------------------
+                # Title:
+                if mode == 'HEADER':
+                    pass
+                    
+                # Hidden:
+                elif mode == 'HIDDEN':
+                    pass
+                    
+                # Body:
+                else: # Product line
+                    pass
+        
         
         
         WB.close()
@@ -289,34 +312,35 @@ class Parser(report_sxw.rml_parse):
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
             'get_objects': self.get_objects,
-            'load_context_image': self.load_context_image,
+            #'load_context_image': self.load_context_image,
             'get_total_pack_block': self.get_total_pack_block,
             'get_product_pack': self.get_product_pack,
         })
 
     def get_objects(self, objects, data=None):
-        ''' If wizard call return list of all campaign 
-            else current objects
+        ''' Return active campaign
         '''
-        if data is None:
-            return objects
-            
-        return self._get_active_objects(data)    
-        
-    
-    def load_context_image(self, album_id, product_id):
-        ''' Load image from album        
-        '''
-        # XXX used????
         # Readability:
         cr = self.cr
         uid = self.uid
-        context = {'album_id': album_id}
+        context = {}
         
-        product_pool = self.pool.get('product.product')
-        product_proxy = product_pool.browse(cr, uid, product_id, 
-            context={'album_id': album_id})                 
-        return product_proxy.product_image_context
+        return self.pool.get('campaign.campaign')._get_active_objects(
+            cr, uid, data=data, context=context)
+        
+    #def load_context_image(self, album_id, product_id):
+    #    ''' Load image from album        
+    #    '''
+    #    # XXX used????
+    #    # Readability:
+    #    cr = self.cr
+    #    uid = self.uid
+    #    context = {'album_id': album_id}
+    #    
+    #    product_pool = self.pool.get('product.product')
+    #    product_proxy = product_pool.browse(cr, uid, product_id, 
+    #        context={'album_id': album_id})                 
+    #    return product_proxy.product_image_context
    
     def get_total_pack_block(self, objects, data=None):
         ''' Read all package objects for decide how much colums
