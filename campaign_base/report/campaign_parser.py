@@ -137,7 +137,7 @@ class CampaignCampaign(orm.Model):
                 # Title:
                 WS.set_row(row, 30)
                 if mode == 'HEADER':
-                    WS.write(row, 1, 'Immagine', format_title)
+                    WS.write(row, 1, _('Immagine'), format_title)
                     col = 1
                     for field in line:
                         col += 1
@@ -145,8 +145,8 @@ class CampaignCampaign(orm.Model):
                         WS.write(row, col, field, format_title)
                         
                     # Add 2 extra col:                   
-                    WS.write(row, col + 1, 'Campagna', format_title)
-                    WS.write(row, col + 2, 'Ordine', format_title)
+                    WS.write(row, col + 1, _('Campagna'), format_title)
+                    WS.write(row, col + 2, _('Ordine'), format_title)
                     
                 # Hidden:               
                 elif mode == 'HIDDEN':
