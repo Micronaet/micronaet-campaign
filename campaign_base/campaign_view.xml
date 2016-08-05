@@ -123,13 +123,15 @@
             <field name="arch" type="xml">
                 <form string="Campaign" version="7.0">    
                     <header>                         
-                        <button name="export_report_as_xlsx" string="Export XLSX" type="object" />
-                        <!--TODO button-->
+                        <!--Workflow button-->                        
                         <button name="trigger_campaign_draft_confirmed" string="Confirm" type="workflow" states="draft" class="oe_highlight"/>
                         <button name="trigger_campaign_draft_cancel" string="Cancel" type="workflow" states="draft"/>
                         
                         <button name="trigger_campaign_confirmed_closed" string="Close" type="workflow" states="confirmed" class="oe_highlight" confirm="Confirm q. before, order will be created!"/>
                         <button name="trigger_campaign_confirmed_cancel" string="Cancel" type="workflow" states="confirmed"/>
+
+                        <!--Extra button:-->
+                        <button name="export_report_as_xlsx" string="Export XLSX" type="object" />
 
                         <field name="state"  widget="statusbar" statusbar_visible="draft,confirmed,done,cancel" />
                     </header>

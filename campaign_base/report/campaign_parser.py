@@ -59,26 +59,35 @@ class CampaignCampaign(orm.Model):
         # Parameters:
         # ---------------------------------------------------------------------
         path = '/home/administrator/photo/xls/campaign'
-        campaign_proxy = self.browse(cr, uid, ids, context=context)
-        fullname = '%s.xlsx' % campaign_proxy.code
+        objects = self.browse(cr, uid, ids, context=context)
+        filename = 'export.xlsx' #'%s.xlsx' % campaign_proxy.code
+        fullname = os.path.join(path, filename)
+        
         
         # ---------------------------------------------------------------------
         # Create and open Workbook:
         # ---------------------------------------------------------------------
         WB = xlsxwriter.Workbook(fullname)
-        WS = WB.add_worksheet(campaign_proxy.code)
+        WS = WB.add_worksheet()#campaign_proxy.code)
         
         # ---------------------------------------------------------------------
         # Format elements:
         # ---------------------------------------------------------------------
-        bold = workbook.add_format({'bold': True})
+        bold = WB.add_format({'bold': True})
         
         # ---------------------------------------------------------------------
         # Export
         # ---------------------------------------------------------------------
         # Init setup:
-        get_total_pack_block(objects, data)
-        # Header:
+        self.get_total_pack_block(cr, uid, objects, context=context) # no data
+        row = 0
+        for campaign in objects:
+            # Header:
+            WS.write(row, 1, 'CAMPAGNA', bold)
+            WS.write(row, 2, campaign.name, bold)
+            WS.write(row, 4, 'Cliente', bold)
+            WS.write(row, 5, campaign.partner_id.name, bold)            
+            row += 1
         
         # Body:
         
@@ -115,7 +124,8 @@ class CampaignCampaign(orm.Model):
         ''' Read all package objects for decide how much colums
         '''
         if data is not None:
-            objects = self._get_active_objects(data)
+            objects = self._get_active_objects(
+                cr, uid, data=data, context=context)
             
         self.pack_max = 1
         for campaign in objects:
@@ -329,6 +339,11 @@ class Parser(report_sxw.rml_parse):
             [(l, h, p, w)] 
             fill extra element till pack_max
         '''
+        # Readability:
+        cr = self.cr
+        uid = self.uid
+        context = {}
+
         return self.pool.get('campaign.campaign').get_product_pack(
             cr, uid, relations, data=data, context=context)
 
