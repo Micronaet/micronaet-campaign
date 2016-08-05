@@ -55,17 +55,62 @@ class CampaignCampaign(orm.Model):
     def export_report_as_xlsx(self, cr, uid, ids, context=None):
         ''' Export report in XLSX file
         '''
+        # ---------------------------------------------------------------------
+        # Parameters:
+        # ---------------------------------------------------------------------
         path = '/home/administrator/photo/xls/campaign'
         campaign_proxy = self.browse(cr, uid, ids, context=context)
         fullname = '%s.xlsx' % campaign_proxy.code
         
+        # ---------------------------------------------------------------------
+        # Create and open Workbook:
+        # ---------------------------------------------------------------------
         WB = xlsxwriter.Workbook(fullname)
         WS = WB.add_worksheet(campaign_proxy.code)
         
-        # Export 
+        # ---------------------------------------------------------------------
+        # Format elements:
+        # ---------------------------------------------------------------------
+        bold = workbook.add_format({'bold': True})
+        
+        # ---------------------------------------------------------------------
+        # Export
+        # ---------------------------------------------------------------------
+        # Init setup:
+        get_total_pack_block(objects, data)
+        # Header:
+        
+        # Body:
+        
         
         WB.close()
         return True
+    
+    # -------------------------------------------------------------------------    
+    # Report functions:    
+    # -------------------------------------------------------------------------    
+    def get_total_pack_block(self, objects, data=None):
+        ''' Read all package objects for decide how much colums
+        '''
+        # Readability:
+        cr = self.cr
+        uid = self.uid
+        context = {}
+        
+        if data is not None:
+            objects = self._get_active_objects(data)
+            
+        self.pack_max = 1
+        for campaign in objects:
+            for line in campaign.product_ids:
+                product = line.product_id
+                if product.has_multipackage:
+                    tot = sum([item.number for item in product.multi_pack_ids])
+                else:
+                    tot = 1    
+                if tot > self.pack_max:
+                    self.pack_max = tot                    
+        return        
     
     
 class Parser(report_sxw.rml_parse):
@@ -133,25 +178,8 @@ class Parser(report_sxw.rml_parse):
     def get_total_pack_block(self, objects, data=None):
         ''' Read all package objects for decide how much colums
         '''
-        # Readability:
-        cr = self.cr
-        uid = self.uid
-        context = {}
-        
-        if data is not None:
-            objects = self._get_active_objects(data)
-            
-        self.pack_max = 1
-        for campaign in objects:
-            for line in campaign.product_ids:
-                product = line.product_id
-                if product.has_multipackage:
-                    tot = sum([item.number for item in product.multi_pack_ids])
-                else:
-                    tot = 1    
-                if tot > self.pack_max:
-                    self.pack_max = tot                    
-        return        
+        self.pool.get('campaign.campaign').get_total_pack_block(
+            objects, data=data)
 
     def get_product_pack(self, relations, data=None):
         ''' Create a list for all package in product
