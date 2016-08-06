@@ -394,6 +394,12 @@ class CampaignCostType(orm.Model):
     _name = 'campaign.cost.type'
     _description = 'Campaign cost type'
     
+    # Parameters used:
+    _excluded_fields = (
+        'create_uid', 'create_date', 'write_uid', 'write_date', 
+        'model_id', 'id')
+    _excluded_type = ('one2many', 'many2many', 'related', 'function')    
+    
      # Button for templating:
     def save_as_model(self, cr, uid, ids, context=None):
         ''' Save all selected cost element as model
@@ -415,11 +421,6 @@ class CampaignCostType(orm.Model):
             'name': name}, context=context)
             
         # Add cost elements: 
-        excluded_fields = (
-            'create_uid', 'create_date', 'write_uid', 'write_date', 
-            'model_id', 'id')
-        excluded_type = ('one2many', 'many2many', 'related', 'function')    
-        
         for cost in cost_proxy.rule_ids:
             # TODO loop on field:
             data = {'model_id': model_id}
@@ -427,7 +428,8 @@ class CampaignCostType(orm.Model):
                 field_type = cost._columns[field]._type
                 
                 # Jump exluded field or excluded type
-                if field in excluded_fields or field_type in excluded_type:
+                if field in self._excluded_fields or \
+                        field_type in self._excluded_type:
                     continue
                     
                 if field_type == 'many2one':
@@ -444,6 +446,9 @@ class CampaignCostType(orm.Model):
     def load_from_model(self, cr, uid, ids, context=None):    
         ''' Load from model cost (deleted before)
         '''
+        # Pool used:
+        model_pool = self.pool.get('campaign.cost.model')
+
         cost_proxy = self.browse(cr, uid, ids, context=context)[0]
         model_id = cost_proxy.model_id.id
         if not model_id:
@@ -451,7 +456,29 @@ class CampaignCostType(orm.Model):
                 _('Model error!'),
                 _('Set a model name before load cost!'),
                 )
-        # TODO        
+        # Add cost elements: 
+        model_pool.browse(cr, uid, model_id, context=context)
+        
+        for cost in cost_proxy.rule_ids:
+            # TODO loop on field:
+            data = {'model_id': model_id}
+            for field in cost._columns.keys():
+                field_type = cost._columns[field]._type
+                
+                # Jump exluded field or excluded type
+                if field in self._excluded_fields or \
+                        field_type in self._excluded_type:
+                    continue    
+                    
+                if field_type == 'many2one':
+                    data[field] = cost.__getattribute__(field).id
+                else:       
+                    data[field] = cost.__getattribute__(field)
+            item_pool.create(cr, uid, data, context=context)
+            
+        # Reset model id after create:        
+        self.write(cr, uid, ids, {
+            'model_id': False}, context=context)        
         
         return True
         
