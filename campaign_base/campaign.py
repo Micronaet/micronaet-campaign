@@ -625,8 +625,7 @@ class CampaignCostModel(orm.Model):
     
     _sql_constraints = [
         ('name_uniq', 'unique(name)', 'Name reference must be unique!'),
-        ]
-    
+        ]    
         
 class CampaignCost(orm.Model):
     """ Model name: Campaign cost
