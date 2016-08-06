@@ -170,7 +170,7 @@
                                         </field>
                                     </group>
                                 </page>
-                                <page string="Availability">
+                                <page string="Availability" invisible="1">
                                     <group colspan="4" col="4">
                                         <field name="use_rate" />
                                         <field name="set_min_qty" />
