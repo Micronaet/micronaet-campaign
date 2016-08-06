@@ -206,6 +206,12 @@
                                                                 <!--TODO button?-->
                                                             </tree>                                                            
                                                         </field>        
+                                                        <separator string="Template model:" colspan="4"/>
+                                                        <field name="model_name" />
+                                                        <button name="save_as_model" string="Save model" type="object" />
+                                                        <newline/>
+                                                        <field name="model_id" />
+                                                        <button name="load_from_model" string="Load model" type="object" />                                                        
                                                     </group>    
                                                 </sheet>
                                             </form>

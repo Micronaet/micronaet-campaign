@@ -393,6 +393,42 @@ class CampaignCostType(orm.Model):
     """    
     _name = 'campaign.cost.type'
     _description = 'Campaign cost type'
+    
+     # Button for templating:
+    def save_as_template(self, cr, uid, ids, context=None):
+        ''' Save all selected cost element as template
+        '''
+        # Pool used:
+        model_pool = self.pool.get('campaign.cost.model')
+
+        cost_proxy = self.browse(cr, uid, ids, context=context)[0]
+        name = cost_proxy.template_name
+        if not name:
+            raise osv.except_osv(
+                _('Name error!'),
+                _('Set a name for template before create'),
+                )
+                
+        # Create template:
+        model_id = model_pool.create(cr, uid, {
+            'name': name}, context=context)
+            
+        # Add cost elements:    
+        for cost in cost_proxy.rule_ids:
+            data = {
+                'template_id': model_id
+                }
+                
+        # Reset template name after create:        
+        self.write(cr, uid, ids, {
+            'template_name': False}, context=context)        
+        return True
+        
+    def load_from_template(self, cost, price, campaign, product, cost_type):    
+        ''' Load from template cost (deleted before)
+        '''
+        cost_proxy = self.browse(cr, uid, ids, context=context)[0]
+        return True
         
     def get_campaign_price(self, cost, price, campaign, product, cost_type):
         ''' Master function for calculate price depend on rules:
@@ -512,6 +548,8 @@ class CampaignCostType(orm.Model):
             help='Cost depend on product category'), 
         'campaign_id': fields.many2one('campaign.campaign', 'Campaign', 
             help='Campaign referente', ondelete='cascade'),
+        'template_name': fields.char('Template name', size=40, 
+            help='Name used for generate template element'),
         # TODO add filter for product    
         }
 
@@ -591,6 +629,8 @@ class CampaignCostType(orm.Model):
     _columns = {
         'rule_ids': fields.one2many('campaign.cost', 'type_id', 'Cost rule', 
             ondelete='cascade'),
+        'template_id': fields.many2one(
+            'campaign.cost.model', 'Template model'),
         }
 
 class CampaignProduct(orm.Model):
