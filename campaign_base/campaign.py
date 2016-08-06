@@ -395,37 +395,37 @@ class CampaignCostType(orm.Model):
     _description = 'Campaign cost type'
     
      # Button for templating:
-    def save_as_template(self, cr, uid, ids, context=None):
-        ''' Save all selected cost element as template
+    def save_as_model(self, cr, uid, ids, context=None):
+        ''' Save all selected cost element as model
         '''
         # Pool used:
         model_pool = self.pool.get('campaign.cost.model')
 
         cost_proxy = self.browse(cr, uid, ids, context=context)[0]
-        name = cost_proxy.template_name
+        name = cost_proxy.model_name
         if not name:
             raise osv.except_osv(
                 _('Name error!'),
-                _('Set a name for template before create'),
+                _('Set a name for model before create'),
                 )
                 
-        # Create template:
+        # Create model:
         model_id = model_pool.create(cr, uid, {
             'name': name}, context=context)
             
         # Add cost elements:    
         for cost in cost_proxy.rule_ids:
             data = {
-                'template_id': model_id
+                'model_id': model_id
                 }
                 
-        # Reset template name after create:        
+        # Reset model name after create:        
         self.write(cr, uid, ids, {
-            'template_name': False}, context=context)        
+            'model_name': False}, context=context)        
         return True
         
-    def load_from_template(self, cost, price, campaign, product, cost_type):    
-        ''' Load from template cost (deleted before)
+    def load_from_model(self, cost, price, campaign, product, cost_type):    
+        ''' Load from model cost (deleted before)
         '''
         cost_proxy = self.browse(cr, uid, ids, context=context)[0]
         return True
@@ -548,8 +548,8 @@ class CampaignCostType(orm.Model):
             help='Cost depend on product category'), 
         'campaign_id': fields.many2one('campaign.campaign', 'Campaign', 
             help='Campaign referente', ondelete='cascade'),
-        'template_name': fields.char('Template name', size=40, 
-            help='Name used for generate template element'),
+        'model_name': fields.char('Model name', size=40, 
+            help='Name used for generate model element'),
         # TODO add filter for product    
         }
 
@@ -619,6 +619,18 @@ class CampaignCostModelItem(orm.Model):
     _name = 'campaign.cost.model.item'
 
     # Duplicate object for save model elements    
+
+class CampaignCostModel(orm.Model):
+    """ Model name: Campaign cost model
+    """    
+    _inherit = 'campaign.cost.model'
+    
+    _columns = {
+        'rule_ids': fields.one2many(
+            'campaign.cost', 'model_id', 
+            'Cost rule'), 
+        }
+    
         
 
 class CampaignCostType(orm.Model):
@@ -629,8 +641,8 @@ class CampaignCostType(orm.Model):
     _columns = {
         'rule_ids': fields.one2many('campaign.cost', 'type_id', 'Cost rule', 
             ondelete='cascade'),
-        'template_id': fields.many2one(
-            'campaign.cost.model', 'Template model'),
+        'model_id': fields.many2one(
+            'campaign.cost.model', 'Model model'),
         }
 
 class CampaignProduct(orm.Model):

@@ -295,6 +295,55 @@
             <field name="domain">[]</field>
         </record>
         
+        <!--campaign.cost.model-->
+        <record model="ir.ui.view" id="view_campaign_cost_model_tree">
+            <field name="name">campaign.cost.model.tree</field>
+            <field name="model">campaign.cost.model</field>
+            <field name="arch" type="xml">
+                <tree string="Campaign cost model" >        
+                    <field name="name" />
+                    <field name="note" />
+                </tree>
+            </field>
+        </record> 
+        <record model="ir.ui.view" id="view_campaign_cost_model_form">
+            <field name="name">campaign.cost.model.form</field>
+            <field name="model">campaign.cost.model</field>
+            <field name="arch" type="xml">
+                <form string="Campaign cost model" version="7.0">
+                    <field name="name" />
+                    <newline/>
+                    
+                    <separator string="Cost rules:" colspan="4"/>
+                    <field name="rule_ids" nolabel="1" colspan="4">
+                        <tree string="Cost rules:" editable="bottom">
+                            <field name="sequence" />
+                            <field name="category_id" />
+                            <field name="description" />
+                            <field name="base" />
+                            <field name="mode" />
+                            <field name="sign" />
+                            <field name="value" attrs="{'readonly':[('mode', '=', 'multi')]}" />
+                            <field name="text_value" attrs="{'readonly':[('mode', '!=', 'multi')]}"/>
+                            <field name="note" />
+                        </tree>                                                            
+                    </field>        
+                    
+                    <separator string="Cost rules:" colspan="4"/>
+                    <field name="note" colspan="4" />
+                </form>
+            </field>
+        </record> 
+        <record model="ir.actions.act_window" id="action_campaign_cost_model">
+            <field name="name">Campaign cost model</field>
+            <field name="res_model">campaign.cost.model</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_campaign_cost_model_tree"/>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+        
         <menuitem 
             parent="base.menu_sales" 
             id="menu_campaign_root" 
@@ -326,6 +375,14 @@
             name="Configuration"
             sequence="100"
             />
+            <menuitem 
+                parent="menu_campaign_configuration" 
+                id="menu_campaign_cost_model" 
+                name="Cost model"
+                action="action_campaign_cost_model"
+                sequence="10"
+                />
+            
     </data>
 </openerp>
 
