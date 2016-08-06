@@ -397,7 +397,7 @@ class CampaignCostType(orm.Model):
     # Parameters used:
     _excluded_fields = (
         'create_uid', 'create_date', 'write_uid', 'write_date', 
-        'model_id', 'id')
+        'model_id', 'type_id', 'id')
     _excluded_type = ('one2many', 'many2many', 'related', 'function')    
     
      # Button for templating:
@@ -422,7 +422,7 @@ class CampaignCostType(orm.Model):
             
         # Add cost elements: 
         for cost in cost_proxy.rule_ids:
-            # TODO loop on field:
+            # loop on field:
             data = {'model_id': model_id}
             for field in cost._columns.keys():
                 field_type = cost._columns[field]._type
@@ -448,20 +448,27 @@ class CampaignCostType(orm.Model):
         '''
         # Pool used:
         model_pool = self.pool.get('campaign.cost.model')
+        cost_pool = self.pool.get('campaign.cost')
 
         cost_proxy = self.browse(cr, uid, ids, context=context)[0]
+        type_id = ids[0]
         model_id = cost_proxy.model_id.id
         if not model_id:
             raise osv.except_osv(
                 _('Model error!'),
                 _('Set a model name before load cost!'),
                 )
-        # Add cost elements: 
-        model_pool.browse(cr, uid, model_id, context=context)
         
-        for cost in cost_proxy.rule_ids:
-            # TODO loop on field:
-            data = {'model_id': model_id}
+        # Delete previouse element:
+        cost_ids = cost_pool.search(cr, uid, [
+            ('type_id', '=', type_id)], context=context)        
+        cost_pool.unlink(cr, uid, cost_ids, context=context)    
+            
+        # Add cost elements from template: 
+        for cost in model_pool.browse(
+                cr, uid, model_id, context=context).rule_ids:
+            # loop on field:
+            data = {'type_id': type_id}
             for field in cost._columns.keys():
                 field_type = cost._columns[field]._type
                 
@@ -474,7 +481,7 @@ class CampaignCostType(orm.Model):
                     data[field] = cost.__getattribute__(field).id
                 else:       
                     data[field] = cost.__getattribute__(field)
-            item_pool.create(cr, uid, data, context=context)
+            cost_pool.create(cr, uid, data, context=context)
             
         # Reset model id after create:        
         self.write(cr, uid, ids, {
@@ -615,6 +622,11 @@ class CampaignCostModel(orm.Model):
         'name': fields.char('Name', size=40, required=True),
         'note': fields.text('Note'),
         }
+    
+    _sql_constraints = [
+        ('name_uniq', 'unique(name)', 'Name reference must be unique!'),
+        ]
+    
         
 class CampaignCost(orm.Model):
     """ Model name: Campaign cost
