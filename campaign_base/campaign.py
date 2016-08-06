@@ -561,7 +561,7 @@ class CampaignCostModel(orm.Model):
     
     _columns = {
         'name': fields.char('Name', size=40, required=True),
-        'note': fields.char('Note'),
+        'note': fields.text('Note'),
         }
         
 
