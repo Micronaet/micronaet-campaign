@@ -313,11 +313,10 @@ class CampaignCampaign(orm.Model):
         'with_detail': fields.boolean('With detail', # XXX needed?
             help='One product may have more than one other detail photo'), 
         'thumb_album_id': fields.many2one(
-            'product.image.album', 'Thumb Album', 
+            'product.image.album', 'Album Thumb', 
                 help='Album for thumb low resolution photo (XLS files)'), 
-        'album_id': fields.many2one('product.image.album', 'Album', 
+        'album_id': fields.many2one('product.image.album', 'Album HQ', 
             help='Album for ZIP HQ images'), 
-        # TODO more than one album ?        
         
         # Product qty generation parameters for / from wizard:
         'use_rate': fields.float('Use rate', digits=(16, 3)),
