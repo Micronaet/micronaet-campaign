@@ -211,7 +211,7 @@
                                                         <button name="save_as_model" string="Save model" type="object" />
                                                         <newline/>
                                                         <field name="model_id" />
-                                                        <button name="load_from_model" string="Load model" type="object" />                                                        
+                                                        <button name="load_from_model" string="Load model" type="object" confirm="All current cost rule will be deleted, confirm?"/>
                                                     </group>    
                                                 </sheet>
                                             </form>

@@ -400,34 +400,59 @@ class CampaignCostType(orm.Model):
         '''
         # Pool used:
         model_pool = self.pool.get('campaign.cost.model')
+        item_pool = self.pool.get('campaign.cost.model.item')
 
         cost_proxy = self.browse(cr, uid, ids, context=context)[0]
         name = cost_proxy.model_name
         if not name:
             raise osv.except_osv(
                 _('Name error!'),
-                _('Set a name for model before create'),
+                _('Set a name for model before create!'),
                 )
                 
         # Create model:
         model_id = model_pool.create(cr, uid, {
             'name': name}, context=context)
             
-        # Add cost elements:    
+        # Add cost elements: 
+        excluded_fields = (
+            'create_uid', 'create_date', 'write_uid', 'write_date', 
+            'model_id', 'id')
+        excluded_type = ('one2many', 'many2many', 'related', 'function')    
+        
         for cost in cost_proxy.rule_ids:
-            data = {
-                'model_id': model_id
-                }
+            # TODO loop on field:
+            data = {'model_id': model_id}
+            for field in cost._columns.keys():
+                field_type = cost._columns[field]._type
                 
+                # Jump exluded field or excluded type
+                if field in excluded_fields or field_type in excluded_type:
+                    continue
+                    
+                if field_type == 'many2one':
+                    data[field] = cost.__getattribute__(field).id
+                else:       
+                    data[field] = cost.__getattribute__(field)
+            item_pool.create(cr, uid, data, context=context)
+            
         # Reset model name after create:        
         self.write(cr, uid, ids, {
             'model_name': False}, context=context)        
         return True
         
-    def load_from_model(self, cost, price, campaign, product, cost_type):    
+    def load_from_model(self, cr, uid, ids, context=None):    
         ''' Load from model cost (deleted before)
         '''
         cost_proxy = self.browse(cr, uid, ids, context=context)[0]
+        model_id = cost_proxy.model_id.id
+        if not model_id:
+            raise osv.except_osv(
+                _('Model error!'),
+                _('Set a model name before load cost!'),
+                )
+        # TODO        
+        
         return True
         
     def get_campaign_price(self, cost, price, campaign, product, cost_type):
@@ -564,7 +589,6 @@ class CampaignCostModel(orm.Model):
         'note': fields.text('Note'),
         }
         
-
 class CampaignCost(orm.Model):
     """ Model name: Campaign cost
     """    
@@ -627,11 +651,9 @@ class CampaignCostModel(orm.Model):
     
     _columns = {
         'rule_ids': fields.one2many(
-            'campaign.cost', 'model_id', 
+            'campaign.cost.model.item', 'model_id', 
             'Cost rule'), 
         }
-    
-        
 
 class CampaignCostType(orm.Model):
     """ Model name: Campaign cost type
@@ -652,7 +674,6 @@ class CampaignProduct(orm.Model):
     _description = 'Campaign product'
     _rec_name = 'product_id'
     _order = 'sequence,product_id'    
-
         
     # -------------
     # Button event:
