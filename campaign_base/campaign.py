@@ -898,5 +898,23 @@ class StockMove(orm.Model):
             help='Line generated from campaign product line'),
         }
 
+class ProductPackaging(orm.Model):
+    """ Stock product.packaging
+    """    
+    _inherit = 'product.packaging'
+
+    def name_get(self, cr, uid, ids, context=None):
+        """ Remove extra codebar in foreign key name
+        """        
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]            
+        res = []
+        for record in self.browse(cr, uid, ids, context=context):
+            res.append((
+                record.id, record.ul.name))
+        return res
+    
 # TODO manage product in campaign as stock.move??
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
