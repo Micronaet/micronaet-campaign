@@ -4,4 +4,6 @@ access_campaign_product_user,campaign.product,model_campaign_product,base.group_
 access_campaign_cost_user,campaign.cost,model_campaign_cost,base.group_user,1,1,1,1
 access_campaign_cost_type_user,campaign.cost.type,model_campaign_cost_type,base.group_user,1,1,1,1
 access_campaign_cost_category_user,campaign.cost.category,model_campaign_cost_category,base.group_user,1,1,1,1
+access_campaign_cost_model_user,campaign.cost.model,model_campaign_cost_model,base.group_user,1,1,1,1
+access_campaign_cost_model_item_user,campaign.cost.model.item,model_campaign_cost_model_item,base.group_user,1,1,1,1
 

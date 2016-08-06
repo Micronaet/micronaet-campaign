@@ -515,6 +515,18 @@ class CampaignCostType(orm.Model):
         # TODO add filter for product    
         }
 
+class CampaignCostModel(orm.Model):
+    """ Model name: Campaign cost model
+    """    
+    _name = 'campaign.cost.model'
+    _description = 'Campaign cost model'
+    
+    _columns = {
+        'name': fields.char('Name', size=40, required=True),
+        'note': fields.char('Note'),
+        }
+        
+
 class CampaignCost(orm.Model):
     """ Model name: Campaign cost
     """    
@@ -525,6 +537,9 @@ class CampaignCost(orm.Model):
     
     _columns = {
         'sequence': fields.integer('Sequence'),
+        'model_id': fields.many2one('campaign.cost.model', 'Cost model', 
+            help='Cost model, used in inherit type 2 cost', 
+            ondelete='cascade'),
         'type_id': fields.many2one('campaign.cost.type', 'Cost type', 
             help='Campaign reference', ondelete='cascade'),
         'category_id': fields.many2one('campaign.cost.category', 'Category', 
@@ -557,7 +572,16 @@ class CampaignCost(orm.Model):
         'base': lambda *x: 'cost',
         'mode': lambda *x: 'percentual',
         'sign': lambda *x: 'plus',
-        }    
+        }
+
+class CampaignCostModelItem(orm.Model):
+    """ Model name: Campaign cost model item
+    """    
+    _inherit = 'campaign.cost'
+    _name = 'campaign.cost.model.item'
+
+    # Duplicate object for save model elements    
+        
 
 class CampaignCostType(orm.Model):
     """ Model name: Campaign cost type
