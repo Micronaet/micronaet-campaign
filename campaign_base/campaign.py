@@ -331,12 +331,6 @@ class CampaignCampaign(orm.Model):
         'pricelist_id': fields.many2one('product.pricelist', 'Pricelist',
             help='''Pricelist used for this campaign (calculate end price 
                 'before discount'''), 
-        'discount_scale': fields.char('Discount scale', size=60, 
-            help='Extra discount scale calculated on all rules'), 
-        'revenue_scale': fields.char('Revenue scale', size=60,
-            help='Extra revenue scale calculated on all rules'), 
-        'volume_cost': fields.float(
-            'Volume cost', digits_compute=dp.get_precision('Product Price')),
 
         # Order reference
         'sale_id': fields.many2one(
@@ -522,7 +516,6 @@ class CampaignCostType(orm.Model):
             base = rule.base
             mode = rule.mode
             value = rule.value
-            text_value = rule.text_value
             
             # -----------
             # Sign coeff:
@@ -558,11 +551,6 @@ class CampaignCostType(orm.Model):
             if mode == 'fixed':
                 total += sign_coeff * value
                 continue # Fixed case only increment total no other operations                
-            elif mode == 'multi':
-                # TODO check sign for multi discount value (different from revenue)
-                # Convert multi discount with value
-                value = sign_coeff * partner_pool.format_multi_discount(
-                    text_value).get('value', 0.0)
             elif mode == 'percentual':
                 value *= sign_coeff
             else:    
@@ -578,8 +566,6 @@ class CampaignCostType(orm.Model):
         # General cost depend on campaign:    
         # --------------------------------
         volume_cost = campaign.volume_cost
-        discount_scale = campaign.discount_scale
-        revenue_scale = campaign.revenue_scale
         
         # TODO correct!!!!:
         if volume_cost:        
@@ -588,16 +574,6 @@ class CampaignCostType(orm.Model):
             # TODO use heigh, width, length 
             # TODO use pack_l, pack_h, pack_p
             # TODO use packaging dimension?
-            
-        if discount_scale:
-            discount_value = partner_pool.format_multi_discount(
-                discount_scale).get('value', 0.0)
-            total -= total * discount_value / 100.0
-
-        if revenue_scale:
-            revenue_value = partner_pool.format_multi_discount(
-                revenue_scale).get('value', 0.0)
-            total += total * revenue_value / 100.0
             
         # TODO extra recharge:
         return total
@@ -653,12 +629,9 @@ class CampaignCost(orm.Model):
             ], 'Base', required=True),
         'value': fields.float(
             'Value', digits_compute=dp.get_precision('Product Price')),
-        'text_value': fields.char('Text value', size=30, 
-            help='Used for multi discount element'),
         'mode': fields.selection([
             ('fixed', 'Fixed'),
             ('percentual', 'Percentual'),
-            ('multi', 'Multi percentual'),
             ], 'Cost mode', required=True),
         'sign': fields.selection([
             ('plus', '+'),
@@ -810,10 +783,6 @@ class CampaignProduct(orm.Model):
         'uom_id': fields.many2one( # TODO used?
             'product.uom', 'UOM', ondelete='set null'),
         
-        #'q_x_pack': fields.related('product_id', 'q_x_pack',
-        #    type='float', string='Q. x pack'),
-        #'volume': fields.related('product_id', 'volume',
-        #    type='float', string='Vol.'), # TODO manage as a function fields?
         'q_x_pack': fields.function(
             _get_packaging_status_element, method=True, 
             type='float', string='Q. x pack', store=False, multi=True), 

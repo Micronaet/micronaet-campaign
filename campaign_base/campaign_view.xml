@@ -216,12 +216,6 @@
                                                 </sheet>
                                             </form>
                                         </field>
-                                        <group colspan="4" col="6">
-                                            <separator string="General cost:" colspan="6"/>
-                                            <field name="volume_cost" />
-                                            <field name="discount_scale" />
-                                            <field name="revenue_scale" />
-                                        </group>
                                     </group>
                                 </page>
                                 <page string="Log">
@@ -325,8 +319,7 @@
                                     <field name="base" />
                                     <field name="mode" />
                                     <field name="sign" />
-                                    <field name="value" attrs="{'readonly':[('mode', '=', 'multi')]}" />
-                                    <field name="text_value" attrs="{'readonly':[('mode', '!=', 'multi')]}"/>
+                                    <field name="value" />
                                     <field name="note" />
                                 </tree>                                                            
                             </field>        
