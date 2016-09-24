@@ -114,13 +114,13 @@ class CampaignCampaign(orm.Model):
         # Link rule to product:
         self.assign_type_price_to_product(cr, uid, campaign, context=context)
         for product in campaign.product_ids:
-            campaign_price = cost_pool.get_campaign_price(
-                product.cost, product.price, 
-                campaign, product, product.cost_type_id,
-                )
-            product_pool.write(cr, uid, product.id, {
-                'campaign_price': campaign_price,
-                }, context=context) # TODO check no dependency problems!!         
+            data = cost_pool.get_campaign_price(campaign, product_line)            
+            #campaign_price = cost_pool.get_campaign_price(
+            #    product.cost, product.price, 
+            #    campaign, product, product.cost_type_id,
+            #    )
+            product_pool.write(cr, uid, product.id, data, 
+                context=context) # TODO check no dependency problems!!         
         return True
         
     # -------------------------------------------------------------------------
@@ -496,7 +496,7 @@ class CampaignCostType(orm.Model):
         
         return True
         
-    def get_campaign_price(self, cost, price, campaign, product, cost_type):
+    def get_campaign_price(self, campaign, product_line):
         ''' Master function for calculate price depend on rules:
             cost: cost price for product
             price: sale price for product
@@ -509,25 +509,31 @@ class CampaignCostType(orm.Model):
         # --------------
         # Initial setup:
         # --------------
-        error = ''
-        warning = ''
+        cost = product_line.cost
+        price = product_line.price
+        cost_type_id = product_line.cost_type_id
+        data = {
+            'warning': '',
+            'error': '',
+            'calc': '', # TODO 
+            }
         
         # Pool used:
         partner_pool = self.pool.get('res.partner')
 
-        # -----------
-        # Start test:
-        # -----------
-        if not cost_type:
-            warning = _('No cost type use sale price') # TODO
-            _logger.warning('No cost type use sale price')
-            return price
+        # ---------------
+        # Starting check:
+        # ---------------
+        if not cost_type_id:
+            data['warning'] += _('No cost type use sale price')
+            data['campaign_price'] = price # use sale price
+            return data
         
         # ---------------------------------------------------------------------
         # Product cost generation:
         # ---------------------------------------------------------------------
         total = 0.0
-        for rule in cost_type.rule_ids: # sequence order:
+        for rule in cost_type_id.rule_ids: # sequence order:
             # Read rule parameters
             base = rule.base
             mode = rule.mode #fixed or perc
@@ -535,52 +541,37 @@ class CampaignCostType(orm.Model):
             category = rule.category
             
             # -----------------------------------------------------------------
-            # Sign coeff depend on category:
-            # -----------------------------------------------------------------
-            if category in ('recharge', 'transport'):
-                sign_coeff = 1.0
-            else: # discount
-                sign_coeff = -1.0
-                
-            # -----------------------------------------------------------------
             # Base evaluation:
             # -----------------------------------------------------------------
             if base == 'previous':
                 base_value = total
             elif base == 'cost':
                 base_value = cost
-                if not total: # Initial setup depend on first rule
+                if not total: # Init setup depend on first rule
                     total = cost 
-            elif base == 'price':
+            else: # 'price':
                 base_value = price
-                if not total: # Initial setup depend on first rule
+                if not total: # Init setup depend on first rule
                     total = price
-            else:
-                error += _('No base value found!!!') # TODO
-                _logger.error('No base value found!!!')
-                # TODO raise error?        
 
             # -----------------------------------------------------------------
-            # Value type:
+            # Calc depend on category:
             # -----------------------------------------------------------------
-            if mode == 'fixed':
-                total += sign_coeff * value
-                continue # No other operations
-            elif mode == 'percentual':
-                value *= sign_coeff
-            else:    
-                error += _('No mode value found!!!') # TODO
-                _logger.error('No mode value found!!!')
-                # TODO raise error?
+            if category == 'transport':
+                total += campaign.cost_unit * product_line.volume # unit
+            elif category == 'discount':
+                if mode == 'fixed':
+                    total += value
+                else: # 'percentual'
+                    total += base_value * value / 100.0
+            else: # 'recharge'
+                if mode == 'fixed':
+                    total -= value
+                else: # 'percentual'
+                    total -= base_value * value / 100.0
                     
-            if not value:
-                error += _('Percentual value is mandatory!') # TODO
-                _logger.error('Percentual value is mandatory!')
-                continue
-
-            total += base_value * value / 100.0
-
-        return total
+        data['campaign_rice'] = total
+        return data
         
     _columns = {
         'name': fields.char('Cost type', size=64, required=True, 
