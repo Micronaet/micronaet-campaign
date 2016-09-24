@@ -327,7 +327,7 @@ class CampaignCampaign(orm.Model):
         'max_qty': fields.integer('Max. qty', 
             help='If product > max qty will be used max qty instead'),
         
-        # Price creation: TODO decide how to use
+        # Price creation: TODO not used for now!
         'pricelist_id': fields.many2one('product.pricelist', 'Pricelist',
             help='''Pricelist used for this campaign (calculate end price 
                 'before discount'''), 
@@ -349,6 +349,12 @@ class CampaignCampaign(orm.Model):
                         
         # Function fields:
         # TODO total cost and revenue (for all products) campaign and order
+
+        'base_cost': fields.selection([
+            ('standard_price', 'Cost FOB (supplier)'),
+            ('company_cost', 'Cost FCO Company'),
+            ('customer_cost', 'Cost FCO Customer'),
+            ], 'Base cost', help='Choose base cost from product to campaign'),
        
         'state': fields.selection([
             ('draft', 'Draft'), # not working no stock operation
@@ -510,7 +516,7 @@ class CampaignCostType(orm.Model):
         # Product cost generation:
         # ---------------------------------------------------------------------
         total = 0.0
-        for rule in cost_type.rule_ids:
+        for rule in cost_type.rule_ids: # sequence order:
             # Read rule parameters
             sign = rule.sign
             base = rule.base

@@ -40,6 +40,7 @@
         #'mx_discount_scale_base', # for discount multi management
         'product_package_volume', # for volume in package
         'product_multi_package', # for multipackage mode
+        'product_cost_rule', # for cost generation and base cost in campaign
         ],
     'init_xml': [],
     'demo': [],

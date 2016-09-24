@@ -145,9 +145,10 @@
                             
                             <field name="partner_id" domain="[('used_campaign', '=', True), ('is_company', '=', True), ('is_address', '=', False)]"/>
                             <field name="partner_address_id" domain="[('parent_id', '=', partner_id)]" options="{'no_create': False}"/>
-                            
+
+                            <field name="base_cost" />                            
                             <field name="with_detail" />
-                            <newline/>
+
                             <field name="album_id" />
                             <field name="thumb_album_id" />
                             
@@ -200,8 +201,7 @@
                                                                 <field name="base" />
                                                                 <field name="mode" />
                                                                 <field name="sign" />
-                                                                <field name="value" attrs="{'readonly':[('mode', '=', 'multi')]}" />
-                                                                <field name="text_value" attrs="{'readonly':[('mode', '!=', 'multi')]}"/>
+                                                                <field name="value" />
                                                                 <field name="note" />
                                                                 <!--TODO button?-->
                                                             </tree>                                                            
