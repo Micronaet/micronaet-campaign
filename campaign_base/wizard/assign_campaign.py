@@ -69,7 +69,7 @@ class ProductProductAssignCampaign(orm.TransientModel):
             current_product[product.product_id.id] = product.id # save ID
 
         from_selection = wiz_proxy.from_selection
-        campaign_id = wiz_proxy.campaign_id.id
+        campaign = wiz_proxy.campaign_id # proxy obj
         mode = wiz_proxy.mode
         set_min_qty = wiz_proxy.set_min_qty
         min_qty = wiz_proxy.min_qty
@@ -82,7 +82,7 @@ class ProductProductAssignCampaign(orm.TransientModel):
         else: # load selection in campaign
             product_ids = [
                 item.product_id.id for item in \
-                    wiz_proxy.campaign_id.product_ids]
+                    campaign.product_ids]
 
         if not product_ids:
             _logger.warning('No product selected or empty campaign!')
@@ -149,12 +149,12 @@ class ProductProductAssignCampaign(orm.TransientModel):
             
             data = {
                 'is_active': True,
-                'campaign_id': campaign_id,
+                'campaign_id': campaign.id,
                 'qty': qty,
                 'product_id': product.id,
                 'uom_id': product.uom_id.id,
                 'description': product.name,
-                'cost': product.standard_price,
+                'cost': product.__getattribute__(campaign.base_cost), # param.
                 'price': product.lst_price,            
                 'campaign_price': campaign_price, # start value
                 ##'qty_ordered': 0
@@ -186,7 +186,7 @@ class ProductProductAssignCampaign(orm.TransientModel):
             campaign_data['log'] = log
             
         campaign_pool.write(
-            cr, uid, campaign_id, campaign_data, context=context)
+            cr, uid, campaign.id, campaign_data, context=context)
         
         # ----------
         # Open view: 
@@ -200,7 +200,7 @@ class ProductProductAssignCampaign(orm.TransientModel):
             'name': _('Campaign populated:'),
             'view_type': 'form',
             'view_mode': 'form,tree,calendar',
-            'res_id': campaign_id,
+            'res_id': campaign.id,
             'res_model': 'campaign.campaign',
             'view_id': view_id, # False
             'views': [(False, 'form'), (False, 'tree'), (False, 'calendar')],
