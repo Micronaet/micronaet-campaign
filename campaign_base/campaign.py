@@ -509,6 +509,9 @@ class CampaignCostType(orm.Model):
         # --------------
         # Initial setup:
         # --------------
+        error = ''
+        warning = ''
+        
         # Pool used:
         partner_pool = self.pool.get('res.partner')
 
@@ -516,7 +519,8 @@ class CampaignCostType(orm.Model):
         # Start test:
         # -----------
         if not cost_type:
-            _logger.warning('No cost type use sale price') # TODO correct?
+            warning = _('No cost type use sale price') # TODO
+            _logger.warning('No cost type use sale price')
             return price
         
         # ---------------------------------------------------------------------
@@ -525,18 +529,18 @@ class CampaignCostType(orm.Model):
         total = 0.0
         for rule in cost_type.rule_ids: # sequence order:
             # Read rule parameters
-            sign = rule.sign
             base = rule.base
-            mode = rule.mode
+            mode = rule.mode #fixed or perc
             value = rule.value
+            category = rule.category
             
             # -----------------------------------------------------------------
-            # Sign coeff:
+            # Sign coeff depend on category:
             # -----------------------------------------------------------------
-            if sign == 'minus':
-                sign_coeff = -1.0  
-            else:
+            if category in ('recharge', 'transport'):
                 sign_coeff = 1.0
+            else: # discount
+                sign_coeff = -1.0
                 
             # -----------------------------------------------------------------
             # Base evaluation:
@@ -551,11 +555,9 @@ class CampaignCostType(orm.Model):
                 base_value = price
                 if not total: # Initial setup depend on first rule
                     total = price
-            #elif base == 'volume':
-            #    base_value = (
-            #        product.volume / campaign.volume_total)                    
             else:
-                _logger.error('No base value found!!!')                
+                error += _('No base value found!!!') # TODO
+                _logger.error('No base value found!!!')
                 # TODO raise error?        
 
             # -----------------------------------------------------------------
@@ -563,32 +565,21 @@ class CampaignCostType(orm.Model):
             # -----------------------------------------------------------------
             if mode == 'fixed':
                 total += sign_coeff * value
-                continue # Fixed case only increment total no other operations                
+                continue # No other operations
             elif mode == 'percentual':
                 value *= sign_coeff
             else:    
+                error += _('No mode value found!!!') # TODO
                 _logger.error('No mode value found!!!')
-                # TODO raise error?        
+                # TODO raise error?
                     
             if not value:
+                error += _('Percentual value is mandatory!') # TODO
                 _logger.error('Percentual value is mandatory!')
-                pass
+                continue
+
             total += base_value * value / 100.0
 
-        # ---------------------------------------------------------------------
-        # General cost depend on campaign:    
-        # ---------------------------------------------------------------------
-        volume_cost = campaign.volume_cost
-        
-        # TODO correct!!!!:
-        if volume_cost:        
-            total += total * product.qty * (
-                product.volume / campaign.volume_total)
-            # TODO use heigh, width, length 
-            # TODO use pack_l, pack_h, pack_p
-            # TODO use packaging dimension?
-            
-        # TODO extra recharge:
         return total
         
     _columns = {
@@ -632,9 +623,9 @@ class CampaignCost(orm.Model):
         'type_id': fields.many2one('campaign.cost.type', 'Cost type', 
             help='Campaign reference', ondelete='cascade'),
         'category': fields.selection([
-            ('discount', 'Discount'), # sign -
-            ('recharge', 'Rechange'), # sign +
-            ('transport', 'Transport'), # sign +
+            ('discount', 'Discount (-)'), # sign -
+            ('recharge', 'Rechange (+)'), # sign +
+            ('transport', 'Transport (+)'), # sign +
             ], 'Category', required=True),        
         'description': fields.char('Description', size=64),
         'base': fields.selection([
@@ -648,10 +639,6 @@ class CampaignCost(orm.Model):
             ('fixed', 'Fixed'),
             ('percentual', 'Percentual'),
             ], 'Cost mode', required=True),
-        'sign': fields.selection([
-            ('plus', '+'),
-            ('minus', '-'),
-            ], 'Sign', required=True),
         'note': fields.char('Note', size=80),
         }
         
@@ -659,7 +646,6 @@ class CampaignCost(orm.Model):
         # Default value:
         'base': lambda *x: 'cost',
         'mode': lambda *x: 'percentual',
-        'sign': lambda *x: 'plus',
         }
 
 class CampaignCostModelItem(orm.Model):

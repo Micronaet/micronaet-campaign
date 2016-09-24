@@ -197,7 +197,6 @@
                                                                 <field name="description" />
                                                                 <field name="base" />
                                                                 <field name="mode" />
-                                                                <field name="sign" />
                                                                 <field name="value" />
                                                                 <field name="note" />
                                                                 <!--TODO button?-->
@@ -320,7 +319,6 @@
                                     <field name="description" />
                                     <field name="base" />
                                     <field name="mode" />
-                                    <field name="sign" />
                                     <field name="value" />
                                     <field name="note" />
                                 </tree>                                                            
