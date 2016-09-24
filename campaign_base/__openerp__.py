@@ -37,7 +37,7 @@
         'product_image_base', # Image management
         'inventory_status', # for lord qty in product check
         'base_accounting_program', # for q_x_pack field
-        'mx_discount_scale_base', # for discount multi management
+        #'mx_discount_scale_base', # for discount multi management
         'product_package_volume', # for volume in package
         'product_multi_package', # for multipackage mode
         ],
