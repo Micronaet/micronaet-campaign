@@ -395,22 +395,6 @@ class CampaignCampaign(orm.Model):
         'state': lambda *x: 'draft',        
         }    
 
-class CampaignCostCategory(orm.Model):
-    """ Model name: Campaign cost category
-    """    
-    _name = 'campaign.cost.category'
-    _description = 'Campaign cost category'
-    
-    _columns = {
-        'name': fields.char(
-            'Cost category', size=64),
-        'sign': fields.selection([
-            ('plus', '+'),
-            ('minus', '-'),
-            ], 'Sign', required=True),
-        'note': fields.text('Note'),
-        }
-
 class CampaignCostType(orm.Model):
     """ Model name: Campaign cost type
     """    
@@ -652,7 +636,6 @@ class CampaignCost(orm.Model):
             ('recharge', 'Rechange'), # sign +
             ('transport', 'Transport'), # sign +
             ], 'Category', required=True),        
-            help='Campaign referente', ondelete='set null'),
         'description': fields.char('Description', size=64),
         'base': fields.selection([
             ('cost', 'Cost'),
