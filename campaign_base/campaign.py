@@ -506,9 +506,12 @@ class CampaignCostType(orm.Model):
             campaign: campaign, used for get extra cost or discount
             product: used to get extra info from product (ex. volume)            
         '''
-        # --------------
+        # ---------------------------------------------------------------------
         # Initial setup:
-        # --------------
+        # ---------------------------------------------------------------------
+        # Pool used:
+        partner_pool = self.pool.get('res.partner')
+
         cost = product_line.cost
         price = product_line.price
         cost_type_id = product_line.cost_type_id
@@ -517,13 +520,10 @@ class CampaignCostType(orm.Model):
             'error': '',
             'calc': '', # TODO 
             }
-        
-        # Pool used:
-        partner_pool = self.pool.get('res.partner')
 
-        # ---------------
+        # ---------------------------------------------------------------------
         # Starting check:
-        # ---------------
+        # ---------------------------------------------------------------------
         if not cost_type_id:
             data['warning'] += _('No cost type use sale price')
             data['campaign_price'] = price # use sale price
@@ -559,7 +559,8 @@ class CampaignCostType(orm.Model):
             # -----------------------------------------------------------------
             # Mandatory field for operation:
             if not value and category in ('discount', 'recharge')):
-                error += _('#%s value not present' % rule.sequence) # go ahead
+                data['error'] += _(
+                    '#%s value not present' % rule.sequence) # go ahead
                 
             if category == 'transport':
                 total += campaign.cost_unit * product_line.volume # unit
