@@ -563,7 +563,7 @@ class CampaignCostType(orm.Model):
                     '#%s value not present' % rule.sequence) # go ahead
                 
             if category == 'transport':
-                total += campaign.cost_unit * product_line.volume # unit
+                total += campaign.transport_unit * product_line.volume # unit
             elif category == 'discount':
                 if mode == 'fixed':
                     total -= value
