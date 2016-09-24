@@ -193,7 +193,7 @@
                                                         <field name="rule_ids" nolabel="1" colspan="4">
                                                             <tree string="Cost rules:" editable="bottom">
                                                                 <field name="sequence" />
-                                                                <field name="category_id" />
+                                                                <field name="category" />
                                                                 <field name="description" />
                                                                 <field name="base" />
                                                                 <field name="mode" />
@@ -316,7 +316,7 @@
                             <field name="rule_ids" nolabel="1" colspan="4">
                                 <tree string="Cost rules:" editable="bottom">
                                     <field name="sequence" />
-                                    <field name="category_id" />
+                                    <field name="category" />
                                     <field name="description" />
                                     <field name="base" />
                                     <field name="mode" />

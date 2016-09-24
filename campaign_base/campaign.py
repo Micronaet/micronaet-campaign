@@ -371,7 +371,7 @@ class CampaignCampaign(orm.Model):
 
         'transport_id': fields.many2one(
             'product.cost.transport', 'Default transport'),
-        'transporty_cost': fields.float('Transport cost', 
+        'transport_cost': fields.float('Transport cost', 
             digits_compute=dp.get_precision('price_accuracy'), 
             help='Total cost for one tranport method choosen'),
         'transport_unit': fields.function(
@@ -546,17 +546,17 @@ class CampaignCostType(orm.Model):
             mode = rule.mode
             value = rule.value
             
-            # -----------
+            # -----------------------------------------------------------------
             # Sign coeff:
-            # -----------
+            # -----------------------------------------------------------------
             if sign == 'minus':
                 sign_coeff = -1.0  
             else:
                 sign_coeff = 1.0
                 
-            # ----------------
+            # -----------------------------------------------------------------
             # Base evaluation:
-            # ----------------
+            # -----------------------------------------------------------------
             if base == 'previous':
                 base_value = total
             elif base == 'cost':
@@ -574,9 +574,9 @@ class CampaignCostType(orm.Model):
                 _logger.error('No base value found!!!')                
                 # TODO raise error?        
 
-            # -----------
+            # -----------------------------------------------------------------
             # Value type:
-            # -----------
+            # -----------------------------------------------------------------
             if mode == 'fixed':
                 total += sign_coeff * value
                 continue # Fixed case only increment total no other operations                
@@ -591,9 +591,9 @@ class CampaignCostType(orm.Model):
                 pass
             total += base_value * value / 100.0
 
-        # --------------------------------
+        # ---------------------------------------------------------------------
         # General cost depend on campaign:    
-        # --------------------------------
+        # ---------------------------------------------------------------------
         volume_cost = campaign.volume_cost
         
         # TODO correct!!!!:
@@ -637,8 +637,8 @@ class CampaignCost(orm.Model):
     """    
     _name = 'campaign.cost'
     _description = 'Campaign cost'
-    _rec_name = 'sequence' #category_id'
-    _order = 'sequence' #,category_id'
+    _rec_name = 'sequence'
+    _order = 'sequence'
     
     _columns = {
         'sequence': fields.integer('Sequence'),
@@ -647,14 +647,17 @@ class CampaignCost(orm.Model):
             ondelete='cascade'),
         'type_id': fields.many2one('campaign.cost.type', 'Cost type', 
             help='Campaign reference', ondelete='cascade'),
-        'category_id': fields.many2one('campaign.cost.category', 'Category', 
+        'category': fields.selection([
+            ('discount', 'Discount'), # sign -
+            ('recharge', 'Rechange'), # sign +
+            ('transport', 'Transport'), # sign +
+            ], 'Category', required=True),        
             help='Campaign referente', ondelete='set null'),
         'description': fields.char('Description', size=64),
         'base': fields.selection([
             ('cost', 'Cost'),
             ('price', 'Price'),
             ('previous', 'Previous'),
-            #('volume', 'Volume'),
             ], 'Base', required=True),
         'value': fields.float(
             'Value', digits_compute=dp.get_precision('Product Price')),
