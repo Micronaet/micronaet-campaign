@@ -557,6 +557,10 @@ class CampaignCostType(orm.Model):
             # -----------------------------------------------------------------
             # Calc depend on category:
             # -----------------------------------------------------------------
+            # Mandatory field for operation:
+            if not value and category in ('discount', 'recharge')):
+                error += _('#%s value not present' % rule.sequence) # go ahead
+                
             if category == 'transport':
                 total += campaign.cost_unit * product_line.volume # unit
             elif category == 'discount':
