@@ -795,6 +795,11 @@ class CampaignProduct(orm.Model):
             store=False), 
         'packaging_id': fields.many2one('product.packaging', 'Pack',
             help='Use different pack for product', ondelete='set null'),
+        
+        # Calc esit:
+        'error': fields.text('Error', readonly=True),
+        'warning': fields.text('Warning', readonly=True),
+        'calc': fields.text('Calc', readonly=True),
 
         # -----------------------
         # Product related fields: 
