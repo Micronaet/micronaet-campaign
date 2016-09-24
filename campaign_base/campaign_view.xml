@@ -214,6 +214,11 @@
                                             </form>
                                         </field>
                                     </group>
+                                    <group colspan="4" col="6">
+                                        <field name="transport_id" />
+                                        <field name="transport_cost" />
+                                        <field name="transport_unit" />
+                                    </group>
                                 </page>
                                 <page string="Log">
                                     <group colspan="4" col="4">

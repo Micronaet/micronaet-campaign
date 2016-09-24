@@ -297,6 +297,18 @@ class CampaignCampaign(orm.Model):
             res[campaign.id] = volume
         return res
 
+    def _get_transport_unit(self, cr, uid, ids, fields, args, context=None):
+        ''' Fields function for calculate 
+        '''
+        res = {}
+        for campaign in self.browse(cr, uid, ids, context=context):
+            if  campaign.transport_id and campaign.transport_id.volume:
+                res[campaign.id] = campaign.transport_cost / \
+                    campaign.transport_id.volume
+            else:
+                res[campaign.id] = 0.0
+        return res
+
     _columns = {
         'name': fields.char('Name', size=64, required=True),
         'code': fields.char('Code', size=20, readonly=True),
@@ -356,6 +368,15 @@ class CampaignCampaign(orm.Model):
             ('customer_cost', 'Cost FCO Customer'),
             ], 'Base cost', required=True, 
             help='Choose base cost from product to campaign'),
+
+        'transport_id': fields.many2one(
+            'product.cost.transport', 'Default transport'),
+        'transporty_cost': fields.float('Transport cost', 
+            digits_compute=dp.get_precision('price_accuracy'), 
+            help='Total cost for one tranport method choosen'),
+        'transport_unit': fields.function(
+            _get_transport_unit, method=True, 
+            type='float', string='Transport unit', store=False), 
        
         'state': fields.selection([
             ('draft', 'Draft'), # not working no stock operation
