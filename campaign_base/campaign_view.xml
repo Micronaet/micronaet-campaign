@@ -101,17 +101,14 @@
             <field name="arch" type="xml">
                 <tree string="Campaign">        
                     <field name="code" />
-                    <field name="name" />
-                    
+                    <field name="name" />                    
                     <field name="from_date" />
-                    <field name="to_date" />
-                    
+                    <field name="to_date" />                    
                     <field name="partner_id" />
                     <field name="sale_id" />
-
                     <field name="thumb_album_id" />
                     <field name="album_id" />
-
+                    <field name="base_cost" />                                                        
                     <field name="state" />
                     <field name="status_info" />                    
                 </tree>

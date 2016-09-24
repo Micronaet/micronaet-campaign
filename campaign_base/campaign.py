@@ -351,10 +351,11 @@ class CampaignCampaign(orm.Model):
         # TODO total cost and revenue (for all products) campaign and order
 
         'base_cost': fields.selection([
-            ('standard_price', 'Cost FOB (supplier)'),
+            ('standard_price', 'Cost FOB Supplier'),
             ('company_cost', 'Cost FCO Company'),
             ('customer_cost', 'Cost FCO Customer'),
-            ], 'Base cost', help='Choose base cost from product to campaign'),
+            ], 'Base cost', required=True, 
+            help='Choose base cost from product to campaign'),
        
         'state': fields.selection([
             ('draft', 'Draft'), # not working no stock operation
@@ -369,7 +370,8 @@ class CampaignCampaign(orm.Model):
             cr, uid, 'campaign.campaign'),
         'from_date': lambda *x: datetime.now().strftime(
             DEFAULT_SERVER_DATE_FORMAT),
-        'state': lambda *x: 'draft',
+        'base_cost': lambda *x: 'company_cost',    
+        'state': lambda *x: 'draft',        
         }    
 
 class CampaignCostCategory(orm.Model):
