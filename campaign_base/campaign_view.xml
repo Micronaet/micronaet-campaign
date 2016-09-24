@@ -195,9 +195,9 @@
                                                                 <field name="sequence" />
                                                                 <field name="category" />
                                                                 <field name="description" />
-                                                                <field name="base" />
-                                                                <field name="mode" />
-                                                                <field name="value" />
+                                                                <field name="base" attrs="{'readonly':['category','=','transport']}"/>
+                                                                <field name="mode" attrs="{'readonly':['category','=','transport']}"/>
+                                                                <field name="value" attrs="{'readonly':['category','=','transport']}"/>
                                                                 <field name="note" />
                                                                 <!--TODO button?-->
                                                             </tree>                                                            

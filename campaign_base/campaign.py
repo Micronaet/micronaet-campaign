@@ -113,13 +113,13 @@ class CampaignCampaign(orm.Model):
 
         # Link rule to product:
         self.assign_type_price_to_product(cr, uid, campaign, context=context)
-        for product in campaign.product_ids:
-            data = cost_pool.get_campaign_price(campaign, product_line)            
+        for product_line in campaign.product_ids:
+            data = cost_pool.get_campaign_price(campaign, product_line)
             #campaign_price = cost_pool.get_campaign_price(
             #    product.cost, product.price, 
             #    campaign, product, product.cost_type_id,
             #    )
-            product_pool.write(cr, uid, product.id, data, 
+            product_pool.write(cr, uid, product_line.id, data, 
                 context=context) # TODO check no dependency problems!!         
         return True
         
@@ -525,7 +525,7 @@ class CampaignCostType(orm.Model):
         # Starting check:
         # ---------------------------------------------------------------------
         if not cost_type_id:
-            data['warning'] += _('No cost type use sale price')
+            data['error'] += _('No cost type use sale price')
             data['campaign_price'] = price # use sale price
             return data
         
@@ -558,7 +558,7 @@ class CampaignCostType(orm.Model):
             # Calc depend on category:
             # -----------------------------------------------------------------
             # Mandatory field for operation:
-            if not value and category in ('discount', 'recharge')):
+            if not value and category in ('discount', 'recharge'):
                 data['error'] += _(
                     '#%s value not present' % rule.sequence) # go ahead
                 
@@ -566,16 +566,16 @@ class CampaignCostType(orm.Model):
                 total += campaign.cost_unit * product_line.volume # unit
             elif category == 'discount':
                 if mode == 'fixed':
-                    total += value
-                else: # 'percentual'
-                    total += base_value * value / 100.0
-            else: # 'recharge'
-                if mode == 'fixed':
                     total -= value
                 else: # 'percentual'
                     total -= base_value * value / 100.0
+            else: # 'recharge'
+                if mode == 'fixed':
+                    total += value
+                else: # 'percentual'
+                    total += base_value * value / 100.0
                     
-        data['campaign_rice'] = total
+        data['campaign_price'] = total
         return data
         
     _columns = {
@@ -640,7 +640,7 @@ class CampaignCost(orm.Model):
         
     _defaults = {
         # Default value:
-        'base': lambda *x: 'cost',
+        'base': lambda *x: 'previous',
         'mode': lambda *x: 'percentual',
         }
 
