@@ -577,14 +577,20 @@ class CampaignCostType(orm.Model):
                 data['error'] += _(
                     '%s| Value not present\n') % rule.sequence # go ahead
 
-            if category == 'transport':                
-                v = campaign.transport_unit * product_line.volume # unit
+            if category == 'transport':     
+                if product_line.qty:
+                    unit_volume = product_line.volume / product_line.qty
+                else:
+                    data['warning'] += _(
+                        '#%s. Cannot get unit volume!\n') % rule.sequence
+                    unit_volume = 0.0    
+                v = campaign.transport_unit * unit_volume
                 total += v
                 data['calc'] += _(
                     '%s|+Transport|%s x %s(m3) = %s|%s\n') % (
                         rule.sequence,
                         campaign.transport_unit, 
-                        product_line.volume,
+                        unit_volume,
                         v,
                         total,
                         )
