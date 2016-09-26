@@ -67,6 +67,15 @@ class CampaignCampaign(orm.Model):
             'report_name': 'campaign_campaign_check_image_report', 
             'context': context,
             }
+    def check_image_album_presence_calc_report(self, cr, uid, ids, context=None):
+        ''' Open report for check image with calc
+        '''        
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': 'campaign_campaign_check_image_report', 
+            'context': context,
+            'datas': {'with_cost': True},
+            }
     
     def check_image_album_presence(self, cr, uid, ids, context=None):
         ''' Check if the product_ids in campaign are in album
@@ -518,14 +527,15 @@ class CampaignCostType(orm.Model):
         data = {
             'warning': '',
             'error': '',
-            'calc': '', # TODO 
+            'calc': '',
             }
 
         # ---------------------------------------------------------------------
         # Starting check:
         # ---------------------------------------------------------------------
         if not cost_type_id:
-            data['error'] += _('No cost type use sale price')
+            data['calc'] += _('??|Use sale price|%s|=%s\n') % (price, price)
+            data['error'] += _('No cost type use sale price\n')
             data['campaign_price'] = price # use sale price
             return data
         
@@ -544,15 +554,20 @@ class CampaignCostType(orm.Model):
             # Base evaluation:
             # -----------------------------------------------------------------
             if base == 'previous':
-                base_value = total
+                base_value = total                
+                if not total: # no for first rule!    
+                    data['warning'] += _(
+                        '#%s. Start total not present!\n') % rule.sequence
             elif base == 'cost':
-                base_value = cost
                 if not total: # Init setup depend on first rule
                     total = cost 
+                    data['calc'] += _('0|Start value||%s\n') % total
+                base_value = cost
             else: # 'price':
-                base_value = price
                 if not total: # Init setup depend on first rule
                     total = price
+                    data['calc'] += _('0|Start value||%s\n') % total
+                base_value = price
 
             # -----------------------------------------------------------------
             # Calc depend on category:
@@ -560,22 +575,64 @@ class CampaignCostType(orm.Model):
             # Mandatory field for operation:
             if not value and category in ('discount', 'recharge'):
                 data['error'] += _(
-                    '#%s value not present' % rule.sequence) # go ahead
-                
-            if category == 'transport':
-                total += campaign.transport_unit * product_line.volume # unit
+                    '%s| Value not present\n') % rule.sequence # go ahead
+
+            if category == 'transport':                
+                v = campaign.transport_unit * product_line.volume # unit
+                total += v
+                data['calc'] += _(
+                    '%s|+Transport|%s x %s(m3) = %s|%s\n') % (
+                        rule.sequence,
+                        campaign.transport_unit, 
+                        product_line.volume,
+                        v,
+                        total,
+                        )
             elif category == 'discount':
                 if mode == 'fixed':
                     total -= value
+                    data['calc'] += _(
+                        '%s|-Discount (fixed)|%s|%s\n') % (                        
+                            rule.sequence,
+                            value,
+                            total,
+                            )
                 else: # 'percentual'
-                    total -= base_value * value / 100.0
+                    v = base_value * value / 100.0
+                    total -= v
+                    data['calc'] += _(
+                        '%s|-Discount (%s)|%s x %s / 100 = %s|%s\n') % (                        
+                            rule.sequence,
+                            '%',
+                            base_value,
+                            value,
+                            v,
+                            total,
+                            )
             else: # 'recharge'
                 if mode == 'fixed':
                     total += value
+                    data['calc'] += _(
+                        '%s|+Recharge (fixed)|%s|%s\n') % (                        
+                            rule.sequence,
+                            value,
+                            total,
+                            )
                 else: # 'percentual'
-                    total += base_value * value / 100.0
+                    v = base_value * value / 100.0
+                    total += v
+                    data['calc'] += _(
+                        '%s|+Recharge (%s)|%s x %s / 100 = %s|%s\n') % (                        
+                            rule.sequence,
+                            '%',
+                            base_value,
+                            value,
+                            v,
+                            total,
+                            )
                     
         data['campaign_price'] = total
+        data['calc'] += _('|TOTAL||%s\n') % total
         return data
         
     _columns = {

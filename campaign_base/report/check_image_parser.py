@@ -49,5 +49,15 @@ class Parser(report_sxw.rml_parse):
         self.context = context
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
+            'explode_table_field': self.explode_table_field,
             })
+    def explode_table_field(self, calc):
+        ''' Explode calc field
+        '''   
+        res = []
+        for line in calc.split('\n'):
+            if not line:
+                continue
+            res.append(line.split('|'))
+        return res
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
