@@ -263,6 +263,10 @@ class CampaignCampaign(orm.Model):
             _('Arriva Montato'),
             _('Unità Imballo'),
             _('Ean'),
+            _('Materiali (struttura, rivestimenti, imbottiture, piani ecc.)'),
+            _('Colore/i (indicare tutti i colori presenti)'),
+            _('Informazioni lavaggio'),
+            _('Rivestimento sfoderabile'),
             ]
         if from_wizard:
             header_data.append(_('Disponibilità'))
@@ -284,7 +288,7 @@ class CampaignCampaign(orm.Model):
             'id', 'default_code', '', '', '', '', '', '', '', '', ''] #, '']
         if from_wizard:
             hidden_data.append('')
-            
+
         # Dynamic part:
         for i in range(0, self.pack_max):
             hidden_data.extend(empty)
@@ -296,7 +300,7 @@ class CampaignCampaign(orm.Model):
         # ---------------------------------------------------------------------
         for relation in relations:
             product = relation.product_id # readability
-            
+
             # Ean part:
             ean = product.ean13 or '' # normal
             if relation.packaging_id:
@@ -320,7 +324,7 @@ class CampaignCampaign(orm.Model):
                 int(relation.qty),
                 #relation.price,
                 relation.campaign_price * 1.22, # TODO parametrize
-                relation.campaign_price,                        
+                relation.campaign_price,
 
                 product.seat_height,
                 product.campaign_comment,
@@ -329,6 +333,11 @@ class CampaignCampaign(orm.Model):
                 int(relation.q_x_pack),
                 # Product:
                 ean,
+                product.campaign_material or '',
+                product.campaign_color or '',
+                product.campaign_wash or '',
+                _('Sì') if product.campaign_cover else _('No'),
+                
                 #0.0, #TODO what data?!?!? int(product.qty),
                 ]
 
@@ -340,14 +349,14 @@ class CampaignCampaign(orm.Model):
                 #                   Multipackage product:
                 # -------------------------------------------------------------
                 i = 0                    
-                
+
                 for pack in product.multi_pack_ids: # Loop on all elements
                     i += pack.number or 1
                     for item in range(0, pack.number or 1):
                         data.extend([ # pack
                             pack.height,
                             pack.width, 
-                            pack.length, 
+                            pack.length,
                             pack.weight,                            
                             ])  
 
