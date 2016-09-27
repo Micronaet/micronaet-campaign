@@ -281,14 +281,14 @@ class CampaignCampaign(orm.Model):
         # ---------------------------------------------------------------------
         # Static data list:
         hidden_data = [
-            'id', 'default_code', '', '', '', '', '', '', '', '', '']#, '']
+            'id', 'default_code', '', '', '', '', '', '', '', '', ''] #, '']
         if from_wizard:
             hidden_data.append('')
             
         # Dynamic part:
         for i in range(0, self.pack_max):
             hidden_data.extend(empty)
-        
+
         res.append(('HIDDEN', hidden_data))
 
         # ---------------------------------------------------------------------
@@ -296,6 +296,16 @@ class CampaignCampaign(orm.Model):
         # ---------------------------------------------------------------------
         for relation in relations:
             product = relation.product_id # readability
+            
+            # Ean part:
+            ean = product.ean13 or '' # normal
+            if relation.packaging_id:
+                if relation.packaging_id.ean:
+                    ean = relation.packaging_id.ean # normal different pack
+                else:
+                    if ean: # warning:
+                        ean = '%s (prod.)' % ean
+
             # ------------
             # Common part:
             # ------------
@@ -304,9 +314,12 @@ class CampaignCampaign(orm.Model):
                 product.default_code,
 
                 # Relation:
-                relation.description,
+                '%s %s' % (
+                    relation.description or product.name or '?', 
+                    product.colour or ''),
                 int(relation.qty),
-                relation.price,
+                #relation.price,
+                relation.campaign_price * 1.22, # TODO parametrize
                 relation.campaign_price,                        
 
                 product.seat_height,
@@ -315,7 +328,7 @@ class CampaignCampaign(orm.Model):
                 _('Sì') if product.campaign_mounted else _('No'),
                 int(relation.q_x_pack),
                 # Product:
-                product.ean13 or '',
+                ean,
                 #0.0, #TODO what data?!?!? int(product.qty),
                 ]
 
