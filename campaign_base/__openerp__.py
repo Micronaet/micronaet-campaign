@@ -41,6 +41,7 @@
         'product_package_volume', # for volume in package
         'product_multi_package', # for multipackage mode
         'product_cost_rule', # for cost generation and base cost in campaign
+        'product_package_extra_cost', # repackage cost
         ],
     'init_xml': [],
     'demo': [],

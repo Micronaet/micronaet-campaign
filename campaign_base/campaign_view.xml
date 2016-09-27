@@ -189,7 +189,6 @@
                                                 <sheet>
                                                     <group colspan="4" col="4">
                                                         <field name="name" />
-                                                        <newline />
                                                         <separator string="Cost rules:" colspan="4"/>
                                                         <field name="rule_ids" nolabel="1" colspan="4">
                                                             <tree string="Cost rules:" editable="bottom">
@@ -197,7 +196,7 @@
                                                                 <field name="category" />
                                                                 <field name="description" />
                                                                 <field name="base" />
-                                                                <field name="mode" attrs="{'readonly':[('category','=','transport')]}"/>
+                                                                <field name="mode" attrs="{'readonly':[('category','in',('transport', 'packaging'))]}"/>
                                                                 <field name="value" attrs="{'readonly':[('category','=','transport')]}"/>
                                                                 <field name="note" />
                                                                 <!--TODO button?-->

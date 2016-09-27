@@ -594,6 +594,20 @@ class CampaignCostType(orm.Model):
                         v,
                         total,
                         )
+            elif category == 'packaging':                     
+                # cost for pack (forced or product one's)
+                pack_cost = rule.value or (
+                    product_line.packaging_id.package_extra_cost \
+                    if product_line.packaging_id else 0.0)
+
+                total += pack_cost
+                data['calc'] += _(
+                    '%s|+Re-pack|%s%s|%s\n') % (
+                        rule.sequence,
+                        pack_cost, 
+                        _(' (forced)') if rule.value else '',
+                        total,
+                        )
             elif category == 'discount':
                 if mode == 'fixed':
                     total -= value
@@ -685,6 +699,7 @@ class CampaignCost(orm.Model):
             ('discount', 'Discount (-)'), # sign -
             ('recharge', 'Rechange (+)'), # sign +
             ('transport', 'Transport (+)'), # sign +
+            ('packaging', 'Re-packaging (+)'), # sign +            
             ], 'Category', required=True),        
         'description': fields.char('Description', size=64),
         'base': fields.selection([
