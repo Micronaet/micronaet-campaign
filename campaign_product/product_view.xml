@@ -33,10 +33,15 @@
 				                    <field name="campaign_cover" />
 				                    <field name="campaign_mounted" />
 
-                                    <separator string="Material" colspan="2"/>
-                                    <separator string="Color" colspan="2"/>
+                                    <separator string="Campaign Material" colspan="2"/>
+                                    <separator string="Campaign Color" colspan="2"/>
 				                    <field name="campaign_material" nolabel="1" colspan="2"/>
 				                    <field name="campaign_color" nolabel="1" colspan="2"/>
+
+                                    <separator string="Material" colspan="2"/>
+                                    <separator string="Color" colspan="2"/>
+				                    <field name="fabric" nolabel="1" colspan="2"/>
+				                    <field name="colour" nolabel="1" colspan="2"/>
 
                                     <separator string="Wash info" colspan="2"/>
                                     <separator string="Comment" colspan="2"/>
