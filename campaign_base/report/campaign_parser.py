@@ -254,11 +254,11 @@ class CampaignCampaign(orm.Model):
         header_data = [
             _('Codice prodotto'),
             _('Nome prodotto'),
-            _('Quantità riservata'),
-            _('Prezzo listino (IVA inclusa)'),
-            _('Prezzo cessione (IVA esclusa)'),
+            _('Quantità\nriservata'),
+            _('Prezzo listino\n(IVA inclusa)'),
+            _('Prezzo cessione\n(IVA esclusa)'),
             _('Altezza seduta'),
-            _('Commenti Aggiuntivi'),
+            _('Commenti\nAggiuntivi'),
             _('Altezza'),
             _('Larghezza'),
             _('Lunghezza'),            
@@ -266,10 +266,10 @@ class CampaignCampaign(orm.Model):
             _('Arriva Montato'),
             _('Unità Imballo'),
             _('Ean'),
-            _('Materiali (struttura, rivestimenti, imbottiture, piani ecc.)'),
-            _('Colore/i (indicare tutti i colori presenti)'),
-            _('Informazioni lavaggio'),
-            _('Rivestimento sfoderabile'),
+            _('Materiali\n(struttura, rivestimenti, imbottiture, piani ecc.)'),
+            _('Colore/i\n(indicare tutti i colori presenti)'),
+            _('Informazioni\nlavaggio'),
+            _('Rivestimento\nsfoderabile'),
             ]
         if from_wizard:
             header_data.append(_('Disponibilità'))
