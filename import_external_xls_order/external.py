@@ -21,6 +21,7 @@ import os
 import sys
 import logging
 import openerp
+import xlrd
 import openerp.netsvc as netsvc
 import openerp.addons.decimal_precision as dp
 from openerp.osv import fields, osv, expression, orm
@@ -50,7 +51,6 @@ class SaleOrder(orm.Model):
     def import_campaign_like_order_from_xls(self, cr, uid, ids, context=None):
         ''' Campaign like order
         '''        
-        import pdb; pdb.set_trace()
         assert len(ids) == 1, 'Only one order a time!'
 
         if context is None:
@@ -86,11 +86,16 @@ class SaleOrder(orm.Model):
         i = 0
         for line in range(0, max_check):
             i += 1
-            row = ws.row(line)
+            try:
+                row = ws.row(line)
+            except:
+                break # end of file    
             
-            default_code = row[0].value
-            product_uom_qty = row[1].value
-            price_unit = row[2].value
+            # XXX different columns (now change in code)
+            name = row[2].value
+            default_code = row[2].value
+            product_uom_qty = row[9].value
+            price_unit = row[10].value
              
             if not default_code:
                 _logger.error('%s. No default code, jumped' % i)
@@ -104,31 +109,33 @@ class SaleOrder(orm.Model):
                 product_id = product_ids[0]
             else:
                 # Create simple product
-                # TODO 
+                _logger.error('%s. Product not found %s, created!' % (
+                    i, default_code))
                 product_id = product_pool.create(cr, uid, {
-                    'name': 'Product %s' % default_code,
+                    'name': '%s %s' % (name, default_code),
                     'default_code': default_code,
                     }, context=context)
                     
-            product_proxy = self.browse(cr, uid, product_id, context=context)        
+            product_proxy = product_pool.browse(
+                cr, uid, product_id, context=context)        
 
             # -----------------------------------------------------------------
             # Create sale order line:
             # -----------------------------------------------------------------
             # Raise onchange:
-            line_data = sol_pool.product_id_change_with_wh(
+            line_data = line_pool.product_id_change_with_wh(
                 cr, uid, False, 
-                data.get('pricelist_id'), 
+                order_proxy.pricelist_id.id, 
                 product_proxy.id, 
-                qty,
+                product_uom_qty,
                 uom=product_proxy.uom_id.id, # TODO change 
                 qty_uos=0, 
                 uos=False, 
-                name=product_proxy.description, 
+                name=product_proxy.name, 
                 partner_id=order_proxy.partner_id.id,
                 lang=order_proxy.partner_id.lang, 
                 update_tax=True, 
-                date_order=date, 
+                date_order=order_proxy.date_order, 
                 packaging=False, 
                 fiscal_position=order_proxy.fiscal_position.id, 
                 flag=False, 
@@ -143,14 +150,14 @@ class SaleOrder(orm.Model):
                 'product_uom_qty': product_uom_qty,
                 'product_uom': product_proxy.uom_id.id, # no uom_id
                 'price_unit': price_unit,
-                'date_deadline': order_proxy.deadline,
+                'date_deadline': order_proxy.date_deadline,
                 # TODO measure data?!?
                 })
 
             # Tax ID correction:
             if 'tax_id' in line_data:
                 line_data['tax_id'] = [(6, 0, line_data['tax_id'])]      
-            line_pool.write(cr, uid, product_id, data, context=context) 
+            line_pool.create(cr, uid, line_data, context=context) 
         
         # TODO update log data on campaign.campaign            
         _logger.info('End import XLS product file: %s' % fullname)
