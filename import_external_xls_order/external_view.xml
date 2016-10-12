@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_sale_order_import_temp_xls_form">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[1]" position="after">    
+                    <button name="import_campaign_like_order_from_xls" string="Import XLS temp" type="object" invisible="0"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
+
