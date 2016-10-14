@@ -126,17 +126,22 @@ class CampaignCampaign(orm.Model):
         WS.set_column ('A:A', 0, None, {'hidden': 1}) # ID column        
         WS.set_column ('B:B', 30) # Image colums
         
+        # set language:
+
         row = 1
+        context_lang = context.get('lang', 'it_IT')
         for o in objects: # NOTE: only one from button
-            path = os.path.expanduser(o.thumb_album_id.path)
+            context['lang'] = o.partner_id.lang or 'it_IT'
+            
+            path = os.path.expanduser(o.thumb_album_id.path)            
             extension = o.thumb_album_id.extension_image
             
             # -----------------------------------------------------------------
             # Header:
             # -----------------------------------------------------------------            
-            WS.write(row, 1, 'CAMPAGNA', format_header)
+            WS.write(row, 1, _('CAMPAGNA'), format_header)
             WS.write(row, 2, o.name, format_header)
-            WS.write(row, 4, 'Cliente:', format_header)
+            WS.write(row, 4, _('Cliente:'), format_header)
             WS.write(row, 5, o.partner_id.name, format_header)            
             row += 1
             
@@ -188,6 +193,7 @@ class CampaignCampaign(orm.Model):
                         col += 1
                         WS.write(row, col, field, format_data)        
         WB.close()
+        context['lang'] = context_lang # previous lang
         return True
     
     # -------------------------------------------------------------------------    

@@ -161,5 +161,6 @@ class SaleOrder(orm.Model):
         
         # TODO update log data on campaign.campaign            
         _logger.info('End import XLS product file: %s' % fullname)
+        return True
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
