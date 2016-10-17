@@ -153,7 +153,7 @@ class ProductProductAssignCampaign(orm.TransientModel):
                 'qty': qty,
                 'product_id': product.id,
                 'uom_id': product.uom_id.id,
-                'description': product.name,
+                'description': '', #product.name,
                 'cost': product.__getattribute__(campaign.base_cost), # param.
                 'price': product.lst_price,            
                 'campaign_price': campaign_price, # start value
