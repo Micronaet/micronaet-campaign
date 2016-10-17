@@ -1,0 +1,1458 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* campaign_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-10-17 06:33+0000\n"
+"PO-Revision-Date: 2016-10-17 09:15+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:608
+#, python-format
+msgid " (forced)"
+msgstr " (forzato)"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_product_status_parser.py:200
+#, python-format
+msgid " >> Mode: %s "
+msgstr " >> Modalità: %s "
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_product_status_parser.py:199
+#, python-format
+msgid " >> Period days: %s "
+msgstr " >> Giorni periodo: %s "
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:584
+#, python-format
+msgid "#%s. Cannot get unit volume!\n"
+msgstr "#%s. Volume unitario non presente!\n"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:559
+#, python-format
+msgid "#%s. Start total not present!\n"
+msgstr "#%s. Valore iniziale non presente!\n"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:577
+#, python-format
+msgid "%s| Value not present\n"
+msgstr "%s| Valore non presente\n"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:604
+#, python-format
+msgid "%s|+Re-pack|%s%s|%s\n"
+msgstr "%s|+Re-imballo|%s%s|%s\n"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:644
+#, python-format
+msgid "%s|+Recharge (%s)|%s x %s / 100 = %s|%s\n"
+msgstr "%s|+Ricarico (%s)|%s x %s / 100 = %s|%s\n"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:635
+#, python-format
+msgid "%s|+Recharge (fixed)|%s|%s\n"
+msgstr "%s|+Ricarico (fisso)|%s|%s\n"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:589
+#, python-format
+msgid "%s|+Transport|%s x %s(m3) = %s|%s\n"
+msgstr "%s|+Transporto|%s x %s(m3) = %s|%s\n"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:623
+#, python-format
+msgid "%s|-Discount (%s)|%s x %s / 100 = %s|%s\n"
+msgstr "%s|-Sconto (%s)|%s x %s / 100 = %s|%s\n"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:614
+#, python-format
+msgid "%s|-Discount (fixed)|%s|%s\n"
+msgstr "%s|-Sconto (fixed)|%s|%s\n"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:564
+#: code:addons/campaign_base/campaign.py:569
+#, python-format
+msgid "0|Start value||%s\n"
+msgstr "0|Valore di partenza||%s\n"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:537
+#, python-format
+msgid "??|Use sale price|%s|=%s\n"
+msgstr "??|Usa prezzo di vendita|%s|=%s\n"
+
+#. module: campaign_base
+#: view:campaign.product:campaign_base.view_campaign_product_search
+msgid "Active"
+msgstr "Attivo"
+
+#. module: campaign_base
+#: field:campaign.campaign,partner_address_id:0
+msgid "Address"
+msgstr "Indirizzo"
+
+#. module: campaign_base
+#: field:campaign.campaign,album_id:0
+msgid "Album HQ"
+msgstr "Album HQ"
+
+#. module: campaign_base
+#: field:campaign.campaign,thumb_album_id:0
+msgid "Album Thumb"
+msgstr "Album anteprima"
+
+#. module: campaign_base
+#: help:campaign.campaign,album_id:0
+msgid "Album for ZIP HQ images"
+msgstr "Album per immagini ZIP HQ"
+
+#. module: campaign_base
+#: help:campaign.campaign,thumb_album_id:0
+msgid "Album for thumb low resolution photo (XLS files)"
+msgstr "Album per anteprima foto bassa risoluzione(File XLS)"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid "All current cost rule will be deleted, confirm?"
+msgstr "Tutte le regole presenti per il costo saranno cancellate, confermi?"
+
+#. module: campaign_base
+#: field:product.product.assign.campaign,note:0
+msgid "Annotation"
+msgstr "Annotazioni"
+
+#. module: campaign_base
+#: help:product.product.assign.campaign,note:0
+msgid "Annotation about product association"
+msgstr "Annotazioni circa il prodotto associato"
+
+#. module: campaign_base
+#: view:product.product.assign.campaign:campaign_base.product_product_assign_campaign_view
+msgid "Assign"
+msgstr "Assegna"
+
+#. module: campaign_base
+#: model:ir.actions.act_window,name:campaign_base.act_windows_product_product_assign_campaign
+#: model:ir.actions.act_window,name:campaign_base.action_product_product_assign_campaign
+#: view:product.product.assign.campaign:campaign_base.product_product_assign_campaign_view
+msgid "Assign campaign"
+msgstr "Campagna assegnata"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid ""
+"Assign to product cost type and calculate campaign price depend on cost type "
+"rules"
+msgstr ""
+"Assegna la tipologia di costo prodotto e calcola il prezzo campagna in "
+"funzione delle regole di costi"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:281
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+#, python-format
+msgid "Availability"
+msgstr "Disponibilità"
+
+#. module: campaign_base
+#: field:campaign.cost,base:0 field:campaign.cost.model.item,base:0
+msgid "Base"
+msgstr "Base"
+
+#. module: campaign_base
+#: field:campaign.campaign,base_cost:0
+msgid "Base cost"
+msgstr "Costo base"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:142
+#, python-format
+msgid "CAMPAIGN"
+msgstr "CAMPAGNA"
+
+#. module: campaign_base
+#: field:campaign.product,calc:0
+msgid "Calc"
+msgstr "Calcola"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:168
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_calendar
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_search
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_tree
+#: field:campaign.cost.type,campaign_id:0
+#: view:campaign.product:campaign_base.view_campaign_product_search
+#: field:campaign.product,campaign_id:0
+#: model:ir.actions.act_window,name:campaign_base.action_campaign_campaign
+#: model:ir.model,name:campaign_base.model_campaign_campaign
+#: model:ir.ui.menu,name:campaign_base.menu_campaign_campaign
+#: model:ir.ui.menu,name:campaign_base.menu_campaign_root
+#: field:product.product.assign.campaign,campaign_id:0
+#, python-format
+msgid "Campaign"
+msgstr "Campagna"
+
+#. module: campaign_base
+#: model:res.groups,name:campaign_base.campaign_group_category_manager
+msgid "Campaign Manager"
+msgstr "Manager campagna"
+
+#. module: campaign_base
+#: selection:product.product.campaign.status.report,report_name:0
+msgid "Campaign XLS report (with avail.)"
+msgstr "Report XLS campagna (con disponibilità)"
+
+#. module: campaign_base
+#: model:ir.module.category,name:campaign_base.campaign_group_category
+msgid "Campaign category"
+msgstr "Categoria campagna"
+
+#. module: campaign_base
+#: model:ir.actions.report.xml,name:campaign_base.aeroo_campaign_campaign_check_image_report
+msgid "Campaign check image"
+msgstr "Controllo immagini campagna"
+
+#. module: campaign_base
+#: model:ir.model,name:campaign_base.model_campaign_cost
+#: model:ir.model,name:campaign_base.model_campaign_cost_model_item
+msgid "Campaign cost"
+msgstr "Costi campagna"
+
+#. module: campaign_base
+#: model:ir.model,name:campaign_base.model_campaign_cost_category
+msgid "Campaign cost category"
+msgstr "Categoria costo campagna"
+
+#. module: campaign_base
+#: view:campaign.cost.model:campaign_base.view_campaign_cost_model_form
+#: view:campaign.cost.model:campaign_base.view_campaign_cost_model_tree
+#: model:ir.actions.act_window,name:campaign_base.action_campaign_cost_model
+#: model:ir.model,name:campaign_base.model_campaign_cost_model
+msgid "Campaign cost model"
+msgstr "Modello costi campagna"
+
+#. module: campaign_base
+#: model:ir.model,name:campaign_base.model_campaign_cost_type
+msgid "Campaign cost type"
+msgstr "Tipo costo campagna"
+
+#. module: campaign_base
+#: model:ir.module.category,description:campaign_base.campaign_group_category
+msgid "Campaign management."
+msgstr "Gestione campagne"
+
+#. module: campaign_base
+#: code:addons/campaign_base/wizard/assign_campaign.py:200
+#, python-format
+msgid "Campaign populated:"
+msgstr "Campagna popolata"
+
+#. module: campaign_base
+#: model:ir.actions.report.xml,name:campaign_base.aeroo_campaign_campaign_ods_report
+msgid "Campaign pre-order (XLS)"
+msgstr "Pre-ordine campagna (XLS)"
+
+#. module: campaign_base
+#: field:campaign.product,campaign_price:0
+msgid "Campaign price"
+msgstr "Prezzo campagna"
+
+#. module: campaign_base
+#: view:campaign.product:campaign_base.view_campaign_product_form
+#: view:campaign.product:campaign_base.view_campaign_product_search
+#: view:campaign.product:campaign_base.view_campaign_product_tree
+#: model:ir.actions.act_window,name:campaign_base.action_campaign_product
+#: model:ir.model,name:campaign_base.model_campaign_product
+#: model:ir.ui.menu,name:campaign_base.menu_campaign_product
+msgid "Campaign product"
+msgstr "Prodotto campagna"
+
+#. module: campaign_base
+#: model:ir.ui.menu,name:campaign_base.menu_campaign_report_status
+msgid "Campaign product status"
+msgstr "Stato prodotto campagna"
+
+#. module: campaign_base
+#: help:campaign.cost,type_id:0 help:campaign.cost.model.item,type_id:0
+msgid "Campaign reference"
+msgstr "Riferimento campagna"
+
+#. module: campaign_base
+#: help:campaign.cost.type,campaign_id:0 help:campaign.product,campaign_id:0
+msgid "Campaign referente"
+msgstr "Referente campagna"
+
+#. module: campaign_base
+#: model:ir.actions.report.xml,name:campaign_base.aeroo_campaign_campaign_report
+msgid "Campaign report"
+msgstr "Report campagna"
+
+#. module: campaign_base
+#: model:ir.actions.report.xml,name:campaign_base.aeroo_campaign_product_status_report
+msgid "Campaign report status"
+msgstr "Report stato campagna"
+
+#. module: campaign_base
+#: help:product.product.assign.campaign,campaign_id:0
+msgid "Campaign to associate"
+msgstr "Campagna da associare"
+
+#. module: campaign_base
+#: model:res.groups,name:campaign_base.campaign_group_category_user
+msgid "Campaign user"
+msgstr "Utente campagna"
+
+#. module: campaign_base
+#: view:product.product.assign.campaign:campaign_base.product_product_assign_campaign_view
+msgid "Campaign:"
+msgstr "Campagna:"
+
+#. module: campaign_base
+#: model:ir.model,name:campaign_base.model_product_product_campaign_status_report
+msgid "Campain product status wizard"
+msgstr "Wizard prodotti stato campagna"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+#: selection:campaign.campaign,state:0
+#: view:product.product.assign.campaign:campaign_base.product_product_assign_campaign_view
+#: view:product.product.campaign.status.report:campaign_base.view_product_product_campaign_status_report_form
+msgid "Cancel"
+msgstr "Annulla"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_search
+msgid "Cancel state"
+msgstr "Stato annullato"
+
+#. module: campaign_base
+#: field:campaign.cost,category:0 field:campaign.cost.model.item,category:0
+msgid "Category"
+msgstr "Categoria"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:230
+#, python-format
+msgid "Changing state:"
+msgstr "Cambio stato:"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid "Check album image"
+msgstr "Controlla album immagini"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:95
+#, python-format
+msgid "Check campaign image"
+msgstr "Controlla immagine campagna"
+
+#. module: campaign_base
+#: field:product.product.assign.campaign,check_min_package:0
+msgid "Check min pack"
+msgstr "Controlla imballo minimo"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid "Check product data report"
+msgstr "Report controllo dati prodotto"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid "Check product data report (calc.)"
+msgstr "Report controllo dati prodotto (calc.)"
+
+#. module: campaign_base
+#: help:campaign.campaign,base_cost:0
+msgid "Choose base cost from product to campaign"
+msgstr "Scegli il costo base per il prodotto in campagna"
+
+#. module: campaign_base
+#: help:campaign.product,pack_error:0
+msgid "Choosen total not fit in packaging choosen"
+msgstr "Totale selezionato non corretto con l'imballo scelto"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid "Close"
+msgstr "Chiudi"
+
+#. module: campaign_base
+#: selection:campaign.campaign,state:0
+msgid "Closed"
+msgstr "Chiuso"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_search
+msgid "Closed state"
+msgstr "Stato chiuso"
+
+#. module: campaign_base
+#: field:campaign.campaign,code:0
+msgid "Code"
+msgstr "Codice"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:276
+#, python-format
+msgid ""
+"Color/s\n"
+"(write all color present)"
+msgstr ""
+"Colore/i\n"
+"(scrivere tutti i colori presenti)"
+
+#. module: campaign_base
+#: model:ir.ui.menu,name:campaign_base.menu_campaign_configuration
+msgid "Configuration"
+msgstr "Configurazione"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid "Confirm"
+msgstr "Conferma"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid "Confirm q. before, order will be created!"
+msgstr "Conferma le q. prima, l'ordine verrà poi creato!"
+
+#. module: campaign_base
+#: selection:campaign.campaign,state:0
+msgid "Confirmed"
+msgstr "Confirmato"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_search
+msgid "Confirmed state"
+msgstr "Stato confermato"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_product_status_parser.py:160
+#, python-format
+msgid "Cont."
+msgstr "Cont."
+
+#. module: campaign_base
+#: selection:campaign.cost,base:0 selection:campaign.cost.model.item,base:0
+#: field:campaign.product,cost:0
+msgid "Cost"
+msgstr "Costo"
+
+#. module: campaign_base
+#: selection:campaign.campaign,base_cost:0
+msgid "Cost FCO Company"
+msgstr "Costo FCO ns. Azienda"
+
+#. module: campaign_base
+#: selection:campaign.campaign,base_cost:0
+msgid "Cost FCO Customer"
+msgstr "Costo FCO Cliente"
+
+#. module: campaign_base
+#: selection:campaign.campaign,base_cost:0
+msgid "Cost FOB Supplier"
+msgstr "Costo FOB Fornitore"
+
+#. module: campaign_base
+#: help:campaign.cost.type,name:0
+msgid "Cost depend on product category"
+msgstr "Costo dipendente dalla categoria prodotto"
+
+#. module: campaign_base
+#: field:campaign.cost,mode:0 field:campaign.cost.model.item,mode:0
+msgid "Cost mode"
+msgstr "Modalità costo"
+
+#. module: campaign_base
+#: field:campaign.cost,model_id:0 field:campaign.cost.model.item,model_id:0
+#: model:ir.ui.menu,name:campaign_base.menu_campaign_cost_model
+msgid "Cost model"
+msgstr "Modello costo"
+
+#. module: campaign_base
+#: help:campaign.cost,model_id:0 help:campaign.cost.model.item,model_id:0
+msgid "Cost model, used in inherit type 2 cost"
+msgstr "Modello costo, usato per ereditare i 2 tipi di costi"
+
+#. module: campaign_base
+#: field:campaign.cost.model,rule_ids:0 field:campaign.cost.type,rule_ids:0
+msgid "Cost rule"
+msgstr "Regola costo"
+
+#. module: campaign_base
+#: view:campaign.cost.model:campaign_base.view_campaign_cost_model_form
+msgid "Cost rules"
+msgstr "Regole costo"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+#: view:campaign.cost.model:campaign_base.view_campaign_cost_model_form
+msgid "Cost rules:"
+msgstr "Regole costo:"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+#: field:campaign.cost,type_id:0 field:campaign.cost.model.item,type_id:0
+#: field:campaign.cost.type,name:0 field:campaign.product,cost_type_id:0
+msgid "Cost type"
+msgstr "Tipo di costo"
+
+#. module: campaign_base
+#: help:campaign.product,cost_type_id:0
+msgid "Cost type reference"
+msgstr "Riferimento tipo costo"
+
+#. module: campaign_base
+#: field:campaign.campaign,cost_ids:0
+msgid "Costs"
+msgstr "Costi"
+
+#. module: campaign_base
+#: field:campaign.campaign,create_uid:0 field:campaign.cost,create_uid:0
+#: field:campaign.cost.model,create_uid:0
+#: field:campaign.cost.model.item,create_uid:0
+#: field:campaign.cost.type,create_uid:0 field:campaign.product,create_uid:0
+#: field:product.product.assign.campaign,create_uid:0
+#: field:product.product.campaign.status.report,create_uid:0
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: campaign_base
+#: field:campaign.campaign,create_date:0 field:campaign.cost,create_date:0
+#: field:campaign.cost.model,create_date:0
+#: field:campaign.cost.model.item,create_date:0
+#: field:campaign.cost.type,create_date:0 field:campaign.product,create_date:0
+#: field:product.product.assign.campaign,create_date:0
+#: field:product.product.campaign.status.report,create_date:0
+msgid "Created on"
+msgstr "Creato il "
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:144
+#, python-format
+msgid "Customer:"
+msgstr "Cliente:"
+
+#. module: campaign_base
+#: help:campaign.campaign,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr "Data dell'ultimo messaggio postato su questo record."
+
+#. module: campaign_base
+#: field:product.product.campaign.status.report,days:0
+msgid "Days"
+msgstr "Giorni"
+
+#. module: campaign_base
+#: field:campaign.campaign,date_deadline:0
+msgid "Deadline"
+msgstr "Scadenza"
+
+#. module: campaign_base
+#: field:campaign.campaign,transport_id:0
+msgid "Default transport"
+msgstr "Trasporto default"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:287
+#, python-format
+msgid "Depth # %s"
+msgstr "Profondità # %s"
+
+#. module: campaign_base
+#: field:campaign.cost,description:0
+#: field:campaign.cost.model.item,description:0
+#: field:campaign.product,description:0
+msgid "Description"
+msgstr "Descrizione"
+
+#. module: campaign_base
+#: selection:campaign.cost,category:0
+#: selection:campaign.cost.model.item,category:0
+msgid "Discount (-)"
+msgstr "Sconto (-)"
+
+#. module: campaign_base
+#: selection:campaign.campaign,state:0
+msgid "Draft"
+msgstr "Bozza"
+
+#. module: campaign_base
+#: selection:product.product.campaign.status.report,mode:0
+msgid "Draft and confirmed"
+msgstr "Bozza e confermato"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_search
+msgid "Draft state"
+msgstr "Stato bozza"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:274
+#, python-format
+msgid "EAN"
+msgstr "EAN"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_product_status_parser.py:170
+#, python-format
+msgid "End: %s\n"
+msgstr "Fine: %s\n"
+
+#. module: campaign_base
+#: field:campaign.product,error:0
+msgid "Error"
+msgstr "Errore"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid "Export XLSX"
+msgstr "Esporta XLSX"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:267
+#, python-format
+msgid "Extra comment"
+msgstr "Commenti aggiuntivi"
+
+#. module: campaign_base
+#: selection:campaign.cost,mode:0 selection:campaign.cost.model.item,mode:0
+msgid "Fixed"
+msgstr "Fisso"
+
+#. module: campaign_base
+#: field:campaign.campaign,message_follower_ids:0
+msgid "Followers"
+msgstr "Followers"
+
+#. module: campaign_base
+#: help:campaign.campaign,date_deadline:0
+msgid "For order deadline"
+msgstr "Per scadenza ordine"
+
+#. module: campaign_base
+#: field:campaign.campaign,from_date:0
+msgid "From date >="
+msgstr "Dalla data >="
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_search
+msgid "From period"
+msgstr "Dal periodo"
+
+#. module: campaign_base
+#: help:product.product.assign.campaign,from_selection:0
+msgid ""
+"From selected product, instead take product list of campaign for recalculate"
+msgstr ""
+"Dal prodotto selezionato, al posto di prendere la lista della campagna per "
+"il ricalcolo"
+
+#. module: campaign_base
+#: field:product.product.assign.campaign,from_selection:0
+msgid "From selection"
+msgstr "Dalla selezione"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_search
+#: view:campaign.product:campaign_base.view_campaign_product_search
+msgid "Group By"
+msgstr "Raggruppa per"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:268
+#, python-format
+msgid "Height"
+msgstr "Altezza"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:286
+#, python-format
+msgid "Height # %s"
+msgstr "Altezza # %s"
+
+#. module: campaign_base
+#: help:campaign.campaign,message_summary:0
+msgid ""
+"Holds the Chatter summary (number of messages, ...). This summary is "
+"directly in html format in order to be inserted in kanban views."
+msgstr ""
+"Holds the Chatter summary (number of messages, ...). This summary is "
+"directly in html format in order to be inserted in kanban views."
+
+#. module: campaign_base
+#: field:campaign.campaign,id:0 field:campaign.cost,id:0
+#: field:campaign.cost.model,id:0 field:campaign.cost.model.item,id:0
+#: field:campaign.cost.type,id:0 field:campaign.product,id:0
+#: field:product.product.assign.campaign,id:0
+#: field:product.product.campaign.status.report,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: campaign_base
+#: help:campaign.campaign,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr "Se spuntato i nuovi messaggi richiederanno la vostra attenzione."
+
+#. module: campaign_base
+#: help:res.partner,used_campaign:0
+msgid "If checked will be used for campaign customer"
+msgstr "Se spuntato verranno utilizzato per campagna cliente"
+
+#. module: campaign_base
+#: help:campaign.campaign,set_min_qty:0
+msgid "If present is the minimum qty value"
+msgstr "Se presente è il minimo valore di quantità impostato"
+
+#. module: campaign_base
+#: help:product.product.assign.campaign,set_min_qty:0
+msgid "If present this is the minimum qty setted up"
+msgstr "Se presente questo sarà il minimo quantitativo impostato"
+
+#. module: campaign_base
+#: help:campaign.campaign,max_qty:0
+#: help:product.product.assign.campaign,max_qty:0
+msgid "If product > max qty will be used max qty instead"
+msgstr ""
+"Se il prodotto > quantità massima verrà usata quest'ultima al posto della "
+"quantità corrente"
+
+#. module: campaign_base
+#: help:campaign.campaign,min_qty:0
+#: help:product.product.assign.campaign,min_qty:0
+msgid "If product is not >= min qty will be discard"
+msgstr "Se il prodotto non è >= della q. minima verrà scartato"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:160
+#, python-format
+msgid "Imagine"
+msgstr "Immagine"
+
+#. module: campaign_base
+#: field:campaign.campaign,message_is_follower:0
+msgid "Is a Follower"
+msgstr "E' un Follower"
+
+#. module: campaign_base
+#: field:campaign.product,is_active:0
+msgid "Is active"
+msgstr "E' attivo"
+
+#. module: campaign_base
+#: selection:product.product.assign.campaign,mode:0
+msgid "Jump existing product"
+msgstr "Salta prodotto esistente"
+
+#. module: campaign_base
+#: field:campaign.campaign,message_last_post:0
+msgid "Last Message Date"
+msgstr "Ultima data messaggio"
+
+#. module: campaign_base
+#: field:campaign.campaign,write_uid:0 field:campaign.cost,write_uid:0
+#: field:campaign.cost.model,write_uid:0
+#: field:campaign.cost.model.item,write_uid:0
+#: field:campaign.cost.type,write_uid:0 field:campaign.product,write_uid:0
+#: field:product.product.assign.campaign,write_uid:0
+#: field:product.product.campaign.status.report,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultimo aggiornamento di"
+
+#. module: campaign_base
+#: field:campaign.campaign,write_date:0 field:campaign.cost,write_date:0
+#: field:campaign.cost.model,write_date:0
+#: field:campaign.cost.model.item,write_date:0
+#: field:campaign.cost.type,write_date:0 field:campaign.product,write_date:0
+#: field:product.product.assign.campaign,write_date:0
+#: field:product.product.campaign.status.report,write_date:0
+msgid "Last Updated on"
+msgstr "Ultimo aggiornamento il"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:270
+#, python-format
+msgid "Length"
+msgstr "Lunghezza"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:285
+#, python-format
+msgid "Length # %s"
+msgstr "Lunghezza # %s"
+
+#. module: campaign_base
+#: help:stock.move,campaign_product_id:0
+msgid "Line generated from campaign product line"
+msgstr "Riga generata dalla riga prodotto campagna"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid "Load model"
+msgstr "Carica modello"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+#: field:campaign.campaign,log:0
+msgid "Log"
+msgstr "Log"
+
+#. module: campaign_base
+#: help:campaign.campaign,log:0
+msgid "Log assign operation"
+msgstr "Log operazioni assegnate"
+
+#. module: campaign_base
+#: model:res.groups,comment:campaign_base.campaign_group_category_manager
+msgid "Manager of campaign"
+msgstr "Manager campagna"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:275
+#, python-format
+msgid ""
+"Material\n"
+"(structure, coatings, padding, plans etc.)"
+msgstr ""
+"Materiale\n"
+"(strutture, copertura, imbottitura, piani, ecc.)"
+
+#. module: campaign_base
+#: field:campaign.campaign,max_qty:0
+#: field:product.product.assign.campaign,max_qty:0
+msgid "Max. qty"
+msgstr "Q.tà max"
+
+#. module: campaign_base
+#: field:campaign.campaign,message_ids:0
+msgid "Messages"
+msgstr "Messaggi"
+
+#. module: campaign_base
+#: help:campaign.campaign,message_ids:0
+msgid "Messages and communication history"
+msgstr "Messaggi e storico comunicazione"
+
+#. module: campaign_base
+#: field:campaign.campaign,min_qty:0
+#: field:product.product.assign.campaign,min_qty:0
+msgid "Min. qty"
+msgstr "Q.tà min."
+
+#. module: campaign_base
+#: field:product.product.assign.campaign,mode:0
+#: field:product.product.campaign.status.report,mode:0
+msgid "Mode"
+msgstr "Modalità"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:474
+#, python-format
+msgid "Model error!"
+msgstr "Errore modello!"
+
+#. module: campaign_base
+#: field:campaign.cost.type,model_id:0
+msgid "Model model"
+msgstr "Modello modello"
+
+#. module: campaign_base
+#: field:campaign.cost.type,model_name:0
+msgid "Model name"
+msgstr "Nome modello"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:272
+#, python-format
+msgid "Mounted"
+msgstr "Arriva montato"
+
+#. module: campaign_base
+#: field:stock.move,campaign_product_id:0
+msgid "Move from campaign"
+msgstr "Muovi da campagna"
+
+#. module: campaign_base
+#: field:campaign.campaign,name:0 field:campaign.cost.model,name:0
+msgid "Name"
+msgstr "Nome"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:431
+#, python-format
+msgid "Name error!"
+msgstr "Errore nome!"
+
+#. module: campaign_base
+#: sql_constraint:campaign.cost.model:0
+msgid "Name reference must be unique!"
+msgstr "Il nome di riferimento deve essere unico!"
+
+#. module: campaign_base
+#: help:campaign.cost.type,model_name:0
+msgid "Name used for generate model element"
+msgstr "Nome utilizzato per generare elemento mdello"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:343
+#: code:addons/campaign_base/report/campaign_parser.py:350
+#, python-format
+msgid "No"
+msgstr "No"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:538
+#, python-format
+msgid "No cost type use sale price\n"
+msgstr "Nessun tipo di costo, usato prezzo di vendita\n"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:219
+#, python-format
+msgid "No data, change filter"
+msgstr "Nessun risultato, cambia filtro"
+
+#. module: campaign_base
+#: view:campaign.product:campaign_base.view_campaign_product_search
+msgid "Not active"
+msgstr "Non attivo"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+#: field:campaign.campaign,note:0 field:campaign.cost,note:0
+#: view:campaign.cost.model:campaign_base.view_campaign_cost_model_form
+#: field:campaign.cost.model,note:0 field:campaign.cost.model.item,note:0
+#: view:product.product.assign.campaign:campaign_base.product_product_assign_campaign_view
+msgid "Note"
+msgstr "Note"
+
+#. module: campaign_base
+#: help:campaign.campaign,with_detail:0
+msgid "One product may have more than one other detail photo"
+msgstr "Un prodotto può avere più di un altra foto dettaglio"
+
+#. module: campaign_base
+#: selection:product.product.campaign.status.report,mode:0
+msgid "Only confirmed"
+msgstr "Solo confermati"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:169
+#, python-format
+msgid "Order"
+msgstr "Ordine"
+
+#. module: campaign_base
+#: selection:product.product.assign.campaign,mode:0
+msgid "Override product qty"
+msgstr "Sovrascrivi quantità prodotto"
+
+#. module: campaign_base
+#: field:campaign.product,packaging_id:0
+msgid "Pack"
+msgstr "Imballo"
+
+#. module: campaign_base
+#: field:campaign.product,pack_error:0
+msgid "Pack error"
+msgstr "Errore imballo"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:273
+#, python-format
+msgid "Package unit"
+msgstr "Unità imballo"
+
+#. module: campaign_base
+#: model:ir.model,name:campaign_base.model_product_packaging
+msgid "Packaging"
+msgstr "Confezionamento"
+
+#. module: campaign_base
+#: view:campaign.product:campaign_base.view_campaign_product_tree
+msgid "Packaging error"
+msgstr "Errore imballo"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_search
+#: field:campaign.campaign,partner_id:0
+#: model:ir.model,name:campaign_base.model_res_partner
+msgid "Partner"
+msgstr "Partner"
+
+#. module: campaign_base
+#: help:campaign.campaign,partner_address_id:0
+#: help:campaign.campaign,partner_id:0
+msgid "Partner (as customer) reference for this campaign"
+msgstr "Partner (cliente) riferimento per questa campagna"
+
+#. module: campaign_base
+#: selection:campaign.cost,mode:0 selection:campaign.cost.model.item,mode:0
+msgid "Percentual"
+msgstr "Percentuale"
+
+#. module: campaign_base
+#: selection:campaign.cost,base:0 selection:campaign.cost.model.item,base:0
+msgid "Previous"
+msgstr "Precedente"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+#: selection:campaign.cost,base:0 selection:campaign.cost.model.item,base:0
+#: field:campaign.product,price:0
+msgid "Price"
+msgstr "Prezzo"
+
+#. module: campaign_base
+#: field:campaign.campaign,pricelist_id:0
+msgid "Pricelist"
+msgstr "Prezzo listino"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:264
+#, python-format
+msgid ""
+"Pricelist\n"
+"(VAT included)"
+msgstr ""
+"Listino\n"
+"(IVA inclusa)"
+
+#. module: campaign_base
+#: help:campaign.campaign,pricelist_id:0
+msgid ""
+"Pricelist used for this campaign (calculate end price \n"
+"                'before discount"
+msgstr ""
+"Listino utilizzato per questa campagna (calcola prezzo finale \n"
+"                'prima dello sconto"
+
+#. module: campaign_base
+#: view:product.product.campaign.status.report:campaign_base.view_product_product_campaign_status_report_form
+msgid "Print report"
+msgstr "Stampa report"
+
+#. module: campaign_base
+#: view:campaign.product:campaign_base.view_campaign_product_search
+#: field:campaign.product,product_id:0
+#: model:ir.model,name:campaign_base.model_product_product
+msgid "Product"
+msgstr "Prodotto"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:261
+#, python-format
+msgid "Product code"
+msgstr "Codice prodotto"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid "Product cost:"
+msgstr "Costo prodotto:"
+
+#. module: campaign_base
+#: help:campaign.product,product_id:0
+msgid "Product in campaign"
+msgstr "Prodotto in campagna"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:262
+#, python-format
+msgid "Product name"
+msgstr "Nome prodotto"
+
+#. module: campaign_base
+#: view:product.product.campaign.status.report:campaign_base.view_product_product_campaign_status_report_form
+msgid "Product status campaign"
+msgstr "Stato prodotti campagna"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:271
+#, python-format
+msgid "Product weight"
+msgstr "Peso prodotto"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+#: field:campaign.campaign,product_ids:0
+msgid "Products"
+msgstr "Prodotti"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid ""
+"Products (red: not active, green: all ordered, blue: partial order, grey: "
+"not ordered)"
+msgstr ""
+"Prodotti (rosso: non attivi, verde: ordinato per intero, blu: ordine "
+"parziale, grigio: non ordinato)"
+
+#. module: campaign_base
+#: field:campaign.product,qty:0 field:campaign.product,qty_offered:0
+msgid "Q."
+msgstr "Q."
+
+#. module: campaign_base
+#: field:campaign.product,qty_ordered:0
+msgid "Q. ordered"
+msgstr "Q. ordinata"
+
+#. module: campaign_base
+#: field:campaign.product,q_x_pack:0
+msgid "Q. x pack"
+msgstr "Q. x imballo"
+
+#. module: campaign_base
+#: help:campaign.product,qty:0
+msgid "Quantity confirmed from customer"
+msgstr "Quantità confermata dal cliente"
+
+#. module: campaign_base
+#: help:campaign.product,qty_offered:0
+msgid "Quantity offered depend on stock and company availability"
+msgstr "Quantità offerta dipende dal magazzino e disponibilità aziendale"
+
+#. module: campaign_base
+#: help:campaign.product,qty_ordered:0
+msgid "Quantity ordered at the end of campaign"
+msgstr "Quantità ordinata alla fine della campagna"
+
+#. module: campaign_base
+#: view:product.product.assign.campaign:campaign_base.product_product_assign_campaign_view
+msgid "Quantity setup:"
+msgstr "Setup quantità:"
+
+#. module: campaign_base
+#: selection:campaign.cost,category:0
+#: selection:campaign.cost.model.item,category:0
+msgid "Re-packaging (+)"
+msgstr "Re-imballo (+)"
+
+#. module: campaign_base
+#: selection:campaign.cost,category:0
+#: selection:campaign.cost.model.item,category:0
+msgid "Rechange (+)"
+msgstr "Ricarico (+)"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid "Refresh price"
+msgstr "Rigenera prezzi"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid "Refresh quantity"
+msgstr "Rigenera quantità"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:278
+#, python-format
+msgid "Removable cover"
+msgstr "Copertura removibile"
+
+#. module: campaign_base
+#: model:ir.ui.menu,name:campaign_base.menu_campaign_report
+#: field:product.product.campaign.status.report,report_name:0
+msgid "Report"
+msgstr "Report"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:218
+#, python-format
+msgid "Report error!"
+msgstr "Errore report!"
+
+#. module: campaign_base
+#: model:ir.actions.act_window,name:campaign_base.act_product_product_campaign_status_reportd
+#: model:ir.actions.act_window,name:campaign_base.action_product_product_campaign_status_report
+msgid "Report product status"
+msgstr "Report stato prodotti"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:263
+#, python-format
+msgid "Reserved quantity"
+msgstr "Quantità rifervata"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid "Reset log"
+msgstr "Azzera log"
+
+#. module: campaign_base
+#: field:campaign.campaign,sale_id:0
+msgid "Sale order"
+msgstr "Ordine di vendita"
+
+#. module: campaign_base
+#: help:campaign.campaign,sale_id:0
+msgid "Sale order generated from campaign"
+msgstr "Ordine di vendita generato da campagna"
+
+#. module: campaign_base
+#: model:ir.model,name:campaign_base.model_sale_order
+msgid "Sales Order"
+msgstr "Ordine di vendita"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid "Save model"
+msgstr "Salva modello"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:266
+#, python-format
+msgid "Seat height"
+msgstr "Altezza seduta"
+
+#. module: campaign_base
+#: field:campaign.cost,sequence:0 field:campaign.cost.model.item,sequence:0
+#: field:campaign.product,sequence:0
+msgid "Sequence"
+msgstr "Sequenza"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:475
+#, python-format
+msgid "Set a model name before load cost!"
+msgstr "Imposta un nome modello prima di caricare i costi!"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:432
+#, python-format
+msgid "Set a name for model before create!"
+msgstr "Imposta il nome per il modello prima di crearlo!"
+
+#. module: campaign_base
+#: field:campaign.campaign,set_min_qty:0
+msgid "Set min. qty"
+msgstr "Imposta q.ta min."
+
+#. module: campaign_base
+#: field:product.product.assign.campaign,set_min_qty:0
+msgid "Set. min. qty"
+msgstr "Imposta q.ta min."
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_product_status_parser.py:160
+#, python-format
+msgid "Start"
+msgstr "Inizio"
+
+#. module: campaign_base
+#: field:campaign.campaign,state:0
+msgid "State"
+msgstr "Stato"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:231
+#, python-format
+msgid "State variation in <b>%s</b>"
+msgstr "Variazione stato in <b>%s</b>"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_search
+msgid "Status"
+msgstr "Stato"
+
+#. module: campaign_base
+#: field:campaign.campaign,status_info:0
+msgid "Status info"
+msgstr "Info stato"
+
+#. module: campaign_base
+#: model:ir.model,name:campaign_base.model_stock_move
+msgid "Stock Move"
+msgstr "Movimento di magazzino"
+
+#. module: campaign_base
+#: selection:product.product.campaign.status.report,report_name:0
+msgid "Stock status report"
+msgstr "Report stato magazzino"
+
+#. module: campaign_base
+#: field:campaign.campaign,message_summary:0
+msgid "Summary"
+msgstr "Riepilogo"
+
+#. module: campaign_base
+#: field:campaign.product,product_tmpl_id:0
+msgid "Template"
+msgstr "Modello"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid "Template model:"
+msgstr "Modello:"
+
+#. module: campaign_base
+#: help:campaign.campaign,status_info:0
+msgid "Text status info for start or end campaign"
+msgstr "Info stato per inizio e fine campagna"
+
+#. module: campaign_base
+#: field:campaign.campaign,to_date:0
+msgid "To date <="
+msgstr "Alla data <="
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_search
+msgid "To period"
+msgstr "Al periodo"
+
+#. module: campaign_base
+#: field:campaign.campaign,volume_total:0
+msgid "Tot. Volume"
+msgstr "Tot. Volume"
+
+#. module: campaign_base
+#: help:campaign.campaign,transport_cost:0
+msgid "Total cost for one tranport method choosen"
+msgstr "Totale costo per il metodo di trasporto selezionato"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:265
+#, python-format
+msgid ""
+"Transfer price\n"
+"(VAT excluded)"
+msgstr ""
+"Prezzo per trasferimento\n"
+"(IVA esclusa)"
+
+#. module: campaign_base
+#: selection:campaign.cost,category:0
+#: selection:campaign.cost.model.item,category:0
+msgid "Transport (+)"
+msgstr "Trasporto (+)"
+
+#. module: campaign_base
+#: field:campaign.campaign,transport_cost:0
+msgid "Transport cost"
+msgstr "Costo trasporto"
+
+#. module: campaign_base
+#: field:campaign.campaign,transport_unit:0
+msgid "Transport unit"
+msgstr "Trasporto unitario"
+
+#. module: campaign_base
+#: view:product.product.assign.campaign:campaign_base.product_product_assign_campaign_view
+msgid "Treshold:"
+msgstr "Soglia:"
+
+#. module: campaign_base
+#: view:campaign.product:campaign_base.view_campaign_product_search
+#: field:campaign.product,uom_id:0
+msgid "UOM"
+msgstr "UM"
+
+#. module: campaign_base
+#: field:campaign.campaign,message_unread:0
+msgid "Unread Messages"
+msgstr "Messaggi non letti"
+
+#. module: campaign_base
+#: help:campaign.product,packaging_id:0
+msgid "Use different pack for product"
+msgstr "Utilizza differente imballo per prodotto"
+
+#. module: campaign_base
+#: help:product.product.assign.campaign,check_min_package:0
+msgid "Use min package qty multiple, es. N.10 , 4 pack >> N.8 "
+msgstr "Usa imballo min. in difetto es. N.10 , 4 x imballo >> N.8 "
+
+#. module: campaign_base
+#: field:campaign.campaign,use_rate:0
+#: field:product.product.assign.campaign,use_rate:0
+msgid "Use rate"
+msgstr "Usa tasso"
+
+#. module: campaign_base
+#: field:res.partner,used_campaign:0
+msgid "Used for campaign"
+msgstr "Usato per campagna"
+
+#. module: campaign_base
+#: model:res.groups,comment:campaign_base.campaign_group_category_user
+msgid "User of campaign"
+msgstr "Utente campagna"
+
+#. module: campaign_base
+#: field:campaign.cost,value:0 field:campaign.cost.model.item,value:0
+msgid "Value"
+msgstr "Valore"
+
+#. module: campaign_base
+#: field:campaign.product,volume:0
+msgid "Vol."
+msgstr "Vol."
+
+#. module: campaign_base
+#: field:campaign.product,warning:0
+msgid "Warning"
+msgstr "Attenzione"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:277
+#, python-format
+msgid "Wash informations"
+msgstr "Informazioni lavaggio"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:288
+#, python-format
+msgid "Weight # %s"
+msgstr "Peso # %s"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:269
+#, python-format
+msgid "Width"
+msgstr "Larghezza"
+
+#. module: campaign_base
+#: field:campaign.campaign,with_detail:0
+msgid "With detail"
+msgstr "Con dettaglio"
+
+#. module: campaign_base
+#: field:campaign.campaign,with_photo:0
+msgid "With photo"
+msgstr "Con foto"
+
+#. module: campaign_base
+#: code:addons/campaign_base/report/campaign_parser.py:343
+#: code:addons/campaign_base/report/campaign_parser.py:350
+#, python-format
+msgid "Yes"
+msgstr "Sì"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:655
+#, python-format
+msgid "|TOTAL||%s\n"
+msgstr "|TOTALE||%s\n"
