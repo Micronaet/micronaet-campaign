@@ -139,9 +139,9 @@ class CampaignCampaign(orm.Model):
             # -----------------------------------------------------------------
             # Header:
             # -----------------------------------------------------------------            
-            WS.write(row, 1, _('CAMPAGNA'), format_header)
+            WS.write(row, 1, _('CAMPAIGN'), format_header)
             WS.write(row, 2, o.name, format_header)
-            WS.write(row, 4, _('Cliente:'), format_header)
+            WS.write(row, 4, _('Customer:'), format_header)
             WS.write(row, 5, o.partner_id.name, format_header)            
             row += 1
             
@@ -149,7 +149,7 @@ class CampaignCampaign(orm.Model):
             # Body:
             # -----------------------------------------------------------------
             for mode, line in self.get_product_pack(
-                    cr, uid, o.product_ids, data):
+                    cr, uid, o.product_ids, data, context=context):
                 row += 1
                 # -------------------------------------------------------------
                 # Body mode:    
@@ -157,7 +157,7 @@ class CampaignCampaign(orm.Model):
                 # Title:
                 WS.set_row(row, 30)
                 if mode == 'HEADER':
-                    WS.write(row, 1, _('Immagine'), format_title)
+                    WS.write(row, 1, _('Imagine'), format_title)
                     col = 1
                     for field in line:
                         col += 1
@@ -165,8 +165,8 @@ class CampaignCampaign(orm.Model):
                         WS.write(row, col, field, format_title)
                         
                     # Add 2 extra col:                   
-                    WS.write(row, col + 1, _('Campagna'), format_title)
-                    WS.write(row, col + 2, _('Ordine'), format_title)
+                    WS.write(row, col + 1, _('Campaign'), format_title)
+                    WS.write(row, col + 2, _('Order'), format_title)
                     
                 # Hidden:               
                 elif mode == 'HIDDEN':
@@ -187,7 +187,7 @@ class CampaignCampaign(orm.Model):
                             'x_offset': 2, 'y_offset': 2,                            
                             })
                     else:
-                        WS.write(row, 1, 'Nessuna immagine', format_data)        
+                        WS.write(row, 1, 'No image', format_data)        
                     col = 1
                     for field in line:
                         col += 1
@@ -258,34 +258,34 @@ class CampaignCampaign(orm.Model):
         #                               Header block:
         # ---------------------------------------------------------------------
         header_data = [
-            _('Codice prodotto'),
-            _('Nome prodotto'),
-            _('Quantità\nriservata'),
-            _('Prezzo listino\n(IVA inclusa)'),
-            _('Prezzo cessione\n(IVA esclusa)'),
-            _('Altezza seduta'),
-            _('Commenti\nAggiuntivi'),
-            _('Altezza'),
-            _('Larghezza'),
-            _('Lunghezza'),            
-            _('Peso Prodotto'),
-            _('Arriva Montato'),
-            _('Unità Imballo'),
-            _('Ean'),
-            _('Materiali\n(struttura, rivestimenti, imbottiture, piani ecc.)'),
-            _('Colore/i\n(indicare tutti i colori presenti)'),
-            _('Informazioni\nlavaggio'),
-            _('Rivestimento\nsfoderabile'),
+            _('Product code'),
+            _('Product name'),
+            _('Reserved quantity'),
+            _('Pricelist\n(VAT included)'),
+            _('Transfer price\n(VAT excluded)'),
+            _('Seat height'),
+            _('Extra comment'),
+            _('Height'),
+            _('Width'),
+            _('Length'),            
+            _('Product weight'),
+            _('Mounted'),
+            _('Package unit'),
+            _('EAN'),
+            _('Material\n(structure, coatings, padding, plans etc.)'),
+            _('Color/s\n(write all color present)'),
+            _('Wash informations'),
+            _('Removable cover'),
             ]
         if from_wizard:
-            header_data.append(_('Disponibilità'))
+            header_data.append(_('Availability'))
             
         for i in range(0, self.pack_max):
             header_data.extend([    
-                _('Lunghezza # %s') % (i + 1), 
-                _('Altezza # %s') % (i + 1), 
-                _('Profondità # %s') % (i + 1), 
-                _('Peso # %s') % (i + 1), 
+                _('Length # %s') % (i + 1), 
+                _('Height # %s') % (i + 1), 
+                _('Depth # %s') % (i + 1), 
+                _('Weight # %s') % (i + 1), 
                 ])
         res.append(('HEADER', header_data))
 
@@ -340,14 +340,14 @@ class CampaignCampaign(orm.Model):
                 product.width,
                 product.length,
                 product.weight,
-                _('Sì') if product.campaign_mounted else _('No'),
+                _('Yes') if product.campaign_mounted else _('No'),
                 int(relation.q_x_pack),
                 # Product:
                 ean,
                 product.campaign_material or '',
                 product.campaign_color or '',
                 product.campaign_wash or '',
-                _('Sì') if product.campaign_cover else _('No'),
+                _('Yes') if product.campaign_cover else _('No'),
                 
                 #0.0, #TODO what data?!?!? int(product.qty),
                 ]
