@@ -1195,7 +1195,7 @@ msgstr "Report stato prodotti"
 #: code:addons/campaign_base/report/campaign_parser.py:263
 #, python-format
 msgid "Reserved quantity"
-msgstr "Quantità rifervata"
+msgstr "Quantità riservata"
 
 #. module: campaign_base
 #: view:campaign.campaign:campaign_base.view_campaign_campaign_form
