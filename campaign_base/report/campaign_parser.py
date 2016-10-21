@@ -349,7 +349,9 @@ class CampaignCampaign(orm.Model):
                 product.campaign_color or '',
                 product.campaign_wash or '',
                 _('Yes') if product.campaign_cover else _('No'),
-                [item.name for item in product.extra_ids],
+                ('%s' % [item.name for item in product.extra_ids]).replace(
+                    '[', '').replace(']', '').replace('u\'', '').replace(
+                        '\'',''),
                 
                 #0.0, #TODO what data?!?!? int(product.qty),
                 ]
