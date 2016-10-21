@@ -74,7 +74,6 @@ class CampaignCampaign(orm.Model):
         # Parameters:
         # ---------------------------------------------------------------------
         path = '/home/administrator/photo/xls/campaign'
-        objects = self.browse(cr, uid, ids, context=context)
         filename = 'export.xlsx' #'%s.xlsx' % campaign_proxy.code
         fullname = os.path.join(path, filename)
         data = {} # Not from wizard
@@ -120,6 +119,7 @@ class CampaignCampaign(orm.Model):
         # Export
         # ---------------------------------------------------------------------
         # Init setup:
+        objects = self.browse(cr, uid, ids, context=context)
         self.get_total_pack_block(cr, uid, objects, context=context) # no data
         
         # Column dimension:        
@@ -130,8 +130,10 @@ class CampaignCampaign(orm.Model):
 
         row = 1
         context_lang = context.get('lang', 'it_IT')        
-        for o in objects: # NOTE: only one from button
-            context['lang'] = o.partner_id.lang or 'it_IT'
+        for camp in objects: # NOTE: only one from button        
+            context['lang'] = camp.partner_id.lang or 'it_IT'            
+            o = self.browse(cr, uid, camp.id, context=context) #reload for lang
+            
             _logger.warning(
                 'Report XLSX Campaign export, lang: %s' % context['lang'])
             
