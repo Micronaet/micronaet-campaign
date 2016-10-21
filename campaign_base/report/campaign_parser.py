@@ -129,9 +129,11 @@ class CampaignCampaign(orm.Model):
         # set language:
 
         row = 1
-        context_lang = context.get('lang', 'it_IT')
+        context_lang = context.get('lang', 'it_IT')        
         for o in objects: # NOTE: only one from button
             context['lang'] = o.partner_id.lang or 'it_IT'
+            _logger.warning(
+                'Report XLSX Campaign export, lang: %s' % context['lang'])
             
             path = os.path.expanduser(o.thumb_album_id.path)            
             extension = o.thumb_album_id.extension_image
@@ -248,7 +250,7 @@ class CampaignCampaign(orm.Model):
         if data is None:
             data = {}        
             from_wizard = False
-        else:    
+        else:
             from_wizard = True
 
         res = []
@@ -329,14 +331,14 @@ class CampaignCampaign(orm.Model):
 
                 # Relation:
                 '%s %s' % (
-                    relation.description or product.name or '?', 
-                    product.colour or ''),
+                    _(relation.description) or _(product.name) or '?', 
+                    _(product.colour) or ''),
                 int(relation.qty),
                 #relation.price,
                 relation.price * 1.22, # TODO parametrize
                 relation.campaign_price,
                 product.seat_height,
-                product.campaign_comment,
+                _(product.campaign_comment),
                 product.height,
                 product.width,
                 product.length,
@@ -345,11 +347,11 @@ class CampaignCampaign(orm.Model):
                 int(relation.q_x_pack),
                 # Product:
                 ean,
-                product.campaign_material or '',
-                product.campaign_color or '',
-                product.campaign_wash or '',
+                _(product.campaign_material) or '',
+                _(product.campaign_color) or '',
+                _(product.campaign_wash) or '',
                 _('Yes') if product.campaign_cover else _('No'),
-                ('%s' % [item.name for item in product.extra_ids]).replace(
+                ('%s' % [_(item.name) for item in product.extra_ids]).replace(
                     '[', '').replace(']', '').replace('u\'', '').replace(
                         '\'',''),
                 
