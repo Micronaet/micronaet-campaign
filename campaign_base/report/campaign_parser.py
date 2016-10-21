@@ -333,14 +333,14 @@ class CampaignCampaign(orm.Model):
 
                 # Relation:
                 '%s %s' % (
-                    _(relation.description) or _(product.name) or '?', 
-                    _(product.colour) or ''),
+                    relation.description or product.name or '?', 
+                    product.colour or ''),
                 int(relation.qty),
                 #relation.price,
                 relation.price * 1.22, # TODO parametrize
                 relation.campaign_price,
                 product.seat_height,
-                _(product.campaign_comment),
+                product.campaign_comment,
                 product.height,
                 product.width,
                 product.length,
@@ -349,9 +349,9 @@ class CampaignCampaign(orm.Model):
                 int(relation.q_x_pack),
                 # Product:
                 ean,
-                _(product.campaign_material) or '',
-                _(product.campaign_color) or '',
-                _(product.campaign_wash) or '',
+                product.campaign_material or '',
+                product.campaign_color or '',
+                product.campaign_wash or '',
                 _('Yes') if product.campaign_cover else _('No'),
                 ('%s' % [_(item.name) for item in product.extra_ids]).replace(
                     '[', '').replace(']', '').replace('u\'', '').replace(
