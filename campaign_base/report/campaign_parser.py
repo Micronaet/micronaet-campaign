@@ -276,6 +276,7 @@ class CampaignCampaign(orm.Model):
             _('Color/s\n(write all color present)'),
             _('Wash informations'),
             _('Removable cover'),
+            _('Extra info'),
             ]
         if from_wizard:
             header_data.append(_('Availability'))
@@ -294,7 +295,7 @@ class CampaignCampaign(orm.Model):
         # ---------------------------------------------------------------------
         # Static data list:
         hidden_data = [
-            'id', 'default_code', '', '', '', '', '', '', '', '', ''] #, '']
+            'id', 'default_code', '', '', '', '', '', '', '', '', '', '']
         if from_wizard:
             hidden_data.append('')
 
@@ -348,6 +349,7 @@ class CampaignCampaign(orm.Model):
                 product.campaign_color or '',
                 product.campaign_wash or '',
                 _('Yes') if product.campaign_cover else _('No'),
+                [item.name for item in product.extra_ids],
                 
                 #0.0, #TODO what data?!?!? int(product.qty),
                 ]
@@ -402,8 +404,7 @@ class CampaignCampaign(orm.Model):
                 data.extend(empty)
                        
             res.append((relation.id, data))            
-        return res
-            
+        return res            
     
 class Parser(report_sxw.rml_parse):
     counters = {}
