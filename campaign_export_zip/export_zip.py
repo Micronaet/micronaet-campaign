@@ -21,7 +21,7 @@ import os
 import sys
 import logging
 import openerp
-import xlrd
+#import xlrd
 import openerp.netsvc as netsvc
 import openerp.addons.decimal_precision as dp
 from openerp.osv import fields, osv, expression, orm

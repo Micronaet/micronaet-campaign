@@ -110,9 +110,15 @@ class CampaignCampaign(orm.Model):
             'font_size': 8,
             })
 
-        format_data = WB.add_format({
+        format_data_text = WB.add_format({
             'font_name': 'Arial',
             'font_size': 10,
+            })
+
+        format_data_number = WB.add_format({
+            'font_name': 'Arial',
+            'font_size': 10,
+            'align': 'right',
             })
         
         # ---------------------------------------------------------------------
@@ -155,6 +161,7 @@ class CampaignCampaign(orm.Model):
             for mode, line in self.get_product_pack(
                     cr, uid, o.product_ids, data, context=context):
                 row += 1
+                
                 # -------------------------------------------------------------
                 # Body mode:    
                 # -------------------------------------------------------------
@@ -191,11 +198,15 @@ class CampaignCampaign(orm.Model):
                             'x_offset': 2, 'y_offset': 2,                            
                             })
                     else:
-                        WS.write(row, 1, 'No image', format_data)        
+                        WS.write(row, 1, 'No image', format_data_text)
                     col = 1
                     for field in line:
                         col += 1
-                        WS.write(row, col, field, format_data)        
+                        if type(field) in (int, long):
+                            WS.write(row, col, field, format_data_number)        
+                        else:
+                            WS.write(row, col, field, format_data_text)
+                            
         WB.close()
         context['lang'] = context_lang # previous lang
         return True
@@ -335,20 +346,20 @@ class CampaignCampaign(orm.Model):
                 '%s %s' % (
                     relation.description or product.name or '?', 
                     product.colour or ''),
-                int(relation.qty),
+                int(relation.qty) or '/',
                 #relation.price,
-                relation.price * 1.22, # TODO parametrize
-                relation.campaign_price,
-                product.seat_height,
-                product.campaign_comment,
-                product.height,
-                product.width,
-                product.length,
-                product.weight,
+                (relation.price * 1.22) or '/', # TODO parametrize
+                relation.campaign_price or '/',
+                product.seat_height or '',
+                product.campaign_comment or '',
+                product.height or '/',
+                product.width or '/',
+                product.length or '/',
+                product.weight or '/',
                 _('Yes') if product.campaign_mounted else _('No'),
-                int(relation.q_x_pack),
+                int(relation.q_x_pack) or '/',
                 # Product:
-                ean,
+                ean or '',
                 product.campaign_material or '',
                 product.campaign_color or '',
                 product.campaign_wash or '',
