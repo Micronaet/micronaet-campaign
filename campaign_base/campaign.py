@@ -400,7 +400,7 @@ class CampaignCampaign(orm.Model):
             cr, uid, 'campaign.campaign'),
         'from_date': lambda *x: datetime.now().strftime(
             DEFAULT_SERVER_DATE_FORMAT),
-        'base_cost': lambda *x: 'company_cost',    
+        'base_cost': lambda *x: 'cost_in_stock',    
         'state': lambda *x: 'draft',        
         }    
 

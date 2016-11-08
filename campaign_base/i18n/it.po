@@ -442,7 +442,7 @@ msgstr "Conferma le q. prima, l'ordine verrà poi creato!"
 #. module: campaign_base
 #: selection:campaign.campaign,state:0
 msgid "Confirmed"
-msgstr "Confirmato"
+msgstr "Confermato"
 
 #. module: campaign_base
 #: view:campaign.campaign:campaign_base.view_campaign_campaign_search
