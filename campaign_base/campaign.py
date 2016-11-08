@@ -402,7 +402,7 @@ class CampaignCampaign(orm.Model):
             DEFAULT_SERVER_DATE_FORMAT),
         'base_cost': lambda *x: 'cost_in_stock',    
         'state': lambda *x: 'draft',        
-        }    
+        }
 
 class CampaignCostType(orm.Model):
     """ Model name: Campaign cost type

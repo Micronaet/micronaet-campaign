@@ -75,6 +75,7 @@ class ProductProductAssignCampaign(orm.TransientModel):
         min_qty = wiz_proxy.min_qty
         max_qty = wiz_proxy.max_qty
         use_rate = wiz_proxy.use_rate
+        stock_mode = wiz_proxy.stock_mode
 
         # Start up parameters:
         if from_selection: # load selection in context
@@ -109,7 +110,7 @@ class ProductProductAssignCampaign(orm.TransientModel):
             # Qty generation:
             # ---------------
             # Get data for calculare:
-            lord_qty = product.mx_lord_qty
+            lord_qty = product.__getattribute__(stock_mode)
             # TODO manage campaign qty
             q_x_pack = product.q_x_pack or 1  
             
@@ -222,6 +223,10 @@ class ProductProductAssignCampaign(orm.TransientModel):
             ('override', 'Override product qty'),
             ('jump', 'Jump existing product'),
             ], 'Mode', required=True),
+        'stock_mode': fields.selection([
+            ('mx_lord_qty', 'Lord q.'),
+            ('mx_net_qty', 'Net q.'),
+            ], 'Stock mode', required=True),
         'note': fields.text(
             'Annotation', readonly=True,
             help='Annotation about product association'),
@@ -245,6 +250,7 @@ class ProductProductAssignCampaign(orm.TransientModel):
     _defaults = {
         'from_selection': lambda *x: True,
         'mode': lambda *x: 'override',
+        'stock_mode': lambda *x: 'mx_net_qty',
         'min_qty': lambda *x: 1,
         } 
 
