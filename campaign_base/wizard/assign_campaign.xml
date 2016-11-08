@@ -20,7 +20,7 @@
                         <newline/>
                         
                         <separator string="Quantity setup:" colspan="4" />
-                        <field name="stock_mode" attrs="{'invisible':[('from_selection','=',False)]}" />
+                        <field name="stock_mode" />
                         <newline/>
                         <field name="use_rate" />
                         <field name="set_min_qty" />
