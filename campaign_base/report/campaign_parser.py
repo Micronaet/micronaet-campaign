@@ -51,6 +51,8 @@ class CampaignCampaign(orm.Model):
     """    
     _inherit = 'campaign.campaign'
     
+    _nan = '/' # not a number for empty numbers
+    
     # -------------------------------------------------------------------------
     # Button event:
     # -------------------------------------------------------------------------
@@ -202,7 +204,7 @@ class CampaignCampaign(orm.Model):
                     col = 1
                     for field in line:
                         col += 1
-                        if type(field) in (int, long):
+                        if type(field) in (int, long) or field == self._nan:
                             WS.write(row, col, field, format_data_number)        
                         else:
                             WS.write(row, col, field, format_data_text)
@@ -346,18 +348,18 @@ class CampaignCampaign(orm.Model):
                 '%s %s' % (
                     relation.description or product.name or '?', 
                     product.colour or ''),
-                int(relation.qty) or '/',
+                int(relation.qty) or self._nan,
                 #relation.price,
-                (relation.price * 1.22) or '/', # TODO parametrize
-                relation.campaign_price or '/',
+                (relation.price * 1.22) or self._nan, # TODO parametrize
+                relation.campaign_price or self._nan,
                 product.seat_height or '',
                 product.campaign_comment or '',
-                product.height or '/',
-                product.width or '/',
-                product.length or '/',
-                product.weight or '/',
+                product.height or self._nan,
+                product.width or self._nan,
+                product.length or self._nan,
+                product.weight or self._nan,
                 _('Yes') if product.campaign_mounted else _('No'),
-                int(relation.q_x_pack) or '/',
+                int(relation.q_x_pack) or self._nan,
                 # Product:
                 ean or '',
                 product.campaign_material or '',
