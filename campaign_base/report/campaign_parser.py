@@ -353,7 +353,10 @@ class CampaignCampaign(orm.Model):
                 (relation.price * 1.22) or self._nan, # TODO parametrize
                 relation.campaign_price or self._nan,
                 product.seat_height or '',
-                product.campaign_comment or '',
+                '%s%s%s' % (
+                    product.multipack_dimension or '', 
+                    '\n' if product.multipack_dimension else '',
+                    product.campaign_comment or ''),
                 product.height or self._nan,
                 product.width or self._nan,
                 product.length or self._nan,
