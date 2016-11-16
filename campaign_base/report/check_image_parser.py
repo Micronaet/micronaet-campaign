@@ -59,8 +59,10 @@ class Parser(report_sxw.rml_parse):
         if product.packaging_id:
             if product.packaging_id.ean:
                 color = 'green'
+            elif product.product_id.ean13:
+                color = 'yellow'
             else:
-                color = 'red'            
+                color = 'red'    
         else:
             if product.product_id.ean13:
                 color = 'green'
