@@ -50,7 +50,24 @@ class Parser(report_sxw.rml_parse):
         super(Parser, self).__init__(cr, uid, name, context)
         self.localcontext.update({
             'explode_table_field': self.explode_table_field,
+            'check_ean': self.check_ean,
             })
+    
+    def check_ean(self, product):
+        ''' Check ean and return 3 colors state
+        '''
+        if product.packaging_id:
+            if product.packaging_id.ean:
+                color = 'green'
+            else:
+                color = 'red'            
+        else:
+            if product.product_id.ean13:
+                color = 'green'
+            else:    
+                color = 'red'
+        return color        
+        
     def explode_table_field(self, calc):
         ''' Explode calc field
         '''   
