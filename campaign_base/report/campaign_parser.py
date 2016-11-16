@@ -145,7 +145,13 @@ class CampaignCampaign(orm.Model):
             _logger.warning(
                 'Report XLSX Campaign export, lang: %s' % context['lang'])
             
-            path = os.path.expanduser(o.thumb_album_id.path)            
+            try:
+                path = os.path.expanduser(o.thumb_album_id.path)            
+            except:
+                raise osv.except_osv(
+                    _('Error'), 
+                    _('No Album setted'),
+                    )    
             extension = o.thumb_album_id.extension_image
             
             # -----------------------------------------------------------------
@@ -360,7 +366,7 @@ class CampaignCampaign(orm.Model):
                 product.height or self._nan,
                 product.width or self._nan,
                 product.length or self._nan,
-                product.weight or self._nan,
+                product.weight_net or self._nan,
                 _('Yes') if product.campaign_mounted else _('No'),
                 int(relation.q_x_pack) or self._nan,
                 # Product:
