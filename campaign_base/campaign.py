@@ -764,6 +764,34 @@ class CampaignProduct(orm.Model):
     # -------------
     # Button event:
     # -------------
+    def open_status_stock_product(self, cr, uid, ids, context=None):
+        ''' Open status for product
+        '''
+        assert len(ids) == 1, 'Works only with one record a time'
+        
+        # Search product ID
+        campaign_proxy = self.browse(cr, uid, ids, context=context)[0]
+        product_id = campaign_proxy.product_id.id
+        
+        # Return view
+        model_pool = self.pool.get('ir.model.data')
+        form_view_id = model_pool.get_object_reference(cr, uid, 
+            'inventory_status', 'view_product_inventory_lite_form')[1]
+    
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Stock'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_id': product_id,
+            'res_model': 'product.product',
+            'view_id': form_view_id, # False
+            'views': [(form_view_id, 'form')],
+            #'domain': [],
+            'context': context,
+            'target': 'new',
+            'nodestroy': False,
+            }
     def assign_all(self, cr, uid, ids, context=None):
         ''' Assign all qty to order
         '''
