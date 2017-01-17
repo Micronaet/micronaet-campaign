@@ -78,7 +78,9 @@ class CampaignCampaign(orm.Model):
         path = '/home/administrator/photo/xls/campaign'
         filename = 'export.xlsx' #'%s.xlsx' % campaign_proxy.code
         fullname = os.path.join(path, filename)
-        data = {} # Not from wizard
+        data = {
+            'from_wizard': False,
+            } # Not from wizard
         
         # ---------------------------------------------------------------------
         # Create and open Workbook:
@@ -272,7 +274,7 @@ class CampaignCampaign(orm.Model):
             data = {}        
             from_wizard = False
         else:
-            from_wizard = True
+            data.get('from_wizard', False)
 
         res = []
         empty = ['', '', '', ''] # XXX loop block if empty
