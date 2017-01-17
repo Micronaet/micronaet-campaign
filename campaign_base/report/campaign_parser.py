@@ -272,9 +272,8 @@ class CampaignCampaign(orm.Model):
         '''
         if data is None:
             data = {}        
-            from_wizard = False
-        else:
-            data.get('from_wizard', False)
+        
+        from_wizard = data.get('from_wizard', False)
 
         res = []
         empty = ['', '', '', ''] # XXX loop block if empty
