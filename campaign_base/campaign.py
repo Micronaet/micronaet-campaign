@@ -375,6 +375,8 @@ class CampaignCampaign(orm.Model):
             ('standard_price', 'Cost FOB Supplier'),
             ('cost_in_stock', 'Cost FCO Company'),
             ('cost_for_sale', 'Cost FCO Customer'),
+            ('company_cost', 'Cost FCO Company'),
+            ('customer_cost', 'Cost FCO Customer'),
             ], 'Base cost', required=True, 
             help='Choose base cost from product to campaign'),
 
