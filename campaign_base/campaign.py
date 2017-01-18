@@ -110,6 +110,22 @@ class CampaignCampaign(orm.Model):
         '''
         return self.write(cr, uid, ids, {'log': False}, context=context)
 
+    def reload_base_campaign_price(self, cr, uid, ids, context=None):
+        ''' Reload cost and pricelist
+        '''
+        assert len(ids) == 1, 'Button for one campaign a time!'
+        
+        campaign = self.browse(cr, uid, ids, context=context)[0]
+        line_pool = self.pool.get('campaign.product')
+
+        for line in campaign.product_ids:
+            line_pool.write(cr, uid, line.id, {
+                'cost': line.product_id.__getattribute__(
+                    campaign.base_cost), # param.
+                'price': line.product_id.lst_price,                
+                }, context=context)
+        return True
+
     def generate_campaign_price(self, cr, uid, ids, context=None):
         ''' Force campaign price depend on cost group
         '''
