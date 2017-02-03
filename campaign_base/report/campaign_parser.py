@@ -284,6 +284,7 @@ class CampaignCampaign(orm.Model):
         header_data = [
             _('Product code'),
             _('Product name'),
+            _('Web description'),
             _('Reserved quantity'),
             _('Pricelist\n(VAT included)'),
             _('Transfer price\n(VAT excluded)'),
@@ -319,7 +320,9 @@ class CampaignCampaign(orm.Model):
         # ---------------------------------------------------------------------
         # Static data list:
         hidden_data = [
-            'id', 'default_code', '', '', '', '', '', '', '', '', '', '']
+            'id', 'default_code', 
+            '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 
+            '']
         if from_wizard:
             hidden_data.append('')
 
@@ -355,6 +358,7 @@ class CampaignCampaign(orm.Model):
                 '%s %s' % (
                     relation.description or product.name or '?', 
                     product.colour or ''),
+                product.large_description,    
                 int(relation.qty) or self._nan,
                 #relation.price,
                 (relation.price * 1.22) or self._nan, # TODO parametrize

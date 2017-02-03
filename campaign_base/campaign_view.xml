@@ -180,7 +180,7 @@
                                 </page>
                                 <page string="Price">
                                     <group colspan="4" col="4">
-                                        <separator string="Product cost:" colspan="3" />
+                                        <separator string="Product cost:" colspan="2" />
                                         <button name="reload_base_campaign_price" string="Reload base" type="object" icon="gtk-refresh" help="Reload cost and pricelit for campaign product" confirm="Confirm reload cost and pricelist?"/>
                                         <button name="generate_campaign_price" string="Refresh price" type="object" icon="gtk-refresh" help="Assign to product cost type and calculate campaign price depend on cost type rules"/>
                                         <field name="cost_ids" colspan="4" nolabel="1">
