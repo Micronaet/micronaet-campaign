@@ -169,7 +169,7 @@ class CampaignCampaign(orm.Model):
             # Body:
             # -----------------------------------------------------------------
             for mode, line in self.get_product_pack(
-                    cr, uid, o.product_ids, data, context=context):
+                    cr, uid, o.product_ids, data, context=context):                    
                 row += 1
                 
                 # -------------------------------------------------------------
@@ -199,24 +199,26 @@ class CampaignCampaign(orm.Model):
                     
                 # Body:
                 else: # Product line
-                    WS.set_row(row, 50)
-                    WS.write(row, 0, mode, format_hidden) 
-                    image = get_image(path, line[0], extension)
-                    if image:
-                        WS.insert_image(row, 1, image, {
-                            'x_scale': 1, 'y_scale': 1, 
-                            'x_offset': 2, 'y_offset': 2,                            
-                            })
-                    else:
-                        WS.write(row, 1, 'No image', format_data_text)
-                    col = 1
-                    for field in line:
-                        col += 1
-                        if type(field) in (int, long) or field == self._nan:
-                            WS.write(row, col, field, format_data_number)        
+                    try:
+                        WS.set_row(row, 50)
+                        WS.write(row, 0, mode, format_hidden) 
+                        image = get_image(path, line[0], extension)
+                        if image:
+                            WS.insert_image(row, 1, image, {
+                                'x_scale': 1, 'y_scale': 1, 
+                                'x_offset': 2, 'y_offset': 2,                            
+                                })
                         else:
-                            WS.write(row, col, field, format_data_text)
-                            
+                            WS.write(row, 1, 'No image', format_data_text)
+                        col = 1
+                        for field in line:
+                            col += 1
+                            if type(field) in (int, long) or field == self._nan:
+                                WS.write(row, col, field, format_data_number)        
+                            else:
+                                WS.write(row, col, field, format_data_text)                            
+                    except:
+                        import pdb; pdb.set_trace()            
         WB.close()
         context['lang'] = context_lang # previous lang
         return True
