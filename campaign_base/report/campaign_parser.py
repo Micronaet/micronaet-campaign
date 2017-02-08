@@ -168,6 +168,7 @@ class CampaignCampaign(orm.Model):
             # -----------------------------------------------------------------
             # Body:
             # -----------------------------------------------------------------
+            import pdb; pdb.set_trace()
             for mode, line in self.get_product_pack(
                     cr, uid, o.product_ids, data, context=context):                    
                 row += 1
