@@ -54,9 +54,11 @@ class CampaignCampaign(orm.Model):
         filepath = '/home/administrator/photo/xls/campaign' # TODO parametrize
         
         campaign_proxy = self.browse(cr, uid, ids, context=context)[0]
+        album = campaign_proxy.album_id # readability
+        
+        # Command for zip:
         zip_fullname = os.path.join(
-            filepath, campaign_proxy.code.replace('/', '_'))
-            
+            filepath, campaign_proxy.code.replace('/', '_'))            
         command = 'zip -j \'%s.zip\' \'%s\' '
 
         # ---------------------------------------------------------------------
@@ -66,19 +68,23 @@ class CampaignCampaign(orm.Model):
             item.product_id.id for item in campaign_proxy.product_ids]
 
         image_pool = self.pool.get('product.image.file')
-        image_ids = image_pool.search(cr, uid, [
-            ('album_id', '=', campaign_proxy.album_id.id),
+        domain = [
+            ('album_id', '=', album.id),
             ('product_id', 'in', product_ids),
-            #('variant', '=', False),
-            ], context=context)
+            ]
+        if not campaign_proxy.with_detail:
+            domain.append(('variant', '=', False)) # no variant
+        image_ids = image_pool.search(cr, uid, domain, context=context)
 
         path = os.path.expanduser(album.path)
         extension = album.extension_image        
         
         # List for management:
         image_list = []
+        log_image = '' # for write file added
         selected_ids = []
         for image in image_pool.browse(cr, uid, image_ids, context=context):
+            log_image += '%s\n' % image.filename
             image_list.append(os.path.join(path, image.filename))
             
             # Populate image selected:
@@ -107,7 +113,7 @@ class CampaignCampaign(orm.Model):
         _logger.info('End export ZIP image file: %s' % zip_fullname)
         
         return self.write(cr, uid, ids, {
-            'zip_export_confirm': '%s' % (image_list, )            
+            'zip_export_confirm': log_image,
             }, context=context)
         
         # ---------------------------------------------------------------------
