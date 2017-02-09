@@ -53,6 +53,7 @@ class CampaignCampaign(orm.Model):
         # Parameters:
         filepath = '/home/administrator/photo/xls/campaign' # TODO parametrize
         
+        image_pool = self.pool.get('product.image.file')
         campaign_proxy = self.browse(cr, uid, ids, context=context)[0]
         album = campaign_proxy.album_id # readability
         
@@ -61,27 +62,35 @@ class CampaignCampaign(orm.Model):
             filepath, campaign_proxy.code.replace('/', '_'))            
         command = 'zip -j \'%s.zip\' \'%s\' '
 
+        # Log operation:
+        log_image = '' 
+
         # ---------------------------------------------------------------------
         # Product in campaing
         # ---------------------------------------------------------------------
         product_ids = [
             item.product_id.id for item in campaign_proxy.product_ids]
 
-        image_pool = self.pool.get('product.image.file')
         domain = [
             ('album_id', '=', album.id),
             ('product_id', 'in', product_ids),
             ]
         if not campaign_proxy.with_detail:
+            log_image += 'ZIP file with variants\n'
             domain.append(('variant', '=', False)) # no variant
+            
         image_ids = image_pool.search(cr, uid, domain, context=context)
+        log_image += 'Product selected: %s   >>  Found %s images\n' % (
+            len(product_ids),
+            len(image_ids),
+            )
 
         path = os.path.expanduser(album.path)
-        extension = album.extension_image        
+        extension = album.extension_image
+        log_image += 'Path: %s [Ext.: %s]\n' % (path, extension)
         
         # List for management:
         image_list = []
-        log_image = '' # for write file added
         selected_ids = []
         for image in image_pool.browse(cr, uid, image_ids, context=context):
             log_image += '%s\n' % image.filename
@@ -92,14 +101,14 @@ class CampaignCampaign(orm.Model):
             if product_id not in selected_ids:
                 selected_ids.append(product_id)
 
-        if not image_list:
+        if not image_list:            
             raise osv.except_osv(
                 _('Export file: %s') % zip_fullname, 
                 _('Image list not present!'),
                 )           
 
         if len(product_ids) != len(selected_ids):
-            _logger.error('Difference from image and selection')
+            log_image += 'Difference from image and selection!\n'
         
         command = command % (
             zip_fullname,
@@ -110,7 +119,7 @@ class CampaignCampaign(orm.Model):
         os.system(command)
         
         # TODO update log data on campaign.campaign            
-        _logger.info('End export ZIP image file: %s' % zip_fullname)
+        log_image += 'Export ZIP image file: %s.zip\n' % zip_fullname
         
         return self.write(cr, uid, ids, {
             'zip_export_confirm': log_image,
