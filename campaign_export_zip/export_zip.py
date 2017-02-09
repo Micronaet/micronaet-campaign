@@ -58,35 +58,33 @@ class CampaignCampaign(orm.Model):
             filepath, campaign_proxy.code.replace('/', '_'))
             
         command = 'zip -j \'%s.zip\' \'%s\' '
-        
+
         # ---------------------------------------------------------------------
-        # Generate list of image Album HQ:
+        # Product in campaing
         # ---------------------------------------------------------------------
-        album = campaign_proxy.album_id
+        product_ids = [
+            item.product_id.id for item in campaign_proxy.product_ids]
+
+        image_pool = self.pool.get('product.image.file')
+        image_ids = image_pool.search(cr, uid, [
+            ('album_id', '=', campaign_proxy.album_id.id),
+            ('product_id', 'in', product_ids),
+            #('variant', '=', False),
+            ], context=context)
+
         path = os.path.expanduser(album.path)
         extension = album.extension_image        
-        album_image_list = [
-            item.product_id.id for item in album.image_ids \
-                if item.product_id.id]
-        image_list = []
         
-        for item in campaign_proxy.product_ids:
-            product = item.product_id
-            if product.id in album_image_list:
-                if not product.default_code:
-                    _logger.warning('No default code: %s' % \
-                        product.name)
-                    continue     
-                image_list.append(
-                    os.path.join(
-                        path,
-                        '%s.%s' % (
-                            product.default_code,
-                            extension,
-                            )))
-            else:    
-                _logger.warning('No image in album: %s' % \
-                    product.name)
+        # List for management:
+        image_list = []
+        selected_ids = []
+        for image in image_pool.browse(cr, uid, image_ids, context=context):
+            image_list.append(os.path.join(path, image.filename))
+            
+            # Populate image selected:
+            product_id = image.product_id.id
+            if product_id not in selected_ids:
+                selected_ids.append(product_id)
 
         if not image_list:
             raise osv.except_osv(
@@ -94,6 +92,9 @@ class CampaignCampaign(orm.Model):
                 _('Image list not present!'),
                 )           
 
+        if len(product_ids) != len(selected_ids):
+            _logger.error('Difference from image and selection')
+        
         command = command % (
             zip_fullname,
             '\' \''.join(image_list),
@@ -104,7 +105,38 @@ class CampaignCampaign(orm.Model):
         
         # TODO update log data on campaign.campaign            
         _logger.info('End export ZIP image file: %s' % zip_fullname)
-        return True
+        
+        return self.write(cr, uid, ids, {
+            'zip_export_confirm': '%s' % (image_list, )            
+            }, context=context)
+        
+        # ---------------------------------------------------------------------
+        # Generate list of image Album HQ:
+        # ---------------------------------------------------------------------
+        #album = campaign_proxy.album_id
+        #path = os.path.expanduser(album.path)
+        #extension = album.extension_image        
+        #album_image_list = [
+        #    item.product_id.id for item in album.image_ids 
+        #        if item.product_id.id]
+        #image_list = []        
+        #for item in campaign_proxy.product_ids:
+        #    product = item.product_id
+        #    if product.id in album_image_list:
+        #        if not product.default_code:
+        #            _logger.warning('No default code: %s' % \
+        #                product.name)
+        #            continue     
+        #        image_list.append(
+        #            os.path.join(
+        #                path,
+        #                '%s.%s' % (
+        #                    product.default_code,
+        #                    extension,
+        #                    )))
+        #    else:    
+        #        _logger.warning('No image in album: %s' % \
+        #            product.name)
         
     _columns = {
         'zip_export_confirm': fields.text('Export ZIP log', readonly=True),
