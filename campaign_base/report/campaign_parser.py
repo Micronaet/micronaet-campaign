@@ -199,7 +199,7 @@ class CampaignCampaign(orm.Model):
                     
                 # Body:
                 else: # Product line
-                    WS.set_row(row, 50)
+                    WS.set_row(row, 130)
                     WS.write(row, 0, mode, format_hidden) 
                     image = get_image(path, line[0], extension)
                     if image:
