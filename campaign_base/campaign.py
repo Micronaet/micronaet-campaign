@@ -156,33 +156,48 @@ class CampaignCampaign(orm.Model):
             # TODO manage also update!!!
         '''
         assert len(ids) == 1, 'Only one campaign a time!'
-        
-        # Current record:
         current_proxy = self.browse(cr, uid, ids, context=context)[0]
-        
-        # Check presence of order:
-        
+
         # Pool used
         order_pool = self.pool.get('sale.order')
         sol_pool = self.pool.get('sale.order.line')
         
+        # Check parent if present
+        sale_id = False
+        if current_proxy.parent_id 
+            if current_proxy.parent_id.sale_id:
+                sale_id = current_proxy.parent_id.sale_id
+            else:   
+                raise osv.except_osv(
+                    _('Child campaign'), 
+                    _('This is a child campaign, confirm the parent one\'s'),
+                    )
+        
         # ---------------------------------------------------------------------
-        #                    Create order header
+        # Check presence of order and create:
         # ---------------------------------------------------------------------
-        # TODO onchange element!!!
+        # Get data from campaign:
         partner_id = current_proxy.partner_id.id        
         date = current_proxy.to_date
         deadline = current_proxy.date_deadline or date # dedaline or end date!
-        data = order_pool.onchange_partner_id(
-            cr, uid, False, partner_id, context=context).get('value', {})
-        data.update({
-            'partner_id': partner_id,
-            'date_order': date,
-            'date_deadline': deadline,
-            'campaign_id': current_proxy.id,
-            })
-        res_id = order_pool.create(cr, uid, data, context=context)
+        
+        # ---------------------------------------------------------------------
+        #                    Create order header
+        # ---------------------------------------------------------------------
+        if not sale_id:            
+            data = order_pool.onchange_partner_id(
+                cr, uid, False, partner_id, context=context).get('value', {})
+            data.update({
+                'partner_id': partner_id,
+                'date_order': date,
+                'date_deadline': deadline,
+                'campaign_id': current_proxy.id,
+                })
+            sale_id = order_pool.create(cr, uid, data, context=context)
             
+        # Read header for get element for line:    
+        order_proxy = order_pool.browse(cr, uid, sale_id, context=context)  
+          
         # ---------------------------------------------------------------------
         #                    Create order details
         # ---------------------------------------------------------------------
@@ -195,7 +210,7 @@ class CampaignCampaign(orm.Model):
             # On change for calculate data:
             line_data = sol_pool.product_id_change_with_wh(
                 cr, uid, False, 
-                data.get('pricelist_id'), 
+                order_proxy.pricelist_id.id, 
                 product_id, 
                 qty,
                 uom=item.uom_id.id, # TODO change 
@@ -207,14 +222,14 @@ class CampaignCampaign(orm.Model):
                 update_tax=True, 
                 date_order=date, 
                 packaging=False, 
-                fiscal_position=data.get('fiscal_position'), 
+                fiscal_position=order_proxy.fiscal_position.id, 
                 flag=False, 
-                warehouse_id=data.get('warehouse_id'),
+                warehouse_id=order_proxy.warehouse_id.id,
                 context=context,
                 ).get('value', {})
                 
             line_data.update({
-                'order_id': res_id,
+                'order_id': sale_id,
                 'product_id': product_id,
                 'product_uom_qty': qty,
                 'product_uom': item.uom_id.id, # no uom_id
@@ -225,15 +240,14 @@ class CampaignCampaign(orm.Model):
                 
             # Update *2many fields:    
             if 'tax_id' in line_data:
-                line_data['tax_id'] = [(6, 0, line_data['tax_id'])]      
-                
+                line_data['tax_id'] = [(6, 0, line_data['tax_id'])]                
             sol_pool.create(cr, uid, line_data, context=context)    
         
         # ---------------------------------------------------------------------
         #                    Update campaign
         # ---------------------------------------------------------------------
         return self.write(cr, uid, ids, {
-            'sale_id': res_id, # link to order 
+            'sale_id': sale_id, # link to order 
             }, context=context)        
         
     def write_object_change_state(self, cr, uid, ids, context=None):
@@ -344,6 +358,7 @@ class CampaignCampaign(orm.Model):
             help='Partner (as customer) reference for this campaign'), 
         'partner_address_id': fields.many2one('res.partner', 'Address',
             help='Partner (as customer) reference for this campaign'), 
+        'parent_id': fields.many2one('campaign.campaign', 'Parent'),    
             
         # Album for product photo        
         'with_photo': fields.boolean('With photo'), # TODO so album!!
@@ -959,6 +974,8 @@ class CampaignCampaign(orm.Model):
             'campaign.product', 'campaign_id', 'Products'), 
         'cost_ids': fields.one2many(
             'campaign.cost.type', 'campaign_id', 'Costs'), 
+        'child_ids': fields.one2many(
+            'campaign.campaign', 'parent_id', 'Child'),    
         }
 
 class ResPartner(orm.Model):

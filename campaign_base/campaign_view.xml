@@ -135,6 +135,9 @@
                     </header>
                     <sheet> 
                         <group colspan="4" col="4">
+                            <field name="parent_id" />
+                            <newline/>
+                            
                             <field name="code" />
                             <field name="name" />
 
@@ -220,6 +223,11 @@
                                         <field name="transport_cost" />
                                         <field name="transport_unit" />
                                     </group>
+                                </page>
+                                <page string="Children">
+                                    <group colspan="4" col="4">
+                                        <field name="child_ids" />
+                                    </group>    
                                 </page>
                                 <page string="Log">
                                     <group colspan="4" col="4">
