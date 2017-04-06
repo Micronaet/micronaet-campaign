@@ -164,9 +164,9 @@ class CampaignCampaign(orm.Model):
         
         # Check parent if present
         sale_id = False
-        if current_proxy.parent_id 
+        if current_proxy.parent_id:
             if current_proxy.parent_id.sale_id:
-                sale_id = current_proxy.parent_id.sale_id
+                sale_id = current_proxy.parent_id.sale_id.id
             else:   
                 raise osv.except_osv(
                     _('Child campaign'), 
@@ -196,7 +196,7 @@ class CampaignCampaign(orm.Model):
             sale_id = order_pool.create(cr, uid, data, context=context)
             
         # Read header for get element for line:    
-        order_proxy = order_pool.browse(cr, uid, sale_id, context=context)  
+        order_proxy = order_pool.browse(cr, uid, sale_id, context=context)
           
         # ---------------------------------------------------------------------
         #                    Create order details
