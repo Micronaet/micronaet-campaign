@@ -285,6 +285,16 @@ class CampaignCampaign(orm.Model):
     # -------------------------------------------------------------------------
     #                        Workflow button events
     # -------------------------------------------------------------------------
+    def generate_sale_order(self, cr, uid, ids, context=None):
+        ''' Button for generate order in cancel campaign for error
+        '''
+        self.create_campaing_sale_order(cr, uid, ids, context=context)
+        # Write here res_id returned?
+        self.write(cr, uid, ids, {
+            'state': 'closed',
+            }, context=context)
+        return self.write_object_change_state(cr, uid, ids, context=context)
+        
     def campaign_draft(self, cr, uid, ids, context=None):        
         self.write(cr, uid, ids, {
             'state': 'draft',
