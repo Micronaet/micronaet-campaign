@@ -59,6 +59,32 @@ class CampaignCampaign(orm.Model):
     # -------------------------------------------------------------------------
     #                             Button event:
     # -------------------------------------------------------------------------
+    def campaign_product_detail(self, cr, uid, ids, context=None):
+        ''' Campaign line detail
+        '''
+        product_pool = self.pool.get('campaign.product')        
+        model_pool = self.pool.get('ir.model.data')
+        
+        product_ids = product_pool.search(cr, uid, [
+            ('campaign_id', '=', ids[0]),
+            ], context=context)
+            
+        tree_id = model_pool.get_object_reference(
+            cr, uid, 'campaign_base', 'view_campaign_product_tree')[1]
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Product in campaign'),
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'campaign.product',
+            'view_id': tree_id, # False
+            'views': [(tree_id, 'tree'), (False, 'form')],
+            'domain': [('id', 'in', product_ids)],
+            'context': context,
+            'target': 'current', # 'new'
+            'nodestroy': False,
+            }
+
     def check_image_album_presence_report(self, cr, uid, ids, context=None):
         ''' Open report for check image
         '''
