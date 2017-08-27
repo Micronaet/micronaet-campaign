@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-03 14:15+0000\n"
-"PO-Revision-Date: 2017-02-03 15:14+0100\n"
+"POT-Creation-Date: 2017-07-27 16:23+0000\n"
+"PO-Revision-Date: 2017-08-04 14:56+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: Poedit 1.6.10\n"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:626
+#: code:addons/campaign_base/campaign.py:677
 #, python-format
 msgid " (forced)"
 msgstr " (forzato)"
@@ -36,68 +36,68 @@ msgid " >> Period days: %s "
 msgstr " >> Giorni periodo: %s "
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:602
+#: code:addons/campaign_base/campaign.py:653
 #, python-format
 msgid "#%s. Cannot get unit volume!\n"
 msgstr "#%s. Volume unitario non presente!\n"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:577
+#: code:addons/campaign_base/campaign.py:628
 #, python-format
 msgid "#%s. Start total not present!\n"
 msgstr "#%s. Valore iniziale non presente!\n"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:595
+#: code:addons/campaign_base/campaign.py:646
 #, python-format
 msgid "%s| Value not present\n"
 msgstr "%s| Valore non presente\n"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:622
+#: code:addons/campaign_base/campaign.py:673
 #, python-format
 msgid "%s|+Re-pack|%s%s|%s\n"
 msgstr "%s|+Re-imballo|%s%s|%s\n"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:662
+#: code:addons/campaign_base/campaign.py:713
 #, python-format
 msgid "%s|+Recharge (%s)|%s x %s / 100 = %s|%s\n"
 msgstr "%s|+Ricarico (%s)|%s x %s / 100 = %s|%s\n"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:653
+#: code:addons/campaign_base/campaign.py:704
 #, python-format
 msgid "%s|+Recharge (fixed)|%s|%s\n"
 msgstr "%s|+Ricarico (fisso)|%s|%s\n"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:607
+#: code:addons/campaign_base/campaign.py:658
 #, python-format
 msgid "%s|+Transport|%s x %s(m3) = %s|%s\n"
 msgstr "%s|+Transporto|%s x %s(m3) = %s|%s\n"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:641
+#: code:addons/campaign_base/campaign.py:692
 #, python-format
 msgid "%s|-Discount (%s)|%s x %s / 100 = %s|%s\n"
 msgstr "%s|-Sconto (%s)|%s x %s / 100 = %s|%s\n"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:632
+#: code:addons/campaign_base/campaign.py:683
 #, python-format
 msgid "%s|-Discount (fixed)|%s|%s\n"
-msgstr "%s|-Sconto (fixed)|%s|%s\n"
+msgstr "%s|-Sconto (fisso)|%s|%s\n"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:582
-#: code:addons/campaign_base/campaign.py:587
+#: code:addons/campaign_base/campaign.py:633
+#: code:addons/campaign_base/campaign.py:638
 #, python-format
 msgid "0|Start value||%s\n"
 msgstr "0|Valore di partenza||%s\n"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:555
+#: code:addons/campaign_base/campaign.py:606
 #, python-format
 msgid "??|Use sale price|%s|=%s\n"
 msgstr "??|Usa prezzo di vendita|%s|=%s\n"
@@ -169,7 +169,7 @@ msgstr ""
 "funzione delle regole di costi"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:307
+#: code:addons/campaign_base/report/campaign_parser.py:306
 #: view:campaign.campaign:campaign_base.view_campaign_campaign_form
 #, python-format
 msgid "Availability"
@@ -272,7 +272,7 @@ msgstr "Campagna popolata"
 #. module: campaign_base
 #: model:ir.actions.report.xml,name:campaign_base.aeroo_campaign_campaign_ods_report
 msgid "Campaign pre-order (XLS)"
-msgstr "Offerta campagna (XLS)"
+msgstr "Pre-ordine campagna (XLS)"
 
 #. module: campaign_base
 #: field:campaign.product,campaign_price:0
@@ -353,7 +353,7 @@ msgid "Category"
 msgstr "Categoria"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:246
+#: code:addons/campaign_base/campaign.py:286
 #, python-format
 msgid "Changing state:"
 msgstr "Cambio stato:"
@@ -364,7 +364,7 @@ msgid "Check album image"
 msgstr "Controlla album immagini"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:95
+#: code:addons/campaign_base/campaign.py:121
 #, python-format
 msgid "Check campaign image"
 msgstr "Controlla immagine campagna"
@@ -383,6 +383,22 @@ msgstr "Report controllo dati prodotto"
 #: view:campaign.campaign:campaign_base.view_campaign_campaign_form
 msgid "Check product data report (calc.)"
 msgstr "Report controllo dati prodotto (calc.)"
+
+#. module: campaign_base
+#: field:campaign.campaign,child_ids:0
+msgid "Child"
+msgstr "Figlio"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:198
+#, python-format
+msgid "Child campaign"
+msgstr "Campagna figlio"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid "Children"
+msgstr "Figli"
 
 #. module: campaign_base
 #: help:campaign.campaign,base_cost:0
@@ -415,7 +431,7 @@ msgid "Code"
 msgstr "Codice"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:301
+#: code:addons/campaign_base/report/campaign_parser.py:300
 #, python-format
 msgid ""
 "Color/s\n"
@@ -442,7 +458,7 @@ msgstr "Conferma le q. prima, l'ordine verrà poi creato!"
 #. module: campaign_base
 #: view:campaign.campaign:campaign_base.view_campaign_campaign_form
 msgid "Confirm reload cost and pricelist?"
-msgstr "Confirm reload cost and pricelist?"
+msgstr "Confermi ricaricamento costi e prezzi di listino?"
 
 #. module: campaign_base
 #: selection:campaign.campaign,state:0
@@ -579,10 +595,10 @@ msgstr "Scadenza"
 #. module: campaign_base
 #: field:campaign.campaign,transport_id:0
 msgid "Default transport"
-msgstr "Trasporto default"
+msgstr "Trasporto predefinito"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:313
+#: code:addons/campaign_base/report/campaign_parser.py:312
 #, python-format
 msgid "Depth # %s"
 msgstr "Profondità # %s"
@@ -616,7 +632,7 @@ msgid "Draft state"
 msgstr "Stato bozza"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:299
+#: code:addons/campaign_base/report/campaign_parser.py:298
 #, python-format
 msgid "EAN"
 msgstr "EAN"
@@ -640,16 +656,16 @@ msgid "Export XLSX"
 msgstr "Esporta XLSX"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:292
+#: code:addons/campaign_base/report/campaign_parser.py:291
 #, python-format
 msgid "Extra comment"
 msgstr "Commenti aggiuntivi"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:304
+#: code:addons/campaign_base/report/campaign_parser.py:303
 #, python-format
 msgid "Extra info"
-msgstr "Extra info"
+msgstr "Info extra"
 
 #. module: campaign_base
 #: selection:campaign.cost,mode:0 selection:campaign.cost.model.item,mode:0
@@ -659,12 +675,17 @@ msgstr "Fisso"
 #. module: campaign_base
 #: field:campaign.campaign,message_follower_ids:0
 msgid "Followers"
-msgstr "Followers"
+msgstr "Follower"
 
 #. module: campaign_base
 #: help:campaign.campaign,date_deadline:0
 msgid "For order deadline"
 msgstr "Per scadenza ordine"
+
+#. module: campaign_base
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid "Force generation of order"
+msgstr "Forza generazione dell'ordine"
 
 #. module: campaign_base
 #: field:campaign.campaign,from_date:0
@@ -696,13 +717,13 @@ msgid "Group By"
 msgstr "Raggruppa per"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:293
+#: code:addons/campaign_base/report/campaign_parser.py:292
 #, python-format
 msgid "Height"
 msgstr "Altezza"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:312
+#: code:addons/campaign_base/report/campaign_parser.py:311
 #, python-format
 msgid "Height # %s"
 msgstr "Altezza # %s"
@@ -713,8 +734,8 @@ msgid ""
 "Holds the Chatter summary (number of messages, ...). This summary is "
 "directly in html format in order to be inserted in kanban views."
 msgstr ""
-"Holds the Chatter summary (number of messages, ...). This summary is "
-"directly in html format in order to be inserted in kanban views."
+"Conserva il riepilogo mail (numero messaggi, ...). Questo riepilogo è "
+"direttamente in format HTML per essere utilizzato anche nelle viste kanban."
 
 #. module: campaign_base
 #: field:campaign.campaign,id:0 field:campaign.cost,id:0
@@ -806,13 +827,13 @@ msgid "Last Updated on"
 msgstr "Ultimo aggiornamento il"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:295
+#: code:addons/campaign_base/report/campaign_parser.py:294
 #, python-format
 msgid "Length"
 msgstr "Lunghezza"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:311
+#: code:addons/campaign_base/report/campaign_parser.py:310
 #, python-format
 msgid "Length # %s"
 msgstr "Lunghezza # %s"
@@ -849,7 +870,7 @@ msgid "Manager of campaign"
 msgstr "Manager campagna"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:300
+#: code:addons/campaign_base/report/campaign_parser.py:299
 #, python-format
 msgid ""
 "Material\n"
@@ -887,7 +908,7 @@ msgid "Mode"
 msgstr "Modalità"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:492
+#: code:addons/campaign_base/campaign.py:543
 #, python-format
 msgid "Model error!"
 msgstr "Errore modello!"
@@ -903,7 +924,7 @@ msgid "Model name"
 msgstr "Nome modello"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:297
+#: code:addons/campaign_base/report/campaign_parser.py:296
 #, python-format
 msgid "Mounted"
 msgstr "Arriva montato"
@@ -919,7 +940,7 @@ msgid "Name"
 msgstr "Nome"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:449
+#: code:addons/campaign_base/campaign.py:500
 #, python-format
 msgid "Name error!"
 msgstr "Errore nome!"
@@ -932,16 +953,16 @@ msgstr "Il nome di riferimento deve essere unico!"
 #. module: campaign_base
 #: help:campaign.cost.type,model_name:0
 msgid "Name used for generate model element"
-msgstr "Nome utilizzato per generare elemento mdello"
+msgstr "Nome utilizzato per generare elemento modello"
 
 #. module: campaign_base
 #: selection:product.product.assign.campaign,stock_mode:0
 msgid "Net q."
-msgstr "Net q."
+msgstr "Q. netta"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:375
-#: code:addons/campaign_base/report/campaign_parser.py:382
+#: code:addons/campaign_base/report/campaign_parser.py:374
+#: code:addons/campaign_base/report/campaign_parser.py:381
 #, python-format
 msgid "No"
 msgstr "No"
@@ -950,16 +971,16 @@ msgstr "No"
 #: code:addons/campaign_base/report/campaign_parser.py:155
 #, python-format
 msgid "No Album setted"
-msgstr "No Album setted"
+msgstr "Nessun album impostato"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:556
+#: code:addons/campaign_base/campaign.py:607
 #, python-format
 msgid "No cost type use sale price\n"
 msgstr "Nessun tipo di costo, usato prezzo di vendita\n"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:244
+#: code:addons/campaign_base/report/campaign_parser.py:243
 #, python-format
 msgid "No data, change filter"
 msgstr "Nessun risultato, cambia filtro"
@@ -1010,7 +1031,7 @@ msgid "Pack error"
 msgstr "Errore imballo"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:298
+#: code:addons/campaign_base/report/campaign_parser.py:297
 #, python-format
 msgid "Package unit"
 msgstr "Unità imballo"
@@ -1024,6 +1045,11 @@ msgstr "Confezionamento"
 #: view:campaign.product:campaign_base.view_campaign_product_tree
 msgid "Packaging error"
 msgstr "Errore imballo"
+
+#. module: campaign_base
+#: field:campaign.campaign,parent_id:0
+msgid "Parent"
+msgstr "Parent"
 
 #. module: campaign_base
 #: view:campaign.campaign:campaign_base.view_campaign_campaign_search
@@ -1061,7 +1087,7 @@ msgid "Pricelist"
 msgstr "Prezzo listino"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:289
+#: code:addons/campaign_base/report/campaign_parser.py:288
 #, python-format
 msgid ""
 "Pricelist\n"
@@ -1092,7 +1118,7 @@ msgid "Product"
 msgstr "Prodotto"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:285
+#: code:addons/campaign_base/report/campaign_parser.py:284
 #, python-format
 msgid "Product code"
 msgstr "Codice prodotto"
@@ -1103,12 +1129,18 @@ msgid "Product cost:"
 msgstr "Costo prodotto:"
 
 #. module: campaign_base
-#: help:campaign.product,product_id:0
+#: view:campaign.campaign:campaign_base.view_campaign_campaign_form
+msgid "Product detail"
+msgstr "Product detail"
+
+#. module: campaign_base
+#: code:addons/campaign_base/campaign.py:76 help:campaign.product,product_id:0
+#, python-format
 msgid "Product in campaign"
 msgstr "Prodotto in campagna"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:286
+#: code:addons/campaign_base/report/campaign_parser.py:285
 #, python-format
 msgid "Product name"
 msgstr "Nome prodotto"
@@ -1119,7 +1151,7 @@ msgid "Product status campaign"
 msgstr "Stato prodotti campagna"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:296
+#: code:addons/campaign_base/report/campaign_parser.py:295
 #, python-format
 msgid "Product weight"
 msgstr "Peso prodotto"
@@ -1199,20 +1231,20 @@ msgstr "Rigenera quantità"
 #. module: campaign_base
 #: view:campaign.campaign:campaign_base.view_campaign_campaign_form
 msgid "Reload base"
-msgstr "Reload base"
+msgstr "Ricarica base"
 
 #. module: campaign_base
 #: view:campaign.campaign:campaign_base.view_campaign_campaign_form
 msgid "Reload cost and pricelit for campaign product"
-msgstr "Reload cost and pricelit for campaign product"
+msgstr "Ricarica costi e prezzo di listino per i prodotti in campagna"
 
 #. module: campaign_base
 #: view:campaign.campaign:campaign_base.view_campaign_campaign_form
 msgid "Remember to confirm from-to date period! Continue?"
-msgstr "Remember to confirm from-to date period! Continue?"
+msgstr "Ricorda di confermare il periodo dal / al! Continua?"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:303
+#: code:addons/campaign_base/report/campaign_parser.py:302
 #, python-format
 msgid "Removable cover"
 msgstr "Copertura removibile"
@@ -1224,7 +1256,7 @@ msgid "Report"
 msgstr "Stampe"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:243
+#: code:addons/campaign_base/report/campaign_parser.py:242
 #, python-format
 msgid "Report error!"
 msgstr "Errore report!"
@@ -1236,7 +1268,7 @@ msgid "Report product status"
 msgstr "Report stato prodotti"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:288
+#: code:addons/campaign_base/report/campaign_parser.py:287
 #, python-format
 msgid "Reserved quantity"
 msgstr "Quantità riservata"
@@ -1267,7 +1299,7 @@ msgid "Save model"
 msgstr "Salva modello"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:291
+#: code:addons/campaign_base/report/campaign_parser.py:290
 #, python-format
 msgid "Seat height"
 msgstr "Altezza seduta"
@@ -1279,13 +1311,13 @@ msgid "Sequence"
 msgstr "Sequenza"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:493
+#: code:addons/campaign_base/campaign.py:544
 #, python-format
 msgid "Set a model name before load cost!"
 msgstr "Imposta un nome modello prima di caricare i costi!"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:450
+#: code:addons/campaign_base/campaign.py:501
 #, python-format
 msgid "Set a name for model before create!"
 msgstr "Imposta il nome per il modello prima di crearlo!"
@@ -1312,7 +1344,7 @@ msgid "State"
 msgstr "Stato"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:247
+#: code:addons/campaign_base/campaign.py:287
 #, python-format
 msgid "State variation in <b>%s</b>"
 msgstr "Variazione stato in <b>%s</b>"
@@ -1328,10 +1360,10 @@ msgid "Status info"
 msgstr "Info stato"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:801
+#: code:addons/campaign_base/campaign.py:852
 #, python-format
 msgid "Stock"
-msgstr "Stock"
+msgstr "Magazzino"
 
 #. module: campaign_base
 #: model:ir.model,name:campaign_base.model_stock_move
@@ -1341,12 +1373,12 @@ msgstr "Movimento di magazzino"
 #. module: campaign_base
 #: field:product.product.assign.campaign,stock_mode:0
 msgid "Stock mode"
-msgstr "Stock mode"
+msgstr "Modalità magazzino"
 
 #. module: campaign_base
 #: view:campaign.product:campaign_base.view_campaign_product_tree
 msgid "Stock status"
-msgstr "Stock status"
+msgstr "Stato magazzino"
 
 #. module: campaign_base
 #: selection:product.product.campaign.status.report,report_name:0
@@ -1374,6 +1406,12 @@ msgid "Text status info for start or end campaign"
 msgstr "Info stato per inizio e fine campagna"
 
 #. module: campaign_base
+#: code:addons/campaign_base/campaign.py:199
+#, python-format
+msgid "This is a child campaign, confirm the parent one's"
+msgstr "Questa è una campagna figlia, conferma quella padre!"
+
+#. module: campaign_base
 #: field:campaign.campaign,to_date:0
 msgid "To date <="
 msgstr "Alla data <="
@@ -1394,7 +1432,7 @@ msgid "Total cost for one tranport method choosen"
 msgstr "Totale costo per il metodo di trasporto selezionato"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:290
+#: code:addons/campaign_base/report/campaign_parser.py:289
 #, python-format
 msgid ""
 "Transfer price\n"
@@ -1477,25 +1515,25 @@ msgid "Warning"
 msgstr "Attenzione"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:302
+#: code:addons/campaign_base/report/campaign_parser.py:301
 #, python-format
 msgid "Wash informations"
 msgstr "Informazioni lavaggio"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:287
+#: code:addons/campaign_base/report/campaign_parser.py:286
 #, python-format
 msgid "Web description"
 msgstr "Descrizione web"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:314
+#: code:addons/campaign_base/report/campaign_parser.py:313
 #, python-format
 msgid "Weight # %s"
 msgstr "Peso # %s"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:294
+#: code:addons/campaign_base/report/campaign_parser.py:293
 #, python-format
 msgid "Width"
 msgstr "Larghezza"
@@ -1511,14 +1549,14 @@ msgid "With photo"
 msgstr "Con foto"
 
 #. module: campaign_base
-#: code:addons/campaign_base/report/campaign_parser.py:375
-#: code:addons/campaign_base/report/campaign_parser.py:382
+#: code:addons/campaign_base/report/campaign_parser.py:374
+#: code:addons/campaign_base/report/campaign_parser.py:381
 #, python-format
 msgid "Yes"
 msgstr "Sì"
 
 #. module: campaign_base
-#: code:addons/campaign_base/campaign.py:673
+#: code:addons/campaign_base/campaign.py:724
 #, python-format
 msgid "|TOTAL||%s\n"
 msgstr "|TOTALE||%s\n"

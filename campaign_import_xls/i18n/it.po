@@ -1,0 +1,122 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* campaign_import_xls
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-27 16:23+0000\n"
+"PO-Revision-Date: 2017-08-04 15:00+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#. module: campaign_import_xls
+#: model:ir.model,name:campaign_import_xls.model_campaign_campaign
+msgid "Campaign"
+msgstr "Campagna"
+
+#. module: campaign_import_xls
+#: view:campaign.campaign:campaign_import_xls.view_campaign_campaign_import_xls_form
+msgid "Confirm q. log"
+msgstr "Conferma q. log"
+
+#. module: campaign_import_xls
+#: code:addons/campaign_import_xls/import_xls.py:116
+#, python-format
+msgid "Error opening XLS file: %s"
+msgstr "Errore aprendo file XLS: %s"
+
+#. module: campaign_import_xls
+#: field:campaign.campaign,filename:0
+msgid "File name"
+msgstr "Nome file"
+
+#. module: campaign_import_xls
+#: view:campaign.campaign:campaign_import_xls.view_campaign_campaign_import_xls_form
+msgid "Import XLS"
+msgstr "Importa file XLS"
+
+#. module: campaign_import_xls
+#: view:campaign.campaign:campaign_import_xls.view_campaign_campaign_import_xls_form
+msgid "Import confirmed ty"
+msgstr "Importazione confermata da"
+
+#. module: campaign_import_xls
+#: code:addons/campaign_import_xls/import_xls.py:171
+#, python-format
+msgid "Import end at line: %s\n"
+msgstr "Impostazione terminata alla riga: %s\n"
+
+#. module: campaign_import_xls
+#: code:addons/campaign_import_xls/import_xls.py:83
+#: code:addons/campaign_import_xls/import_xls.py:99
+#, python-format
+msgid "Import error!"
+msgstr "Errore importazione!"
+
+#. module: campaign_import_xls
+#: code:addons/campaign_import_xls/import_xls.py:115
+#: code:addons/campaign_import_xls/import_xls.py:151
+#: code:addons/campaign_import_xls/import_xls.py:158
+#, python-format
+msgid "Import file: %s"
+msgstr "File importazione: %s"
+
+#. module: campaign_import_xls
+#: view:campaign.campaign:campaign_import_xls.view_campaign_campaign_import_xls_form
+msgid "Import ordered qty"
+msgstr "Importa quantità ordinata"
+
+#. module: campaign_import_xls
+#: code:addons/campaign_import_xls/import_xls.py:84
+#, python-format
+msgid "Input field not present (ordered or confirmed?)"
+msgstr "File input non presente (ordinato o confermato?)"
+
+#. module: campaign_import_xls
+#: field:campaign.campaign,xls_import_confirm:0
+msgid "Log import confirm"
+msgstr "Log conferma importazione"
+
+#. module: campaign_import_xls
+#: field:campaign.campaign,xls_import_order:0
+msgid "Log import order"
+msgstr "Log ordini importati"
+
+#. module: campaign_import_xls
+#: code:addons/campaign_import_xls/import_xls.py:159
+#, python-format
+msgid "No qty or qty_ordered columns found on XLS file!"
+msgstr ""
+"Nesuna quantità o quantità ordinata, le colonne non sono state trovate nel "
+"file XLS!"
+
+#. module: campaign_import_xls
+#: view:campaign.campaign:campaign_import_xls.view_campaign_campaign_import_xls_form
+msgid "Note"
+msgstr "Note"
+
+#. module: campaign_import_xls
+#: view:campaign.campaign:campaign_import_xls.view_campaign_campaign_import_xls_form
+msgid "Ordered q. log"
+msgstr "Log Q. ordinata"
+
+#. module: campaign_import_xls
+#: code:addons/campaign_import_xls/import_xls.py:100
+#, python-format
+msgid "Set file name for import"
+msgstr "Imposta nome file da importare"
+
+#. module: campaign_import_xls
+#: code:addons/campaign_import_xls/import_xls.py:152
+#, python-format
+msgid "XLS file not coerent, no ID for check header colums"
+msgstr ""
+"File XLS non coerente, non trovo ID per controllare le colonne di testata"

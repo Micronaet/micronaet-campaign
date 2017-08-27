@@ -132,7 +132,7 @@ class CampaignCampaign(orm.Model):
         objects = self.browse(cr, uid, ids, context=context)
         self.get_total_pack_block(cr, uid, objects, context=context) # no data
         
-        # Column dimension:        
+        # Column dimension:
         WS.set_column ('A:A', 0, None, {'hidden': 1}) # ID column        
         WS.set_column ('B:B', 30) # Image colums
         
