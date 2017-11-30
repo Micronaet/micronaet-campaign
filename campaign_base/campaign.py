@@ -444,6 +444,7 @@ class CampaignCampaign(orm.Model):
             #('cost_for_sale', 'Cost FCO Customer'),
             ('company_cost', 'Cost FCO Company'),
             ('customer_cost', 'Cost FCO Customer'),
+            ('inventory_cost_no_move', 'Costo Inventario'),
             ], 'Base cost', required=True, 
             help='Choose base cost from product to campaign'),
 
