@@ -1438,7 +1438,7 @@ msgid ""
 "Transfer price\n"
 "(VAT excluded)"
 msgstr ""
-"Prezzo per trasferimento\n"
+"Prezzo di cessione\n"
 "(IVA esclusa)"
 
 #. module: campaign_base
