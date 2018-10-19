@@ -70,19 +70,37 @@ class ProductProductExcelExportWizard(orm.TransientModel):
         #                          Excel export:
         # ---------------------------------------------------------------------
         # Setup:
-        ws_name = _('Prodotti')
+        ws_name = 'Prodotti'
         header = [
-            _('Immagine'),
-            _('Codice'),
-            _('Descrizione'),
-            # TODO
+            'Immagine',
+            'Articolo',
+            'Nome articolo',
+            'Descrizione',
+            'Colore',
+            'Tessuto',
+            'cmb',
+            'Peso netto',
+            'Peso lordo',
+            'Pezzi per palette',
+            'Pezzi per camion',
+            'EAN13',
+            'EAN13 Mono',
             ]
             
         width = [
-            35, 
+            30, 
             15,
-            40,
-            # TODO
+            30,
+            30,
+            25,
+            25,
+            5,
+            8,
+            8,
+            8,
+            8,
+            12,
+            12,
             ]
         
         # ---------------------------------------------------------------------
@@ -135,6 +153,16 @@ class ProductProductExcelExportWizard(orm.TransientModel):
                 '',
                 product.default_code or '',
                 product.name or '',
+                product.description_sale or '',
+                product.colour or '',
+                product.fabric or '',
+                product.volume or '',
+                product.weight_net or '',
+                product.weight or '',
+                product.item_per_pallet or '',
+                product.item_per_camion or '',
+                product.ean13 or '',
+                product.ean13_mono or '',
                 ]
                 
             excel_pool.write_xls_line(
@@ -152,5 +180,3 @@ class ProductProductExcelExportWizard(orm.TransientModel):
         }
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
-
