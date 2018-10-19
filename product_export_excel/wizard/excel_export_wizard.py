@@ -85,6 +85,7 @@ class ProductProductExcelExportWizard(orm.TransientModel):
             'Pezzi per camion',
             'EAN13',
             'EAN13 Mono',
+            'Listino',
             ]
             
         width = [
@@ -92,13 +93,14 @@ class ProductProductExcelExportWizard(orm.TransientModel):
             15,
             30,
             30,
-            25,
-            25,
+            40,
+            40,
             5,
             8,
             8,
             8,
             8,
+            12,
             12,
             12,
             ]
@@ -163,6 +165,7 @@ class ProductProductExcelExportWizard(orm.TransientModel):
                 product.item_per_camion or '',
                 product.ean13 or '',
                 product.ean13_mono or '',
+                (product.lst_price or 0.0, f_number),
                 ]
                 
             excel_pool.write_xls_line(
