@@ -60,7 +60,7 @@ class ProductProductExcelExportWizard(orm.TransientModel):
         wiz_browse = self.browse(cr, uid, ids, context=context)[0]
         product_start = wiz_browse.product_start
         with_image = wiz_browse.with_image
-        
+        max_length = wiz_browse.max_length
         
         # Pool used:
         excel_pool = self.pool.get('excel.writer')
@@ -151,6 +151,10 @@ class ProductProductExcelExportWizard(orm.TransientModel):
             context=context)
         row += 1
         for product in sorted(product_proxy, key=lambda x: x.default_code):
+            default_code = product.default_code or ''
+            if max_length and len(default_code) > max_length:
+                continue # jump product
+                
             line = [
                 '',
                 product.default_code or '',
@@ -176,10 +180,15 @@ class ProductProductExcelExportWizard(orm.TransientModel):
 
     _columns = {
         'with_image':fields.boolean('With image'),
+        'max_length': fields.integer('Max length <=', 
+            help='Max lenght of code'),
         'product_start': fields.text(
             'Product start', help='Start list of product, ex.: 127|128|130TX',
             required=True,
             ),
         }
+    _default = {
+        'max_length': lambda *x: 6,
+        }    
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

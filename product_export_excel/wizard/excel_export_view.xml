@@ -14,7 +14,7 @@
                    </header>                   
                    <group colspan="4" col="4">
                         <field name="with_image" />
-                        <newline/>
+                        <field name="max_length" />
                         <separator string="Product list" colspan="4"/>
                         <field name="product_start" nolabel="1" colspan="4"/>
                    </group>
