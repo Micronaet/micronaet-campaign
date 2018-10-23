@@ -187,7 +187,7 @@ class ProductProductExcelExportWizard(orm.TransientModel):
             required=True,
             ),
         }
-    _default = {
+    _defaults = {
         'max_length': lambda *x: 6,
         }    
         
