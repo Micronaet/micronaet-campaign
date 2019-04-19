@@ -1030,6 +1030,7 @@ class SaleOrder(orm.Model):
     """    
     _inherit = 'sale.order'
     
+    # XXX used also in crm_traking_campaing!!!
     _columns = {
         'campaign_id': fields.many2one(
             'campaign.campaign', 'Campaign', ondelete='set null'),
