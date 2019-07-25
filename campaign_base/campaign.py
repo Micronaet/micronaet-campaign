@@ -932,12 +932,12 @@ class CampaignProduct(orm.Model):
         # TODO add extra description related or extra for information needed 
         # for sale purpose (ex. mount description)    
         'cost': fields.float(
-            'Cost', digits_compute=dp.get_precision('Product Price')),
+            'Cost', digits_compute=dp.get_precision('Account')),
         'price': fields.float(
-            'Price', digits_compute=dp.get_precision('Product Price')),     
+            'Price', digits_compute=dp.get_precision('Account')),     
         'campaign_price': fields.float(
-            'Campaign price', digits_compute=dp.get_precision('Product Price')
-            ),     
+            'Campaign price', digits_compute=dp.get_precision('Account')
+            ),            
         # Used for history elements during importation of confirmed qty:
         'qty_offered': fields.float(
             'Q.', digits_compute=dp.get_precision('Product Unit of Measure'),
